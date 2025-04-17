@@ -5,10 +5,10 @@ export default function FrontendFooter() {
         {/* Logo & Copyright */}
         <div>
           <h1 className="text-2xl font-bold text-black mb-3">
-            Flone<span className="text-black">.</span>
+            Demo<span className="text-black">.</span>
           </h1>
           <p className="text-sm">
-            © 2025 Flone.
+            © 2025 Demo.
             <br />
             All Rights Reserved
           </p>

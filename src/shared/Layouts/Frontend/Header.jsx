@@ -12,11 +12,11 @@ export default function Navbar() {
       {/* Top bar */}
       <div className="flex items-center justify-between px-6 py-2 border-b border-gray-300">
         <div className="flex items-center gap-4">
-          <span>Call Us 3965410</span>
+          <span>Call Us 1234567890</span>
         </div>
 
         <div className="text-2xl font-bold">
-          Flone<span className="text-black">.</span>
+          Demo<span className="text-black">.</span>
         </div>
 
         <div className="flex items-center gap-5 relative">

@@ -2,114 +2,118 @@ import React, { useEffect, useState } from "react";
 import HeroCarousel from "../../../shared/components/Carousal";
 import Navbar from "../components/navbar";
 import SkeletonLoader from "../../../shared/components/SkeletonLoader";
-import shopifyClient from "../../../api/shopifyClient";
-import backendClient from "../../../api/backendClient";
-import { useAuth } from "../../../features/auth/context/AuthContext"; // Update path if needed
+import { useAuth } from "../../../features/auth/context/AuthContext";
 import { useNavigate } from "react-router-dom";
+import SectionDescription from "../components/SectionDescription";
+import TextSection from "../components/TextSection";
+import shopifyClient from "../../../api/shopifyClient";
+
+const dummyImages = (seed, count, size = 300) =>
+  Array.from(
+    { length: count },
+    (_, i) => `https://picsum.photos/seed/${seed}${i}/${size}/${size}`
+  );
 
 export default function Home() {
   const [carouselItems, setCarouselItems] = useState([]);
-  const [carousalLoading, setCarousalLoading] = useState({
-    type: "homepagecarousal",
-    isLoading: true,
-  });
-  const { state, dispatch } = useAuth();
+  const [carousalLoading, setCarousalLoading] = useState(true);
+  const [categories, setCategories] = useState([]);
+  const { dispatch } = useAuth();
   const navigate = useNavigate();
 
-  const handleLogin = (userType) => {
-    dispatch({
-      type: "LOGIN",
-      payload: {
-        user: { name: userType === "admin" ? "Admin User" : "Customer User" },
-        userType,
-      },
-    });
-
-    // Redirect after login
-    if (userType === "admin") {
-      navigate("/admin/dashboard");
+  const handleAuth = (type, action) => {
+    if (action === "login") {
+      dispatch({
+        type: "LOGIN",
+        payload: {
+          user: { name: type === "admin" ? "Admin User" : "Customer User" },
+          userType: type,
+        },
+      });
+      navigate(type === "admin" ? "/admin/dashboard" : "/myaccount/dashboard");
     } else {
-      navigate("/myaccount/dashboard");
-    }
-  };
-
-  const handleLogout = (userType) => {
-    dispatch({ type: "LOGOUT" });
-
-    // Redirect after logout
-    if (userType === "admin") {
-      navigate("/admin/login");
-    } else {
-      navigate("/");
+      dispatch({ type: "LOGOUT" });
+      navigate(type === "admin" ? "/admin/login" : "/");
     }
   };
 
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        // // 1. Fetch both APIs in parallel
-        // const [shopifyRes, backendRes] = await Promise.all([
-        //   shopifyClient.get("/products.json"), // adjust endpoint
-        //   backendClient.get("/carousel-items"), // your backend API
-        // ]);
+    const loadCollections = async () => {
+      const collections = await shopifyClient.fetchCollections();
+      //   console.log("Collections:", collections);
+      const transformed = collections.map((item, idx) => ({
+        title: item.title,
+        image: item.image?.url || "", // replace with real image if needed
+      }));
+      setCategories(transformed);
+      console.log("Categories:", categories);
+    };
 
-        // Example: merging with local dummy data
-        const fallbackItems = Array.from({ length: 3 }).map((_, i) => ({
+    loadCollections();
+    const fetchCarousel = async () => {
+      try {
+        const items = Array.from({ length: 3 }, (_, i) => ({
           id: i + 1,
           title: `Featured Item ${i + 1}`,
           subtitle: `Category ${i + 1}`,
-          imageLeft: `https://picsum.photos/seed/left${i}/300/300`,
+          imageLeft: dummyImages("left", 3)[i],
         }));
-
-        // // Decide what to set based on your API structure
-        // const formattedShopifyData = shopifyRes.data.products.map(
-        //   (item, index) => ({
-        //     id: item.id,
-        //     title: item.title,
-        //     subtitle: item.product_type || `Category ${index + 1}`,
-        //     imageLeft: item.image?.src || fallbackItems[index]?.imageLeft,
-        //   })
-        // );
-
-        setCarouselItems(fallbackItems);
-
-        // Delay just for demo/transition
-        setTimeout(() => {
-          setCarousalLoading((prev) => ({ ...prev, isLoading: false }));
-        }, 5000);
+        setCarouselItems(items);
       } catch (err) {
-        console.error("Error loading APIs:", err);
-        setCarousalLoading((prev) => ({ ...prev, isLoading: false }));
+        console.error("Error loading carousel:", err);
+      } finally {
+        setTimeout(() => setCarousalLoading(false), 1000);
       }
     };
 
-    fetchData();
+    fetchCarousel();
   }, []);
+
+  //
+
+  const brands = dummyImages("left", 5, 50).map((image) => ({ image }));
+
+  const blogs = categories.slice(0, 3);
+
+  const welcomeText = {
+    subtitle: "Who Are We",
+    title: "Welcome To Demo.",
+    description: `Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+      tempor incididunt labor et dolore magna aliqua. Ut enim ad minim veniam,
+      quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+      consequat irure.`,
+  };
+
+  const blogText = {
+    subtitle: "",
+    title: "OUR BLOG",
+    description: `Lorem ipsum dolor sit amet...`,
+  };
 
   return (
     <div>
       <div className="flex justify-center gap-4 py-4">
         <button
           className="bg-blue-600 text-white px-4 py-2 rounded"
-          onClick={() => handleLogin("frontend")}
+          onClick={() => handleAuth("frontend", "login")}
         >
           Login as Customer
         </button>
         <button
           className="bg-green-600 text-white px-4 py-2 rounded"
-          onClick={() => handleLogin("admin")}
+          onClick={() => handleAuth("admin", "login")}
         >
           Login as Admin
         </button>
         <button
           className="bg-red-500 text-white px-4 py-2 rounded"
-          onClick={() => handleLogout("frontend")}
+          onClick={() => handleAuth("frontend", "logout")}
         >
           Logout Customer
         </button>
         <button
           className="bg-red-700 text-white px-4 py-2 rounded"
-          onClick={() => handleLogout("admin")}
+          onClick={() => handleAuth("admin", "logout")}
         >
           Logout Admin
         </button>
@@ -121,12 +125,18 @@ export default function Home() {
           <SkeletonLoader
             type="homepagecarousel"
             count={1}
-            isLoading={carousalLoading.isLoading}
+            isLoading={carousalLoading}
           />
         ) : (
           <HeroCarousel carouselItems={carouselItems} />
         )}
       </div>
+
+      <SectionDescription sections={categories} isCarousel={true} />
+      <TextSection {...welcomeText} />
+      <SectionDescription sections={brands} isCarousel={true} />
+      <TextSection {...blogText} />
+      <SectionDescription sections={blogs} isCarousel={false} />
     </div>
   );
 }

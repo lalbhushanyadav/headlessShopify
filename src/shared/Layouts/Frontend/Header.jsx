@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Search, User, Shuffle, Heart, ShoppingBag } from "lucide-react";
 import { useAuth } from "../../../features/auth/context/AuthContext";
 import Navbar from "../../../apps/frontend/components/navbar";
+import { useNavigate } from "react-router-dom";
 
 import { Link } from "react-router-dom";
 
@@ -9,21 +10,28 @@ export default function Header() {
   const [showSearch, setShowSearch] = useState(false);
   const [showProfile, setShowProfile] = useState(false);
   const {
-    state: { user, isUserType },
+    state: { user, isUserType, isAuthenticated },
   } = useAuth();
+  console.log(user);
+
+  const { dispatch } = useAuth();
+  const navigate = useNavigate();
+
+  const handleAuth = (type, action) => {
+    dispatch({ type: "LOGOUT" });
+    navigate(type === "admin" ? "/admin/login" : "/");
+  };
 
   return (
     <div className="bg-white dark:bg-black text-gray-700 dark:text-white text-sm relative">
       {/* Top bar */}
       <div className="flex items-center justify-between px-6 md:px-8 lg:px-12 py-2 md:py-4 lg:py-6 border-b border-gray-300">
         <div className="text-2xl font-bold">
-          Demo<span className="text-black">.</span>
-          {isUserType && (
-            <span className="ml-2 capitalize">Usertype : {isUserType}</span>
-          )}
+          <Link to="/" className="px-4 py-2">
+            Demo<span className="text-black">.</span>
+          </Link>
         </div>
 
-        
         <Navbar />
         <div className="flex items-center gap-5 relative">
           {/* Search Icon */}
@@ -34,15 +42,20 @@ export default function Header() {
               setShowProfile(false);
             }}
           />
-
           {/* Profile/User Icon */}
-          <User
-            className="w-5 h-5 cursor-pointer"
+          <div
+            className="flex items-center cursor-pointer"
             onClick={() => {
               setShowProfile(!showProfile);
               setShowSearch(false);
             }}
-          />
+          >
+            {isAuthenticated && (
+              <div className="mr-2">Welcome {user.firstName}</div>
+            )}{" "}
+            {/* Conditional Welcome Text */}
+            <User className="w-5 h-5" />
+          </div>
 
           {/* Icons with badge */}
           <div className="relative">
@@ -86,23 +99,36 @@ export default function Header() {
       {showProfile && (
         <div className="absolute top-full right-[130px] mt-2 shadow-md bg-white p-4 z-50 w-[200px] text-sm rounded">
           <ul className="space-y-2">
-            <li className="text-[#8225ff] font-medium cursor-pointer hover:underline">
-              <Link to="/myaccount/login" className="px-4 py-2 cursor-pointer">
-                Login
-              </Link>
-            </li>
-            <li className="cursor-pointer hover:underline">
-              {" "}
-              <Link to="register" className="px-4 py-2 cursor-pointer">
-                Register
-              </Link>
-            </li>
-            <li className="cursor-pointer hover:underline">
-              {" "}
-              <Link to="/myaccount/login" className="px-4 py-2 cursor-pointer">
-                My Account
-              </Link>
-            </li>
+            {/* If user is not authenticated, show Login and Register options */}
+            {!isAuthenticated ? (
+              <>
+                <li className="text-[#8225ff] font-medium cursor-pointer hover:underline">
+                  <Link to="/myaccount/login" className="px-4 py-2">
+                    Login
+                  </Link>
+                </li>
+                <li className=" text-[#8225ff] cursor-pointer hover:underline">
+                  <Link to="/register" className="px-4 py-2">
+                    Register
+                  </Link>
+                </li>
+              </>
+            ) : (
+              <>
+                <li className="text-[#8225ff] cursor-pointer hover:underline">
+                  <Link to="/myaccount" className="px-4 py-2">
+                    My Account
+                  </Link>
+                </li>
+                <li
+                  className="text-[#8225ff] cursor-pointer hover:underline"
+                  onClick={() => handleAuth("admin", "logout")}
+                >
+                  Logout
+                </li>
+              </>
+              // If authenticated, show My Account option
+            )}
           </ul>
         </div>
       )}

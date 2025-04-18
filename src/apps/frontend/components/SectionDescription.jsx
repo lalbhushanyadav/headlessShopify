@@ -27,11 +27,13 @@ const SectionDescription = ({ sections, isCarousel = false }) => {
               <SwiperSlide key={index}>
                 <div className="text-center bg-white p-6 rounded-lg shadow-sm h-full">
                   <div className="flex items-center justify-center h-40">
-                    <img
-                      src={cat.image}
-                      alt={cat.title}
-                      className="max-h-full object-contain"
-                    />
+                    {cat.image && cat.title && (
+                      <img
+                        src={cat.image}
+                        alt={cat.title}
+                        className="max-h-full object-contain"
+                      />
+                    )}
                   </div>
                   {cat.count > 0 && (
                     <p className="mt-4 text-sm text-gray-600">

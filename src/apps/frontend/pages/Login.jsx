@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import shopifyClient from "../../../api/shopifyClient";
 import { useToast } from "../../../core/providers/ToastProvider";
 import GlobalTexts from "../../../shared/Utils/Message";
+import { useAuth } from "../../../features/auth/context/AuthContext";
 
 const InputField = ({ id, label, type, value, onChange, error }) => (
   <div className="mb-4">
@@ -21,13 +22,12 @@ const InputField = ({ id, label, type, value, onChange, error }) => (
   </div>
 );
 
-const Register = () => {
+const Login = () => {
   const navigate = useNavigate();
   const { addToast } = useToast();
+  const { dispatch } = useAuth();
 
   const [formData, setFormData] = useState({
-    firstName: "",
-    lastName: "",
     email: "",
     password: "",
   });
@@ -36,20 +36,6 @@ const Register = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const fields = [
-    {
-      id: "firstName",
-      label: "First Name",
-      type: "text",
-      validation: () =>
-        !formData.firstName && GlobalTexts.Auth.firstNameMandatoryError,
-    },
-    {
-      id: "lastName",
-      label: "Last Name",
-      type: "text",
-      validation: () =>
-        !formData.lastName && GlobalTexts.Auth.lastNameMandatoryError,
-    },
     {
       id: "email",
       label: "Email",
@@ -67,8 +53,6 @@ const Register = () => {
       type: "password",
       validation: () => {
         if (!formData.password) return GlobalTexts.Auth.passwordMandatoryError;
-        if (formData.password.length < 8)
-          return GlobalTexts.Auth.passwordLimitError;
         return null;
       },
     },
@@ -95,22 +79,49 @@ const Register = () => {
 
     setIsSubmitting(true);
     try {
-      await shopifyClient.createCustomer(
-        formData.firstName,
-        formData.lastName,
+      // Step 1: Login the user
+      const tokenData = await shopifyClient.loginUser(
         formData.email,
         formData.password
       );
 
-      addToast(GlobalTexts.Auth.registrationSuccess, "success");
-      navigate("/myaccount/login");
-      setFormData({ firstName: "", lastName: "", email: "", password: "" });
+      // Step 2: Validate if the token exists and is valid
+      const accessToken = tokenData.accessToken;
+      if (!accessToken || accessToken.trim() === "") {
+        throw new Error(
+          "Invalid token received. Please check your login credentials."
+        );
+      }
+
+      // Save the valid token in localStorage
+      localStorage.setItem("accessToken", accessToken);
+
+      // Step 3: Fetch customer details using the valid access token
+      const customer = await shopifyClient.getCustomerDetails(accessToken);
+
+      if (!customer) {
+        throw new Error("Failed to fetch customer details.");
+      }
+
+      dispatch({
+        type: "LOGIN",
+        payload: {
+          user: customer,
+          userType: GlobalTexts.User.frontendUser,
+        },
+      });
+      // Log customer data
+      console.log("Customer Info:", customer);
+
+      // Step 4: Handle successful login and navigation
+      addToast(GlobalTexts.Auth.loginSuccess, "success");
+      navigate("/myaccount/dashboard");
     } catch (error) {
-      console.error("Registration error:", error);
-      addToast(
-        GlobalTexts.Auth.registrationError || "Error during registration",
-        "error"
-      );
+      console.error("Login or Fetch error:", error);
+      addToast(GlobalTexts.Auth.loginError || "Error during login", "error");
+
+      // Optional: Remove any invalid token if an error occurs
+      localStorage.removeItem("accessToken");
     } finally {
       setIsSubmitting(false);
     }
@@ -119,9 +130,7 @@ const Register = () => {
   return (
     <div className="flex justify-center items-center min-h-screen bg-gray-100">
       <div className="bg-white p-8 rounded-lg shadow-lg w-96">
-        <h2 className="text-2xl font-semibold text-center mb-6">
-          User Registration
-        </h2>
+        <h2 className="text-2xl font-semibold text-center mb-6">User Login</h2>
         <form onSubmit={handleSubmit}>
           {fields.map((field) => (
             <InputField
@@ -142,7 +151,7 @@ const Register = () => {
               isSubmitting ? "opacity-50 cursor-not-allowed" : ""
             }`}
           >
-            {isSubmitting ? "Creating Account..." : "Register"}
+            {isSubmitting ? "Logging In..." : "Login"}
           </button>
         </form>
       </div>
@@ -150,4 +159,4 @@ const Register = () => {
   );
 };
 
-export default Register;
+export default Login;

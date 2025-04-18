@@ -1,13 +1,17 @@
 import Button from "../../components/Button";
+import { Link } from "react-router-dom";
 export default function FrontendFooter() {
   return (
     <footer className="bg-white dark:bg-black text-gray-700 dark:text-gray-200 text-sm px-6 py-12">
       <div className="max-w-7xl mx-auto grid grid-cols-1 sm:grid-cols-2 md:grid-cols-5 gap-10">
         {/* Logo & Copyright */}
         <div>
-          <h1 className="text-2xl font-bold text-black dark:text-white mb-3">
-            Demo<span className="text-black dark:text-white">.</span>
-          </h1>
+          <Link to="/" className="px-4 py-2">
+            <h1 className="text-2xl font-bold text-black dark:text-white mb-3">
+              Demo<span className="text-black dark:text-white">.</span>
+            </h1>
+          </Link>
+
           <p className="text-sm">
             © 2025 Demo.
             <br />
@@ -67,7 +71,9 @@ export default function FrontendFooter() {
 
       {/* Scroll to top button */}
       <div className="fixed bottom-6 right-6 z-9 cursor-pointer">
-        <Button className="w-10 h-10 rounded-circle flex items-center justify-center p-0"><span className="text-xl">⇧</span></Button>
+        <Button className="w-10 h-10 rounded-circle flex items-center justify-center p-0">
+          <span className="text-xl">⇧</span>
+        </Button>
       </div>
     </footer>
   );

@@ -1,7 +1,7 @@
 import React, { createContext, useContext, useReducer, useEffect } from "react";
-
+import Messages from "../../../shared/Utils/Message";
 const AuthContext = createContext();
-const defaultUserType = "guest";
+const defaultUserType = Messages.User.normalUser;
 
 const getInitialState = () => {
   const stored = localStorage.getItem("session_data");

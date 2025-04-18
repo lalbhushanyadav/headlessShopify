@@ -1,11 +1,12 @@
 import { Routes, Route } from "react-router-dom";
 import Home from "../../apps/frontend/pages/Home";
-import MyAccountLogin from "../../apps/frontend/pages/myaccountlogin";
+import MyAccountLogin from "../../apps/frontend/pages/Login";
 import MasterLayout from "../../shared/Layouts/MasterLayout";
 import MyAccount from "../../apps/frontend/pages/MyAccount";
 import MyAccountDashboard from "../../apps/frontend/pages/MyAccountDashboard";
 import ProtectedRoute from "../../shared/components/ProtectedRoutes";
 import Register from "../../apps/frontend/pages/register";
+import Messages from "../../shared/Utils/Message";
 
 const FrontendRoutes = () => (
   <Routes>
@@ -14,7 +15,7 @@ const FrontendRoutes = () => (
 
       <Route
         element={
-          <ProtectedRoute allowedUserTypes={["frontend", "admin", "guest"]} />
+          <ProtectedRoute allowedUserTypes={Object.values(Messages.User)} />
         }
       >
         <Route path="/myaccount" element={<MyAccount />} />

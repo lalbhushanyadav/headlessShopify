@@ -51,9 +51,9 @@ export default function Home() {
 
   //
 
-  const brands = dummyImages("left", 5, 50).map((image) => ({ image }));
+  //   const brands = dummyImages("left", 5, 50).map((image) => ({ image }));
 
-  const blogs = categories.slice(0, 3);
+  //   const blogs = categories.slice(0, 3);
 
   const welcomeText = {
     subtitle: "Who Are We",
@@ -87,9 +87,9 @@ export default function Home() {
 
       <SectionDescription sections={categories} isCarousel={true} />
       <TextSection {...welcomeText} />
-      <SectionDescription sections={brands} isCarousel={true} />
-      <TextSection {...blogText} />
-      <SectionDescription sections={blogs} isCarousel={false} />
+      {/* <SectionDescription sections={brands} isCarousel={true} /> */}
+      {/* <TextSection {...blogText} />
+      <SectionDescription sections={blogs} isCarousel={false} /> */}
     </div>
   );
 }

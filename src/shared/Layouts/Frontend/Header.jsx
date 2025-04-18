@@ -1,10 +1,11 @@
 import { useState } from "react";
 import { Search, User, Shuffle, Heart, ShoppingBag } from "lucide-react";
 import { useAuth } from "../../../features/auth/context/AuthContext";
+import Navbar from "../../../apps/frontend/components/navbar";
 
 import { Link } from "react-router-dom";
 
-export default function Navbar() {
+export default function Header() {
   const [showSearch, setShowSearch] = useState(false);
   const [showProfile, setShowProfile] = useState(false);
   const {
@@ -12,13 +13,9 @@ export default function Navbar() {
   } = useAuth();
 
   return (
-    <div className="bg-[#dceeff] text-gray-700 text-sm relative">
+    <div className="bg-white dark:bg-black text-gray-700 dark:text-white text-sm relative">
       {/* Top bar */}
-      <div className="flex items-center justify-between px-6 py-2 border-b border-gray-300">
-        <div className="flex items-center gap-4">
-          <span>Call Us 1234567890</span>
-        </div>
-
+      <div className="flex items-center justify-between px-6 md:px-8 lg:px-12 py-2 md:py-4 lg:py-6 border-b border-gray-300">
         <div className="text-2xl font-bold">
           Demo<span className="text-black">.</span>
           {isUserType && (
@@ -26,6 +23,8 @@ export default function Navbar() {
           )}
         </div>
 
+        
+        <Navbar />
         <div className="flex items-center gap-5 relative">
           {/* Search Icon */}
           <Search

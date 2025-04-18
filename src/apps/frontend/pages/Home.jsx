@@ -88,7 +88,7 @@ export default function Home() {
 
   return (
     <div>
-      <div className="flex justify-center gap-4 my-4">
+      <div className="flex justify-center gap-4 py-4">
         <button
           className="bg-blue-600 text-white px-4 py-2 rounded"
           onClick={() => handleLogin("frontend")}
@@ -115,9 +115,8 @@ export default function Home() {
         </button>
       </div>
 
-      <Navbar />
       {/* Carousal  */}
-      <div className="w-full max-w-7xl mx-auto relative">
+      <div className="w-full mx-auto relative">
         {carousalLoading.isLoading ? (
           <SkeletonLoader
             type="homepagecarousel"

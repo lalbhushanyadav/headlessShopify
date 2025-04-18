@@ -1,12 +1,13 @@
 import React, { createContext, useContext, useReducer, useEffect } from "react";
 
 const AuthContext = createContext();
+const defaultUserType = "guest";
 
 const getInitialState = () => {
-  const stored = localStorage.getItem("auth_state");
+  const stored = localStorage.getItem("session_data");
   return stored
     ? JSON.parse(stored)
-    : { user: null, isAuthenticated: false, isUserType: "frontend" };
+    : { user: null, isAuthenticated: false, isUserType: defaultUserType };
 };
 
 function authReducer(state, action) {
@@ -23,7 +24,7 @@ function authReducer(state, action) {
         ...state,
         user: null,
         isAuthenticated: false,
-        isUserType: "frontend",
+        isUserType: defaultUserType,
       };
     default:
       return state;
@@ -34,7 +35,7 @@ export const AuthProvider = ({ children }) => {
   const [state, dispatch] = useReducer(authReducer, {}, getInitialState);
 
   useEffect(() => {
-    localStorage.setItem("auth_state", JSON.stringify(state));
+    localStorage.setItem("session_data", JSON.stringify(state));
   }, [state]);
   console.log(state);
 

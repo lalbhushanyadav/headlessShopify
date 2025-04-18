@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-export default function LoginRegister() {
+export default function MyAccountLogin() {
   const [tab, setTab] = useState("login");
 
   return (
@@ -8,7 +8,7 @@ export default function LoginRegister() {
       {/* Breadcrumb */}
       <div className="text-sm text-right text-black mb-8 uppercase font-medium">
         <span className="text-gray-500">Home</span> /{" "}
-        <span className="font-bold">Login Register</span>
+        <span className="font-bold">My Account Login</span>
       </div>
 
       {/* Tabs */}

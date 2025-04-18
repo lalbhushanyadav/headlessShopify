@@ -3,6 +3,7 @@ import Dashboard from "../../apps/backend/pages/Dashboard";
 import User from "../../apps/backend/pages/User";
 import MasterLayout from "../../shared/Layouts/MasterLayout";
 import ProtectedRoute from "../../shared/components/ProtectedRoutes";
+import AdminLogin from "../../apps/backend/pages/AdminLogin";
 const AdminRoutes = () => (
   <Routes>
     {/* Protected admin user area */}
@@ -10,6 +11,7 @@ const AdminRoutes = () => (
       <Route element={<MasterLayout />}>
         <Route path="/admin" element={<Dashboard />} />
         <Route path="/admin/dashboard" element={<Dashboard />} />
+        <Route path="/admin/login" element={<AdminLogin />} />
         <Route path="/admin/users" element={<User />} />
       </Route>
     </Route>

@@ -1,11 +1,15 @@
 import { useState } from "react";
 import { Search, User, Shuffle, Heart, ShoppingBag } from "lucide-react";
+import { useAuth } from "../../../features/auth/context/AuthContext";
 
 import { Link } from "react-router-dom";
 
 export default function Navbar() {
   const [showSearch, setShowSearch] = useState(false);
   const [showProfile, setShowProfile] = useState(false);
+  const {
+    state: { user, isUserType },
+  } = useAuth();
 
   return (
     <div className="bg-[#dceeff] text-gray-700 text-sm relative">
@@ -17,6 +21,9 @@ export default function Navbar() {
 
         <div className="text-2xl font-bold">
           Demo<span className="text-black">.</span>
+          {isUserType && (
+            <span className="ml-2 capitalize">Usertype : {isUserType}</span>
+          )}
         </div>
 
         <div className="flex items-center gap-5 relative">
@@ -81,19 +88,19 @@ export default function Navbar() {
         <div className="absolute top-full right-[130px] mt-2 shadow-md bg-white p-4 z-50 w-[200px] text-sm rounded">
           <ul className="space-y-2">
             <li className="text-[#8225ff] font-medium cursor-pointer hover:underline">
-              <Link to="/login-register" className="px-4 py-2 cursor-pointer">
+              <Link to="/myaccount/login" className="px-4 py-2 cursor-pointer">
                 Login
               </Link>
             </li>
             <li className="cursor-pointer hover:underline">
               {" "}
-              <Link to="/login-register" className="px-4 py-2 cursor-pointer">
+              <Link to="register" className="px-4 py-2 cursor-pointer">
                 Register
               </Link>
             </li>
             <li className="cursor-pointer hover:underline">
               {" "}
-              <Link to="/myaccount" className="px-4 py-2 cursor-pointer">
+              <Link to="/myaccount/login" className="px-4 py-2 cursor-pointer">
                 My Account
               </Link>
             </li>

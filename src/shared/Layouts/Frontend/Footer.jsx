@@ -1,11 +1,12 @@
+import Button from "../../components/Button";
 export default function FrontendFooter() {
   return (
-    <footer className="bg-[#f8f8f8] text-gray-700 text-sm px-6 py-12">
+    <footer className="bg-white dark:bg-black text-gray-700 dark:text-gray-200 text-sm px-6 py-12">
       <div className="max-w-7xl mx-auto grid grid-cols-1 sm:grid-cols-2 md:grid-cols-5 gap-10">
         {/* Logo & Copyright */}
         <div>
-          <h1 className="text-2xl font-bold text-black mb-3">
-            Demo<span className="text-black">.</span>
+          <h1 className="text-2xl font-bold text-black dark:text-white mb-3">
+            Demo<span className="text-black dark:text-white">.</span>
           </h1>
           <p className="text-sm">
             © 2025 Demo.
@@ -58,17 +59,15 @@ export default function FrontendFooter() {
             placeholder="Enter your email address..."
             className="w-full px-3 py-2 text-sm border-b border-gray-300 bg-transparent focus:outline-none"
           />
-          <button className="mt-4 underline text-black font-medium hover:text-gray-800">
+          <button className="mt-4 underline text-black dark:text-white font-medium hover:text-gray-800 dark:hover:text-gray-200 cursor-pointer transition duration-300 ease-in-out">
             SUBSCRIBE
           </button>
         </div>
       </div>
 
       {/* Scroll to top button */}
-      <div className="fixed bottom-6 right-6">
-        <button className="bg-[#a855f7] text-white w-14 h-14 rounded-full flex items-center justify-center shadow-lg hover:bg-purple-700 transition">
-          <span className="text-xl">⇧</span>
-        </button>
+      <div className="fixed bottom-6 right-6 z-9 cursor-pointer">
+        <Button className="w-10 h-10 rounded-circle flex items-center justify-center p-0"><span className="text-xl">⇧</span></Button>
       </div>
     </footer>
   );

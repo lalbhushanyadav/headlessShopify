@@ -1,9 +1,7 @@
 import React, { useEffect, useState } from "react";
 import HeroCarousel from "../../../shared/components/Carousal";
-import Navbar from "../components/navbar";
 import SkeletonLoader from "../../../shared/components/SkeletonLoader";
-import { useAuth } from "../../../features/auth/context/AuthContext";
-import { useNavigate } from "react-router-dom";
+
 import SectionDescription from "../components/SectionDescription";
 import TextSection from "../components/TextSection";
 import shopifyClient from "../../../api/shopifyClient";
@@ -18,24 +16,6 @@ export default function Home() {
   const [carouselItems, setCarouselItems] = useState([]);
   const [carousalLoading, setCarousalLoading] = useState(true);
   const [categories, setCategories] = useState([]);
-  const { dispatch } = useAuth();
-  const navigate = useNavigate();
-
-  const handleAuth = (type, action) => {
-    if (action === "login") {
-      dispatch({
-        type: "LOGIN",
-        payload: {
-          user: { name: type === "admin" ? "Admin User" : "Customer User" },
-          userType: type,
-        },
-      });
-      navigate(type === "admin" ? "/admin/dashboard" : "/myaccount/dashboard");
-    } else {
-      dispatch({ type: "LOGOUT" });
-      navigate(type === "admin" ? "/admin/login" : "/");
-    }
-  };
 
   useEffect(() => {
     const loadCollections = async () => {
@@ -92,33 +72,6 @@ export default function Home() {
 
   return (
     <div>
-      <div className="flex justify-center gap-4 py-4">
-        <button
-          className="bg-blue-600 text-white px-4 py-2 rounded"
-          onClick={() => handleAuth("frontend", "login")}
-        >
-          Login as Customer
-        </button>
-        <button
-          className="bg-green-600 text-white px-4 py-2 rounded"
-          onClick={() => handleAuth("admin", "login")}
-        >
-          Login as Admin
-        </button>
-        <button
-          className="bg-red-500 text-white px-4 py-2 rounded"
-          onClick={() => handleAuth("frontend", "logout")}
-        >
-          Logout Customer
-        </button>
-        <button
-          className="bg-red-700 text-white px-4 py-2 rounded"
-          onClick={() => handleAuth("admin", "logout")}
-        >
-          Logout Admin
-        </button>
-      </div>
-
       {/* Carousal  */}
       <div className="w-full mx-auto relative">
         {carousalLoading.isLoading ? (

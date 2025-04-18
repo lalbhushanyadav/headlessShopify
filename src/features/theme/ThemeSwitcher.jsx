@@ -9,9 +9,10 @@ const ThemeSwitcher = () => {
   const { theme, dispatch } = useTheme();
 
   const switchTheme = (mode) => {
-    dispatch({ type: "TOGGLE" });
-
-    setShowOptions(false);
+    if (mode !== theme) {
+      dispatch({ type: "TOGGLE" });
+      setShowOptions(false);
+    }
   };
 
   return (
@@ -21,14 +22,18 @@ const ThemeSwitcher = () => {
           <div className="absolute bottom-14 right-0 bg-white dark:bg-gray-800 p-2 rounded-xl shadow-lg flex space-x-2">
             <button
               onClick={() => switchTheme("light")}
-              className="p-2 rounded-full hover:bg-gray-200 dark:hover:bg-gray-700"
+              className={`p-2 rounded-full hover:bg-gray-200 dark:hover:bg-gray-700 ${
+                theme === "light" ? "bg-gray-200 dark:bg-gray-600" : ""
+              }`}
               title="Light Mode"
             >
               <Sun className="text-yellow-500 w-5 h-5" />
             </button>
             <button
               onClick={() => switchTheme("dark")}
-              className="p-2 rounded-full hover:bg-gray-200 dark:hover:bg-gray-700"
+              className={`p-2 rounded-full hover:bg-gray-200 dark:hover:bg-gray-700 ${
+                theme === "dark" ? "bg-gray-200 dark:bg-gray-600" : ""
+              }`}
               title="Dark Mode"
             >
               <Moon className="text-gray-900 dark:text-gray-100 w-5 h-5" />
@@ -41,7 +46,13 @@ const ThemeSwitcher = () => {
           title="Theme Settings"
         >
         </button> */}
-        <Button onClick={() => setShowOptions(!showOptions)} title="Theme Settings" className="p-3 px-2 rounded-full hover:scale-110"><Settings className="w-5 h-5" /></Button>
+        <Button
+          onClick={() => setShowOptions(!showOptions)}
+          title="Theme Settings"
+          className="p-3 px-2 rounded-full hover:scale-110"
+        >
+          <Settings className="w-5 h-5" />
+        </Button>
       </div>
     </div>
   );

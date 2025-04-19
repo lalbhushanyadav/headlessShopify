@@ -7,7 +7,7 @@ import MyAccountDashboard from "../../apps/frontend/pages/MyAccountDashboard";
 import ProtectedRoute from "../../shared/components/ProtectedRoutes";
 import Register from "../../apps/frontend/pages/register";
 import Messages from "../../shared/Utils/Message";
-import Category from "../../apps/frontend/pages/category";
+import Category from "../../apps/frontend/pages/Category";
 import ProductDetails from "../../apps/frontend/pages/ProductDetails";
 import Cart from "../../apps/frontend/pages/Cart";
 import Checkout from "../../apps/frontend/pages/Checkout";

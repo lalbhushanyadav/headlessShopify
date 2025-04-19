@@ -13,36 +13,52 @@ const Breadcrumb = () => {
         .replace(/-/g, " ")
         .replace(/\b\w/g, (l) => l.toUpperCase());
 
-      // Special case: if the first segment is "collection", replace with "Collections"
       if (index === 0 && name === "collection") {
-        routeTo = "/collections"; // change the URL
-        displayName = "Collections"; // change the display name
+        routeTo = "/collections";
+        displayName = "Collections";
       }
 
+      if (index === 0 && name === "product") {
+        routeTo = "/products";
+        displayName = "Products";
+      }
+
+      const isLast = index === pathnames.length - 1;
+
       return (
-        <span key={routeTo} className="text-gray-600">
-          <span className="mx-2">/</span>
-          <Link to={routeTo} className="hover:underline">
-            {displayName}
-          </Link>
+        <span key={routeTo} className="flex items-center space-x-1">
+          {!isLast ? (
+            <>
+              <span className="text-gray-600">
+                <Link
+                  to={routeTo}
+                  className="text-blue-600 hover:text-blue-800"
+                >
+                  {displayName}
+                </Link>
+              </span>
+              <span className="text-gray-500">{">"}</span>
+            </>
+          ) : (
+            <span className="text-gray-400">{displayName}</span>
+          )}
         </span>
       );
     });
 
     return [
-      <Link
-        key="home"
-        to="/"
-        className="text-gray-800 font-medium hover:underline"
-      >
-        Home
-      </Link>,
+      <span key="home" className="flex items-center space-x-1">
+        <Link to="/" className="text-blue-600 hover:text-blue-800 font-medium">
+          Home
+        </Link>
+        {pathnames.length > 0 && <span className="text-gray-500">{">"}</span>}
+      </span>,
       ...crumbs,
     ];
   };
 
   return (
-    <div className="text-sm py-3 px-4 text-gray-700">
+    <div className="flex flex-wrap gap-1 text-sm py-3 px-4 text-gray-700">
       {generateBreadcrumbs()}
     </div>
   );

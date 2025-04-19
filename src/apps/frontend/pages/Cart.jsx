@@ -154,10 +154,12 @@ export default function CartPage() {
             <div className="flex justify-between font-bold text-purple-600 mt-2">
               <span>Grand Total</span>
               <span>${total.toFixed(2)}</span>
-            </div>
-            <button className="bg-purple-500 text-white w-full py-2 rounded mt-4">
-              Proceed to Checkout
-            </button>
+            </div>{" "}
+            <Link to={"/checkout/"}>
+              <button className="bg-purple-500 text-white w-full py-2 rounded mt-4 cursor-pointer">
+                Proceed to Checkout
+              </button>
+            </Link>
           </div>
         </div>
       </div>

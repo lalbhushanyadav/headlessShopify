@@ -6,7 +6,7 @@ import Breadcrumb from "../../../shared/components/Breadcrumbs";
 
 const Collections = () => {
   const [sortOption, setSortOption] = useState("titleAsc");
-  const [isGridView, setIsGridView] = useState(false);
+  const [isGridView, setIsGridView] = useState(true);
   const [categories, setCategories] = useState([]);
   const navigate = useNavigate();
 

@@ -2,7 +2,7 @@ import { ThemeProvider } from "../../features/theme/context/ThemeContext";
 import { AuthProvider } from "../../features/auth/context/AuthContext";
 import { CartProvider } from "../../features/cart/context/CartContext";
 import { ToastProvider } from "./ToastProvider";
-const FrontendProviders = ({ children }) => (
+const AppProvider = ({ children }) => (
   <ThemeProvider>
     <AuthProvider>
       <ToastProvider>
@@ -12,4 +12,4 @@ const FrontendProviders = ({ children }) => (
   </ThemeProvider>
 );
 
-export default FrontendProviders;
+export default AppProvider;

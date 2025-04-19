@@ -19,7 +19,7 @@ export default function HeroCarousel({ carouselItems = [] }) {
       >
         {carouselItems.map((item) => (
           <div>
-            onClick={() => navigate(`/category/${item.handle}`)}
+            onClick={() => navigate(`/collection/${item.handle}`)}
             className="cursor-pointer"
             <SwiperSlide key={item.id}>
               <div className="flex flex-col md:flex-row items-center justify-between bg-blue-100 dark:bg-blue-950 px-6 md:px-20 py-8 md:py-10 lg:py-15 min-h-[400px]">

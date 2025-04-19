@@ -28,7 +28,7 @@ const SectionDescription = ({ sections, isCarousel = false }) => {
             {sections.map((cat, index) => (
               <SwiperSlide key={cat.handle}>
                 <div
-                  onClick={() => navigate(`/category/${cat.handle}`)}
+                  onClick={() => navigate(`/collection/${cat.handle}`)}
                   className="cursor-pointer"
                 >
                   <div className="text-center bg-white p-6 rounded-lg shadow-sm h-full">

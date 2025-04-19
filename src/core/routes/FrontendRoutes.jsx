@@ -7,7 +7,7 @@ import MyAccountDashboard from "../../apps/frontend/pages/MyAccountDashboard";
 import ProtectedRoute from "../../shared/components/ProtectedRoutes";
 import Register from "../../apps/frontend/pages/register";
 import Messages from "../../shared/Utils/Message";
-import Category from "../../apps/frontend/pages/Category";
+import Collection from "../../apps/frontend/pages/Collection";
 import ProductDetails from "../../apps/frontend/pages/ProductDetails";
 import Cart from "../../apps/frontend/pages/Cart";
 import Checkout from "../../apps/frontend/pages/Checkout";
@@ -16,7 +16,7 @@ const FrontendRoutes = () => (
   <Routes>
     <Route element={<MasterLayout />}>
       <Route path="/" element={<Home />} />
-      <Route path="/category/:handle" element={<Category />} />
+      <Route path="/collection/:handle" element={<Collection />} />
       <Route path="/product/:handle" element={<ProductDetails />} />
       <Route path="/cart" element={<Cart />} />
       <Route path="/checkout" element={<Checkout />} />

@@ -4,7 +4,7 @@ import SkeletonLoader from "../../../shared/components/SkeletonLoader";
 
 import SectionDescription from "../components/SectionDescription";
 import TextSection from "../components/TextSection";
-import shopifyClient from "../../../api/shopifyClient";
+// import shopifyClient from "../../../api/shopifyClient";
 
 const dummyImages = (seed, count, size = 300) =>
   Array.from(
@@ -18,19 +18,7 @@ export default function Home() {
   const [categories, setCategories] = useState([]);
 
   useEffect(() => {
-    const loadCollections = async () => {
-      const collections = await shopifyClient.fetchCollections();
-      //   console.log("Collections:", collections);
-      const transformed = collections.map((item, idx) => ({
-        title: item.title,
-        image: item.image?.url || "", // replace with real image if needed
-        handle: item.handle,
-      }));
-      setCategories(transformed);
-      console.log("Categories:", categories);
-    };
-
-    loadCollections();
+    // this is for the homepageCarousal
     const fetchCarousel = async () => {
       try {
         const items = Array.from({ length: 3 }, (_, i) => ({
@@ -46,15 +34,14 @@ export default function Home() {
         setTimeout(() => setCarousalLoading(false), 1000);
       }
     };
-
     fetchCarousel();
+
+    // this is for the collections in homepage
+    const storedCategories = localStorage.getItem("shop_collections");
+    if (storedCategories) {
+      setCategories(JSON.parse(storedCategories));
+    }
   }, []);
-
-  //
-
-  //   const brands = dummyImages("left", 5, 50).map((image) => ({ image }));
-
-  //   const blogs = categories.slice(0, 3);
 
   const welcomeText = {
     subtitle: "Who Are We",
@@ -88,9 +75,6 @@ export default function Home() {
 
       <SectionDescription sections={categories} isCarousel={true} />
       <TextSection {...welcomeText} />
-      {/* <SectionDescription sections={brands} isCarousel={true} /> */}
-      {/* <TextSection {...blogText} />
-      <SectionDescription sections={blogs} isCarousel={false} /> */}
     </div>
   );
 }

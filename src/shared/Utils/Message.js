@@ -35,6 +35,7 @@ const Messages = {
 	Cart: {
 		itemAdded: "Item added to cart.",
 		itemRemoved: "Item removed from cart.",
+		itemCountError: "ItemQuantity needs to be minimum 1.",
 	},
 };
 

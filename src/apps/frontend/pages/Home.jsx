@@ -24,6 +24,7 @@ export default function Home() {
       const transformed = collections.map((item, idx) => ({
         title: item.title,
         image: item.image?.url || "", // replace with real image if needed
+        handle: item.handle,
       }));
       setCategories(transformed);
       console.log("Categories:", categories);

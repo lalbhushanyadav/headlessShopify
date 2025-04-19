@@ -2,17 +2,19 @@ import { useState } from "react";
 import { Search, User, Shuffle, Heart, ShoppingBag } from "lucide-react";
 import { useAuth } from "../../../features/auth/context/AuthContext";
 import Navbar from "../../../apps/frontend/components/navbar";
-import { useNavigate } from "react-router-dom";
-
-import { Link } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
+import { useCart } from "../../../features/cart/context/CartContext";
+import MiniCart from "./MiniCart";
 
 export default function Header() {
   const [showSearch, setShowSearch] = useState(false);
   const [showProfile, setShowProfile] = useState(false);
+  const [isCartOpen, setCartOpen] = useState(false);
+  const { cart } = useCart();
+
   const {
     state: { user, isUserType, isAuthenticated },
   } = useAuth();
-  console.log(user);
 
   const { dispatch } = useAuth();
   const navigate = useNavigate();
@@ -23,7 +25,7 @@ export default function Header() {
   };
 
   return (
-    <div className="bg-white dark:bg-black text-gray-700 dark:text-white text-sm relative">
+    <div className="bg-white dark:bg-black text-gray-700 dark:text-white text-sm relative z-[10000]">
       {/* Top bar */}
       <div className="flex items-center justify-between px-6 md:px-8 lg:px-12 py-2 md:py-4 lg:py-6 border-b border-gray-300">
         <div className="text-2xl font-bold">
@@ -33,6 +35,7 @@ export default function Header() {
         </div>
 
         <Navbar />
+
         <div className="flex items-center gap-5 relative">
           {/* Search Icon */}
           <Search
@@ -42,6 +45,7 @@ export default function Header() {
               setShowProfile(false);
             }}
           />
+
           {/* Profile/User Icon */}
           <div
             className="flex items-center cursor-pointer"
@@ -52,28 +56,31 @@ export default function Header() {
           >
             {isAuthenticated && (
               <div className="mr-2">Welcome {user.firstName}</div>
-            )}{" "}
-            {/* Conditional Welcome Text */}
+            )}
             <User className="w-5 h-5" />
           </div>
 
-          {/* Icons with badge */}
+          {/* Shuffle */}
           <div className="relative">
             <Shuffle className="w-5 h-5 cursor-pointer" />
             <span className="absolute -top-2 -right-2 bg-black text-white text-xs w-5 h-5 flex items-center justify-center rounded-full">
               0
             </span>
           </div>
+
+          {/* Wishlist */}
           <div className="relative">
             <Heart className="w-5 h-5 cursor-pointer" />
             <span className="absolute -top-2 -right-2 bg-black text-white text-xs w-5 h-5 flex items-center justify-center rounded-full">
               0
             </span>
           </div>
-          <div className="relative">
+
+          {/* Cart */}
+          <div className="relative" onClick={() => setCartOpen(true)}>
             <ShoppingBag className="w-5 h-5 cursor-pointer" />
             <span className="absolute -top-2 -right-2 bg-black text-white text-xs w-5 h-5 flex items-center justify-center rounded-full">
-              4
+              {cart.length > 0 ? cart.length : 0}
             </span>
           </div>
         </div>
@@ -99,7 +106,6 @@ export default function Header() {
       {showProfile && (
         <div className="absolute top-full right-[130px] mt-2 shadow-md bg-white p-4 z-50 w-[200px] text-sm rounded">
           <ul className="space-y-2">
-            {/* If user is not authenticated, show Login and Register options */}
             {!isAuthenticated ? (
               <>
                 <li className="text-[#8225ff] font-medium cursor-pointer hover:underline">
@@ -127,11 +133,16 @@ export default function Header() {
                   Logout
                 </li>
               </>
-              // If authenticated, show My Account option
             )}
           </ul>
         </div>
       )}
+
+      {/* Mini Cart Component */}
+      <MiniCart
+        isOpen={isCartOpen}
+        toggleCart={() => setCartOpen(!isCartOpen)}
+      />
     </div>
   );
 }

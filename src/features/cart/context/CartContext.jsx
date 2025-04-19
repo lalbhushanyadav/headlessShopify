@@ -1,12 +1,25 @@
 // src/features/cart/context/CartContext.jsx
-import { createContext, useContext, useReducer } from "react";
+import { createContext, useContext, useReducer, useEffect } from "react";
 
 const CartContext = createContext();
 
 const cartReducer = (state, action) => {
   switch (action.type) {
-    case "ADD_ITEM":
-      return [...state, action.payload];
+    case "ADD_ITEM": {
+      const existingItem = state.find((item) => item.id === action.payload.id);
+      if (existingItem) {
+        return state.map((item) =>
+          item.id === action.payload.id
+            ? {
+                ...item,
+                quantity: action.payload.quantity,
+                handle: action.payload.handle,
+              }
+            : item
+        );
+      }
+      return [...state, { ...action.payload }];
+    }
     case "REMOVE_ITEM":
       return state.filter((item) => item.id !== action.payload);
     case "CLEAR_CART":
@@ -17,7 +30,15 @@ const cartReducer = (state, action) => {
 };
 
 export const CartProvider = ({ children }) => {
-  const [cart, dispatch] = useReducer(cartReducer, []);
+  const initialCart = JSON.parse(localStorage.getItem("session_cart")) || [];
+  const [cart, dispatch] = useReducer(cartReducer, initialCart);
+
+  // Save cart to localStorage whenever it changes
+  useEffect(() => {
+    localStorage.setItem("session_cart", JSON.stringify(cart));
+  }, [cart]);
+  console.log(cart);
+
   return (
     <CartContext.Provider value={{ cart, dispatch }}>
       {children}

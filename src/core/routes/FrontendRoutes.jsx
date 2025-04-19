@@ -11,11 +11,13 @@ import Collection from "../../apps/frontend/pages/Collection";
 import ProductDetails from "../../apps/frontend/pages/ProductDetails";
 import Cart from "../../apps/frontend/pages/Cart";
 import Checkout from "../../apps/frontend/pages/Checkout";
+import Collections from "../../apps/frontend/pages/Collections";
 
 const FrontendRoutes = () => (
   <Routes>
     <Route element={<MasterLayout />}>
       <Route path="/" element={<Home />} />
+      <Route path="/collections" element={<Collections />} />
       <Route path="/collection/:handle" element={<Collection />} />
       <Route path="/product/:handle" element={<ProductDetails />} />
       <Route path="/cart" element={<Cart />} />

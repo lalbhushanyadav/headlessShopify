@@ -1,4 +1,3 @@
-// src/components/common/Breadcrumb.jsx
 import React from "react";
 import { Link, useLocation } from "react-router-dom";
 
@@ -7,13 +6,24 @@ const Breadcrumb = () => {
 
   const generateBreadcrumbs = () => {
     const pathnames = location.pathname.split("/").filter((x) => x);
+
     const crumbs = pathnames.map((name, index) => {
-      const routeTo = "/" + pathnames.slice(0, index + 1).join("/");
+      let routeTo = "/" + pathnames.slice(0, index + 1).join("/");
+      let displayName = name
+        .replace(/-/g, " ")
+        .replace(/\b\w/g, (l) => l.toUpperCase());
+
+      // Special case: if the first segment is "collection", replace with "Collections"
+      if (index === 0 && name === "collection") {
+        routeTo = "/collections"; // change the URL
+        displayName = "Collections"; // change the display name
+      }
+
       return (
-        <span key={routeTo} className="text-gray-600 capitalize">
+        <span key={routeTo} className="text-gray-600">
           <span className="mx-2">/</span>
           <Link to={routeTo} className="hover:underline">
-            {name.replace(/-/g, " ")}
+            {displayName}
           </Link>
         </span>
       );

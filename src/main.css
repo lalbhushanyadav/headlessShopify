@@ -27,3 +27,22 @@ body{
     background-color: #f9f9f9;
   }
 }
+ .grid-item {
+ 	display: flex;
+ 	flex-direction: column;
+ 	justify-content: center;
+ }
+
+ .thumbnail-item {
+ 	display: flex;
+ 	flex-direction: column;
+ 	justify-content: space-between;
+ }
+
+ .thumbnail-item img {
+ 	object-fit: contain;
+ }
+
+ .grid-item img {
+ 	object-fit: cover;
+ }

@@ -12,6 +12,7 @@ import ProductDetails from "../../apps/frontend/pages/ProductDetails";
 import Cart from "../../apps/frontend/pages/Cart";
 import Checkout from "../../apps/frontend/pages/Checkout";
 import Collections from "../../apps/frontend/pages/Collections";
+import Products from "../../apps/frontend/pages/Products";
 
 const FrontendRoutes = () => (
   <Routes>
@@ -19,6 +20,7 @@ const FrontendRoutes = () => (
       <Route path="/" element={<Home />} />
       <Route path="/collections" element={<Collections />} />
       <Route path="/collection/:handle" element={<Collection />} />
+      <Route path="/products" element={<Products />} />
       <Route path="/product/:handle" element={<ProductDetails />} />
       <Route path="/cart" element={<Cart />} />
       <Route path="/checkout" element={<Checkout />} />

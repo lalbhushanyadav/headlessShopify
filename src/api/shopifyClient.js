@@ -45,7 +45,59 @@ const shopifyClient = {
 	},
 
 	fetchProducts: async () => {
+		const query = `
+    {
+      products(first: 50) {
+        edges {
+          node {
+            id
+            title
+            handle
+            images(first: 1) {
+              edges {
+                node {
+                  url
+                  altText
+                }
+              }
+            }
+            variants(first: 1) {
+              edges {
+                node {
+                  price {
+                    amount
+                  }
+                  compareAtPrice {
+                    amount
+                  }
+                  quantityAvailable
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  `;
+
+		const data = await callShopify(query);
+
+		return data.products.edges.map((edge) => {
+			const product = edge.node;
+			const variant = product.variants.edges[0]?.node;
+
+			return {
+				id: product.id,
+				title: product.title,
+				handle: product.handle,
+				image: product.images.edges[0]?.node.url || "",
+				price: variant?.price?.amount || "",
+				compareAtPrice: variant?.compareAtPrice?.amount || "",
+				quantity: variant?.quantityAvailable ?? "N/A",
+			};
+		});
 	},
+
 
 	createCustomer: async (firstName, lastName, email, password) => {
 		const query = `

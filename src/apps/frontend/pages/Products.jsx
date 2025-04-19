@@ -1,70 +1,37 @@
-import { useParams, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import shopifyClient from "../../../api/shopifyClient";
+import { useNavigate } from "react-router-dom";
+import Breadcrumb from "../../../shared/components/Breadcrumbs";
 import ThumbnailView from "./ThumbnailView";
 import GridView from "./GridView";
-import Breadcrumb from "../../../shared/components/Breadcrumbs";
 
-const Collection = () => {
-  const { handle } = useParams();
-  const [products, setProducts] = useState([]);
+export default function Products() {
+  const navigate = useNavigate();
   const [sortOption, setSortOption] = useState("titleAsc");
   const [isGridView, setIsGridView] = useState(true);
-  const navigate = useNavigate();
+  const [products, setProducts] = useState([]);
+  useEffect(() => {
+    const loadProducts = async () => {
+      const result = await shopifyClient.fetchProducts();
+      console.log(result);
+      setProducts(result);
+    };
+    loadProducts();
+  }, []);
+  const sortedProducts = [...products].sort((a, b) => {
+    if (sortOption === "titleAsc") return a.title.localeCompare(b.title);
+    if (sortOption === "titleDesc") return b.title.localeCompare(a.title);
+    if (sortOption === "priceAsc") return a.price - b.price; // Sorting by price ascending
+    if (sortOption === "priceDesc") return b.price - a.price; // Sorting by price descending
+    return 0;
+  });
+
   const onClickhandler = (handle) => {
     navigate(`/product/${handle}`);
   };
 
-  // Fetch products by collection handle
-  useEffect(() => {
-    const loadProducts = async () => {
-      const result = await shopifyClient.fetchProductsByCollectionHandle(
-        handle
-      );
-      setProducts(result);
-    };
-    loadProducts();
-  }, [handle]);
-
-  // Sort products based on selected option
-  useEffect(() => {
-    let sorted = [...products];
-
-    if (sortOption === "priceAsc") {
-      sorted.sort((a, b) => a.price - b.price);
-    } else if (sortOption === "priceDesc") {
-      sorted.sort((a, b) => b.price - a.price);
-    } else if (sortOption === "titleAsc") {
-      sorted.sort((a, b) => a.title.localeCompare(b.title));
-    } else if (sortOption === "titleDesc") {
-      sorted.sort((a, b) => b.title.localeCompare(a.title));
-    } else {
-      sorted.sort((a, b) => a.title.localeCompare(b.title));
-    }
-
-    setProducts(sorted);
-  }, [sortOption]);
-
   return (
     <div>
-      <style>{`
-        .grid-item {
-          display: flex;
-          flex-direction: column;
-          justify-content: center;
-        }
-        .thumbnail-item {
-          display: flex;
-          flex-direction: column;
-          justify-content: space-between;
-        }
-        .thumbnail-item img {
-          object-fit: contain;
-        }
-        .grid-item img {
-          object-fit: cover;
-        }
-      `}</style>
       <Breadcrumb />
       <div className="px-4 md:px-12 py-10 bg-white dark:bg-gray-900">
         <div className="flex items-center justify-between mb-6 flex-wrap gap-4">
@@ -81,12 +48,11 @@ const Collection = () => {
             </select>
           </div>
           <p className="text-gray-600 dark:text-gray-400 text-sm">
-            Showing {products.length} of {products.length} results
+            Showing {sortedProducts.length} of {sortedProducts.length} results
           </p>
           <div className="flex space-x-2">
-            {/* Grid View Button */}
             <button
-              className={`p-2  cursor-pointer ${
+              className={`p-2 cursor-pointer ${
                 isGridView ? "bg-gray-200 dark:bg-gray-800 border rounded" : ""
               }`}
               onClick={() => setIsGridView(true)}
@@ -94,9 +60,8 @@ const Collection = () => {
             >
               🔲
             </button>
-            {/* List View Button */}
             <button
-              className={`p-2  cursor-pointer ${
+              className={`p-2 cursor-pointer ${
                 !isGridView ? "bg-gray-200 dark:bg-gray-800 border rounded" : ""
               }`}
               onClick={() => setIsGridView(false)}
@@ -106,7 +71,7 @@ const Collection = () => {
             </button>
           </div>
         </div>
-        {/* Display products in grid or list */}
+
         <div
           className={`grid ${
             isGridView
@@ -114,7 +79,7 @@ const Collection = () => {
               : "grid-cols-1"
           } gap-6`}
         >
-          {products.map((product, index) =>
+          {sortedProducts.map((product, index) =>
             isGridView ? (
               <GridView
                 key={index}
@@ -135,6 +100,4 @@ const Collection = () => {
       </div>
     </div>
   );
-};
-
-export default Collection;
+}

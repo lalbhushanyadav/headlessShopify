@@ -4,10 +4,11 @@ import shopifyClient from "../../../api/shopifyClient";
 import { useToast } from "../../../core/providers/ToastProvider";
 import GlobalTexts from "../../../shared/Utils/Message";
 import { useAuth } from "../../../features/auth/context/AuthContext";
+import Breadcrumb from "../../../shared/components/Breadcrumbs";
 
 const InputField = ({ id, label, type, value, onChange, error }) => (
   <div className="mb-4">
-    <label htmlFor={id} className="block text-gray-700">
+    <label htmlFor={id} className="block text-gray-700 dark:text-gray-300">
       {label}
     </label>
     <input
@@ -16,7 +17,7 @@ const InputField = ({ id, label, type, value, onChange, error }) => (
       name={id}
       value={value}
       onChange={onChange}
-      className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+      className="w-full px-4 py-2 border text-black dark:text-white border-black dark:border-gray-400 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
     />
     {error && <span className="text-red-500 text-sm">{error}</span>}
   </div>
@@ -128,34 +129,41 @@ const Login = () => {
   };
 
   return (
-    <div className="flex justify-center items-center min-h-screen bg-gray-100">
-      <div className="bg-white p-8 rounded-lg shadow-lg w-96">
-        <h2 className="text-2xl font-semibold text-center mb-6">User Login</h2>
-        <form onSubmit={handleSubmit}>
-          {fields.map((field) => (
-            <InputField
-              key={field.id}
-              id={field.id}
-              label={field.label}
-              type={field.type}
-              value={formData[field.id]}
-              onChange={handleChange}
-              error={errors[field.id]}
-            />
-          ))}
+    <>
+      <Breadcrumb />
+      <div className="py-25 bg-blue-100 dark:bg-gray-900">
+        <div className="container mx-auto">
+          <div className="flex justify-center items-center">
+            <div className="bg-white dark:bg-gray-700 p-8 rounded-lg shadow-lg w-1/3">
+              <h2 className="text-2xl font-semibold text-center text-black dark:text-white mb-6">User Login</h2>
+              <form onSubmit={handleSubmit}>
+                {fields.map((field) => (
+                  <InputField
+                    key={field.id}
+                    id={field.id}
+                    label={field.label}
+                    type={field.type}
+                    value={formData[field.id]}
+                    onChange={handleChange}
+                    error={errors[field.id]}
+                  />
+                ))}
 
-          <button
-            type="submit"
-            disabled={isSubmitting}
-            className={`w-full px-4 py-2 mt-4 text-white bg-blue-500 rounded-md hover:bg-blue-600 focus:outline-none ${
-              isSubmitting ? "opacity-50 cursor-not-allowed" : ""
-            }`}
-          >
-            {isSubmitting ? "Logging In..." : "Login"}
-          </button>
-        </form>
+                <button
+                  type="submit"
+                  disabled={isSubmitting}
+                  className={`w-full px-4 py-2 text-white bg-blue-500 rounded-md hover:bg-blue-600 focus:outline-none ${
+                    isSubmitting ? "opacity-50 cursor-not-allowed" : ""
+                  }`}
+                >
+                  {isSubmitting ? "Logging In..." : "Login"}
+                </button>
+              </form>
+            </div>
+          </div>
+        </div>
       </div>
-    </div>
+    </>
   );
 };
 

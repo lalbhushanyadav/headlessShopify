@@ -8,12 +8,13 @@
   font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
   font-weight: 400;
+  --swiper-navigation-size: 25px !important;
 }
 body{
   background-color: #dceeff;
 }
-.dark:root{
-  --swiper-pagination-bullet-inactive-color: #fff;
+.dark body{
+  background-color: #101828;
 }
 @media (prefers-color-scheme: light) {
   :root {

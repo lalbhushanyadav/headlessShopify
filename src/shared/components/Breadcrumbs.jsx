@@ -32,15 +32,15 @@ const Breadcrumb = () => {
               <span className="text-gray-600">
                 <Link
                   to={routeTo}
-                  className="text-blue-600 hover:text-blue-800"
+                  className="text-blue-600 hover:text-blue-800 dark:text-gray-100 dark:hover:text-gray-300"
                 >
                   {displayName}
                 </Link>
               </span>
-              <span className="text-gray-500">{">"}</span>
+              <span className="text-gray-500">{"/"}</span>
             </>
           ) : (
-            <span className="text-gray-400">{displayName}</span>
+            <span className="text-gray-400 dark:text-gray-400">{displayName}</span>
           )}
         </span>
       );
@@ -48,18 +48,22 @@ const Breadcrumb = () => {
 
     return [
       <span key="home" className="flex items-center space-x-1">
-        <Link to="/" className="text-blue-600 hover:text-blue-800 font-medium">
+        <Link to="/" className="text-blue-600 hover:text-blue-800 dark:text-gray-100 dark:hover:text-gray-300 font-medium">
           Home
         </Link>
-        {pathnames.length > 0 && <span className="text-gray-500">{">"}</span>}
+        {pathnames.length > 0 && <span className="text-gray-500">{"/"}</span>}
       </span>,
       ...crumbs,
     ];
   };
 
   return (
-    <div className="flex flex-wrap gap-1 text-sm py-3 px-4 text-gray-700">
-      {generateBreadcrumbs()}
+    <div className="">
+      <div className="container mx-auto">
+        <div className="flex flex-wrap gap-1 text-sm py-3 text-gray-700 dark:text-gray-300">
+          {generateBreadcrumbs()}
+        </div>
+      </div>
     </div>
   );
 };

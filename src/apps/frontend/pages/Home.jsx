@@ -59,8 +59,9 @@ export default function Home() {
   };
 
   return (
-    <div>
+    <div className="bg-blue-100 dark:bg-gray-900">
       {/* Carousal  */}
+      <div className="container mx-auto">
       <div className="w-full mx-auto relative">
         {carousalLoading.isLoading ? (
           <SkeletonLoader
@@ -71,6 +72,7 @@ export default function Home() {
         ) : (
           <HeroCarousel carouselItems={carouselItems} />
         )}
+      </div>
       </div>
 
       <SectionDescription sections={categories} isCarousel={true} />

@@ -14,6 +14,7 @@ const cartReducer = (state, action) => {
                 ...item,
                 quantity: action.payload.quantity,
                 handle: action.payload.handle,
+                variantId: action.payload.variantId,
               }
             : item
         );

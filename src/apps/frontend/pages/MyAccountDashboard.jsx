@@ -1,6 +1,4 @@
 import React, { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
-import { useAuth } from "../../../features/auth/context/AuthContext";
 import AccountDashboard from "../components/AccountDashboard";
 import AccountOrders from "../components/AccountOrders";
 import AccountProfile from "../components/AccountProfile";
@@ -27,8 +25,8 @@ const MyAccount = () => {
         return <AccountDashboard />;
       case "orders":
         return <AccountOrders />;
-      case "profile":
-        return <AccountProfile />;
+      //   case "profile":
+      //     return <AccountProfile />;
       default:
         return <AccountDashboard />;
     }
@@ -60,7 +58,7 @@ const MyAccount = () => {
               My Orders
             </button>
           </li>
-          <li>
+          {/* <li>
             <button
               onClick={() => setActiveTab("profile")}
               className={`w-full text-left font-medium ${
@@ -77,7 +75,7 @@ const MyAccount = () => {
             >
               Logout
             </button>
-          </li>
+          </li> */}
         </ul>
       </aside>
 

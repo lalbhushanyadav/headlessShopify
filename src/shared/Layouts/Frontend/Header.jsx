@@ -67,20 +67,20 @@ export default function Header() {
             </div>
 
             {/* Shuffle */}
-            <div className="relative">
+            {/* <div className="relative">
               <Shuffle className="w-5 h-5 cursor-pointer" />
               <span className="absolute -top-2 -right-2 bg-black text-white text-xs w-5 h-5 flex items-center justify-center rounded-full">
                 0
               </span>
-            </div>
+            </div> */}
 
             {/* Wishlist */}
-            <div className="relative">
+            {/* <div className="relative">
               <Heart className="w-5 h-5 cursor-pointer" />
               <span className="absolute -top-2 -right-2 bg-black text-white text-xs w-5 h-5 flex items-center justify-center rounded-full">
                 0
               </span>
-            </div>
+            </div> */}
 
             {/* Cart */}
             <div className="relative" onClick={() => setCartOpen(true)}>

@@ -587,13 +587,7 @@ const shopifyClient = {
 			console.error("Error creating draft order:", error);
 			throw new Error(error.message || "An error occurred while creating the draft order.");
 		}
-	}
-
-
-
-
-
-
+	},
 
 };
 

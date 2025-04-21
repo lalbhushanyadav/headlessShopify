@@ -104,7 +104,7 @@ const Register = () => {
       );
 
       addToast(GlobalTexts.Auth.registrationSuccess, "success");
-      navigate("/myaccount/login");
+      navigate("/login");
       setFormData({ firstName: "", lastName: "", email: "", password: "" });
     } catch (error) {
       console.error("Registration error:", error);

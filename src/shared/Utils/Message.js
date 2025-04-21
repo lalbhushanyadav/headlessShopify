@@ -13,7 +13,7 @@ const Messages = {
 		emailValidError: "Please enter valid email address.",
 		firstNameMandatoryError: "First Name is required",
 		lastNameMandatoryError: "Last Name is required",
-		loginError: "Invalid token received. Please check your login credentials.",
+		loginError: "Invalid credentials.",
 	},
 	User: {
 		normalUser: "guest",
@@ -36,6 +36,11 @@ const Messages = {
 		itemAdded: "Item added to cart.",
 		itemRemoved: "Item removed from cart.",
 		itemCountError: "ItemQuantity needs to be minimum 1.",
+	},
+	Checkout: {
+		customerNotLoggedIn: "Customer needs to login to place an order.",
+		orderSuccess: "Order has been placed successfully.",
+		checkoutError: "Checkout error. PLease contact administrator.",
 	},
 };
 

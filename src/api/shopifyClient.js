@@ -194,7 +194,7 @@ const shopifyClient = {
 
 			return result.customerAccessToken;
 		} catch (error) {
-			console.error("Login error:", error);
+			// console.error("Login error:", error);
 			throw new Error(error.message || "An error occurred during login.");
 		}
 	},

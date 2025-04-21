@@ -1,6 +1,8 @@
 import { useState } from "react";
 import { Search, User, Shuffle, Heart, ShoppingBag } from "lucide-react";
 import { useAuth } from "../../../features/auth/context/AuthContext";
+import { useToast } from "../../../core/providers/ToastProvider";
+import GlobalTexts from "../../../shared/Utils/Message";
 import Navbar from "../../../apps/frontend/components/navbar";
 import { useNavigate, Link } from "react-router-dom";
 import { useCart } from "../../../features/cart/context/CartContext";
@@ -11,16 +13,19 @@ export default function Header() {
   const [showProfile, setShowProfile] = useState(false);
   const [isCartOpen, setCartOpen] = useState(false);
   const { cart } = useCart();
+  const { addToast } = useToast();
 
   const {
     state: { user, isUserType, isAuthenticated },
   } = useAuth();
+  //   console.log(isUserType);
 
   const { dispatch } = useAuth();
   const navigate = useNavigate();
 
   const handleAuth = (type, action) => {
     dispatch({ type: "LOGOUT" });
+    addToast(GlobalTexts.Auth.logoutSuccess, "success");
     navigate(type === "admin" ? "/admin/login" : "/");
   };
 
@@ -110,7 +115,7 @@ export default function Header() {
               {!isAuthenticated ? (
                 <>
                   <li className="text-[#8225ff] dark:text-white font-medium cursor-pointer hover:underline">
-                    <Link to="/myaccount/login" className="px-4">
+                    <Link to="/login" className="px-4">
                       Login
                     </Link>
                   </li>
@@ -129,7 +134,7 @@ export default function Header() {
                   </li>
                   <li
                     className="text-[#8225ff] dark:text-white cursor-pointer hover:underline"
-                    onClick={() => handleAuth("admin", "logout")}
+                    onClick={() => handleAuth(isUserType, "logout")}
                   >
                     <span className="px-4">Logout</span>
                   </li>

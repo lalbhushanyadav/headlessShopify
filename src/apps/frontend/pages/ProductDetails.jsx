@@ -41,7 +41,7 @@ export default function ProductDetails() {
   useEffect(() => {
     const loadProducts = async () => {
       const result = await shopifyClient.fetchProductByHandle(handle);
-      console.log(result);
+      //   console.log(result);
       setProduct(result);
     };
     loadProducts();

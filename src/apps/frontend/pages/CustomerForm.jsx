@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import Messages from "../../../shared/Utils/Message";
 import shopifyClient from "../../../api/shopifyClient";
 import { countries } from "../../../shared/data/countries";
-import { useCart } from "../../../features/cart/context/CartContext";
 
 // Input Field Component
 const InputField = ({
@@ -120,15 +119,14 @@ const CustomerForm = ({ cart, dispatch, authState, addToast, navigate }) => {
 
     const accessToken = localStorage.getItem("accessToken");
     if (!accessToken) {
-      throw new Error("Customer is not logged in.");
+      throw new Error(Messages.Checkout.customerNotLoggedIn);
     }
-    console.log(accessToken);
 
     setLoading(true);
 
     try {
       // Build shipping & billing from state
-      console.log(formData);
+      //   console.log(formData);
       const shippingAddress = {
         street: formData.street,
         apartment: formData.apartment,
@@ -149,10 +147,6 @@ const CustomerForm = ({ cart, dispatch, authState, addToast, navigate }) => {
         phone: formData.phone,
       };
 
-      console.log(billingAddress);
-      console.log(shippingAddress);
-      console.log();
-
       const order = await shopifyClient.createDraftOrder(
         accessToken,
         cart,
@@ -161,11 +155,11 @@ const CustomerForm = ({ cart, dispatch, authState, addToast, navigate }) => {
         formData
       );
 
-      addToast("Order placed successfully!", "success");
-      clearCart();
-      // optionally redirect to a success page
+      addToast(Messages.Checkout.orderSuccess, "success");
+      dispatch({ type: "CLEAR_CART" }); // ✅ Clear the cart
+      navigate("/myaccount");
     } catch (error) {
-      addToast(error.message || "Failed to place order", "error");
+      addToast(error.message || Messages.Checkout.checkoutError, "error");
     } finally {
       setLoading(false);
     }

@@ -11,7 +11,7 @@ const ProtectedRoute = () => {
   const isAdminRoute = path.startsWith("/admin");
   const isAdminLogin = path === "/admin/login";
   const isMyAccountRoute = path.startsWith("/myaccount");
-  const isMyAccountLogin = path === "/myaccount/login";
+  const isMyAccountLogin = path === "/login";
   const isRegisterRoute = path === "/register";
 
   // ✅ Redirect already-logged-in users away from login/register pages
@@ -24,14 +24,14 @@ const ProtectedRoute = () => {
     isUserType === Messages.User.frontendUser
   ) {
     // "frontend"
-    return <Navigate to="/myaccount/dashboard" replace />;
+    return <Navigate to="/myaccount" replace />;
   }
   if (
     (isMyAccountLogin || isRegisterRoute) &&
     isUserType === Messages.User.adminUser
   ) {
     //"admin"
-    return <Navigate to="/myaccount/dashboard" replace />;
+    return <Navigate to="/myaccount" replace />;
   }
 
   // ✅ Guest logic
@@ -41,7 +41,7 @@ const ProtectedRoute = () => {
       return <Navigate to="/admin/login" replace />;
     }
     if (isMyAccountRoute && !isMyAccountLogin) {
-      return <Navigate to="/myaccount/login" replace />;
+      return <Navigate to="/login" replace />;
     }
     return <Outlet />; // allow login/register/public
   }
@@ -49,7 +49,7 @@ const ProtectedRoute = () => {
   // ✅ Frontend logic
   if (isUserType === Messages.User.frontendUser) {
     //"frontend"
-    if (isAdminRoute) return <Navigate to="/myaccount/dashboard" replace />;
+    if (isAdminRoute) return <Navigate to="/myaccount" replace />;
     return <Outlet />;
   }
 

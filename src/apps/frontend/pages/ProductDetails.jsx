@@ -28,6 +28,7 @@ export default function ProductDetails() {
         image: product.images[0],
         quantity: selectedQuantity,
         handle: product.handle,
+        variantId: product.variantId,
       },
     });
     // setIsCartAdding(0);

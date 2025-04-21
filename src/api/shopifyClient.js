@@ -20,6 +20,24 @@ const callShopify = async (query, variables = {}) => {
 	}
 };
 
+const shopifyAdmin = axiosInstance.create({
+	baseURL: import.meta.env.VITE_SHOPIFY_ADMIN_STORE_URL,
+	headers: {
+		'X-Shopify-Access-Token': import.meta.env.VITE_SHOPIFY_ADMIN_ACCESS_TOKEN,
+		'Content-Type': 'application/json',
+	},
+});
+
+export const callShopifyAdmin = async (query, variables = {}) => {
+	try {
+		const response = await shopifyAdmin.post('', { query, variables });
+		return response.data.data;
+	} catch (error) {
+		console.error('Shopify Admin API error:', error.response?.data || error);
+		throw error;
+	}
+};
+
 // Shopify API Methods
 const shopifyClient = {
 	fetchCollections: async () => {
@@ -260,6 +278,8 @@ const shopifyClient = {
 			};
 		});
 	},
+
+
 	fetchProductByHandle: async (handle) => {
 		const query = `
     {
@@ -278,6 +298,7 @@ const shopifyClient = {
         variants(first: 1) {
           edges {
             node {
+              id
               price {
                 amount
               }
@@ -299,6 +320,8 @@ const shopifyClient = {
 		if (!product) return null;
 
 		const variant = product.variants.edges[0]?.node;
+		const variantId = variant?.id;
+		// console.log(variantId);
 
 		return {
 			id: product.id,
@@ -310,8 +333,10 @@ const shopifyClient = {
 			compareAtPrice: variant?.compareAtPrice?.amount || 0,
 			quantity: variant?.quantityAvailable ?? 0,
 			tags: product.tags || [],
+			variantId: variantId || null,
 		};
 	},
+
 	updateCustomerDetails: async (accessToken, shippingAddress, billingAddress) => {
 		const query = `
     mutation updateCustomer($token: String!, $input: CustomerUpdateInput!) {
@@ -426,7 +451,7 @@ const shopifyClient = {
 	// Create an order in Shopify with "Cash on Delivery" payment method
 	createOrder: async (accessToken, cartItems, shippingAddress, billingAddress) => {
 		const query = `
-    mutation createOrder($input: OrderCreateInput!) {
+    mutation createOrder($input: OrderInput!) {
       orderCreate(input: $input) {
         order {
           id
@@ -493,6 +518,79 @@ const shopifyClient = {
 			throw new Error(error.message || "An error occurred while creating the order.");
 		}
 	},
+	createDraftOrder: async (accessToken, cartItems, shippingAddress, billingAddress, formData) => {
+		const query = `
+    mutation draftOrderCreate($input: DraftOrderInput!) {
+      draftOrderCreate(input: $input) {
+        draftOrder {
+          id
+          name
+          invoiceUrl
+          createdAt
+        }
+        userErrors {
+          field
+          message
+        }
+      }
+    }
+  `;
+
+		const lineItems = cartItems.map((item) => ({
+
+			variantId: item.variantId,
+			quantity: item.quantity,
+		}));
+		console.log(lineItems);
+
+		const variables = {
+			input: {
+				lineItems,
+				shippingAddress: {
+					address1: shippingAddress.street,
+					address2: shippingAddress.apartment,
+					city: shippingAddress.city,
+					province: shippingAddress.state,
+					zip: shippingAddress.zip,
+					country: shippingAddress.country,
+					phone: shippingAddress.phone,
+				},
+				billingAddress: {
+					address1: billingAddress.street,
+					address2: billingAddress.apartment,
+					city: billingAddress.city,
+					province: billingAddress.state,
+					zip: billingAddress.zip,
+					country: billingAddress.country,
+					phone: billingAddress.phone,
+				},
+				useCustomerDefaultAddress: false,
+				email: formData.email,
+			},
+		};
+
+		try {
+			const response = await fetch('http://localhost:3001/draft-order', {
+				method: 'POST',
+				headers: { 'Content-Type': 'application/json' },
+				body: JSON.stringify({ query, variables }),
+			});
+
+			const data = await response.json();
+
+			if (data.errors) {
+				throw new Error(`Error: ${data.errors[0].message}`);
+			}
+
+			return data.data.draftOrderCreate.draftOrder;
+		} catch (error) {
+			console.error("Error creating draft order:", error);
+			throw new Error(error.message || "An error occurred while creating the draft order.");
+		}
+	}
+
+
+
 
 
 

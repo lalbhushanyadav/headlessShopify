@@ -25,7 +25,7 @@ const Navbar = () => {
     <nav className="text-gray-700 dark:text-white flex justify-center gap-8 py-3 text-sm font-medium">
       <div className="cursor-pointer relative group">
         <span className="flex gap-1 items-center">
-          <Link to="/" className="px-4 py-2 cursor-pointer text-gray-700">
+          <Link to="/" className="cursor-pointer text-gray-700 dark:text-white">
             Home
           </Link>
         </span>
@@ -36,13 +36,13 @@ const Navbar = () => {
           Collections
           {categories.length > 0 && <FaAngleDown />}
         </span>
-        <div className="absolute z-5 left-0 hidden bg-white group-hover:flex flex-col shadow-lg py-2 w-48">
+        <div className="absolute z-5 left-0 hidden bg-white dark:bg-black group-hover:flex flex-col shadow-lg py-2 w-50">
           {categories.length > 0 &&
             categories.map((category, index) => {
               return (
                 <Link
                   to={`/collection/${category.handle}`}
-                  className="px-4 py-2 cursor-pointer text-gray-700"
+                  className="cursor-pointer text-gray-700 dark:text-white px-4 py-1"
                   key={category.handle}
                 >
                   {category.title}

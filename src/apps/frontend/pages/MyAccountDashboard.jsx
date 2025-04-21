@@ -1,7 +1,7 @@
 import React from "react";
 
 function MyAccountDashboard() {
-  return <div>MyAccountDashboard</div>;
+  return <div>My Account</div>;
 }
 
 export default MyAccountDashboard;

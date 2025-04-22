@@ -31,7 +31,7 @@ export default function Home() {
       } catch (err) {
         console.error("Error loading carousel:", err);
       } finally {
-        setTimeout(() => setCarousalLoading(false), 1000);
+        setTimeout(() => setCarousalLoading(false), 2000);
       }
     };
     fetchCarousel();
@@ -63,7 +63,7 @@ export default function Home() {
       {/* Carousal  */}
       <div className="container mx-auto px-4">
       <div className="w-full mx-auto relative">
-        {carousalLoading.isLoading ? (
+        {carousalLoading ? (
           <SkeletonLoader
             type="homepagecarousel"
             count={1}

@@ -1,6 +1,0 @@
-# Shopify Storefront API Configuration
-VITE_SHOPIFY_STORE_URL=https://fre15x-zz.myshopify.com/api/2023-01/graphql.json
-VITE_STOREFRONT_ACCESS_TOKEN=b18dd06deea1ae62266b638b39db8272
-VITE_SHOPIFY_STOREFRONT_DOMAIN=fre15x-zz.myshopify.com
-VITE_SHOPIFY_STOREFRONT_TOKEN=b18dd06deea1ae62266b638b39db8272
- 

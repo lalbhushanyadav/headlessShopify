@@ -63,16 +63,16 @@ export default function ProductDetails() {
       <Breadcrumb />
       <div className="container mx-auto py-10 px-4 grid grid-cols-1 md:grid-cols-2 gap-10">
         <div>
-          <div className="relative">
+          <div className="relative pt-[100%] overflow-hidden rounded">
             {discount > 0 && (
-              <span className="absolute top-2 left-2 bg-pink-500 text-white text-xs px-2 py-1 rounded">
+              <span className="absolute top-2 left-2 bg-pink-500 text-white text-xs px-2 py-1 rounded z-5">
                 -{discount}%
               </span>
             )}
             <img
               src={product.images[0] ? product.images[0] : ""}
               alt={product.title}
-              className="w-full rounded"
+              className="w-full rounded absolute top-[50%] left-[50%] translate-[-50%]"
             />
           </div>
           <div className="flex gap-3 mt-4">
@@ -89,22 +89,22 @@ export default function ProductDetails() {
 
         {/* Right: Product Details */}
         <div>
-          <h1 className="text-2xl font-semibold mb-2">{product.title}</h1>
+          <h1 className="text-2xl font-semibold mb-2 text-black dark:text-white">{product.title}</h1>
 
           <div className="text-red-600 text-xl font-bold">
             ${price.toFixed(2)}
             {comparePrice > price && (
-              <span className="text-gray-400 line-through text-base ml-3">
+              <span className="text-gray-400 dark:text-gray-200 line-through text-base ml-3">
                 ${comparePrice.toFixed(2)}
               </span>
             )}
           </div>
 
-          <p className="text-gray-600 mt-4">{product.description}</p>
+          <p className="text-gray-600 dark:text-white mt-4">{product.description}</p>
 
           <div className="mt-6 flex items-center gap-4">
             <div className="flex items-center gap-2">
-              <label htmlFor="quantity" className="text-sm text-gray-700">
+              <label htmlFor="quantity" className="text-sm text-gray-700 dark:text-white">
                 Quantity:
               </label>
               <input
@@ -128,7 +128,7 @@ export default function ProductDetails() {
                     e.preventDefault();
                   }
                 }}
-                className="w-16 px-2 py-1 border rounded"
+                className="w-16 px-2 py-1 border rounded border-black dark:border-white text-black dark:text-white"
               />
             </div>
 

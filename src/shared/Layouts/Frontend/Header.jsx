@@ -94,12 +94,12 @@ export default function Header() {
 
         {/* Search Dropdown */}
         {showSearch && (
-          <div className="absolute top-full right-24 rounded-b shadow-md bg-white p-3 z-50 w-[300px]">
+          <div className="absolute top-full right-24 rounded-b shadow-md bg-white dark:bg-black p-3 z-50 w-[300px]">
             <div className="flex border border-gray-300">
               <input
                 type="text"
                 placeholder="Search"
-                className="flex-grow px-4 py-2 focus:outline-none text-gray-700"
+                className="flex-grow px-4 py-2 focus:outline-none text-gray-700 dark:text-white"
               />
               <button className="bg-[#b142f5] px-4 flex items-center justify-center">
                 <Search className="text-white w-4 h-4" />
@@ -114,12 +114,12 @@ export default function Header() {
             <ul className="space-y-2">
               {!isAuthenticated ? (
                 <>
-                  <li className="text-[#8225ff] dark:text-white font-medium cursor-pointer hover:underline">
+                  <li className="text-black dark:text-white font-medium cursor-pointer hover:underline">
                     <Link to="/login" className="px-4">
                       Login
                     </Link>
                   </li>
-                  <li className=" text-[#8225ff] dark:text-white cursor-pointer hover:underline">
+                  <li className=" text-black dark:text-white cursor-pointer hover:underline">
                     <Link to="/register" className="px-4">
                       Register
                     </Link>
@@ -127,13 +127,13 @@ export default function Header() {
                 </>
               ) : (
                 <>
-                  <li className="text-[#8225ff] dark:text-white cursor-pointer hover:underline">
+                  <li className="text-black dark:text-white cursor-pointer hover:underline">
                     <Link to="/myaccount" className="px-4">
                       My Account
                     </Link>
                   </li>
                   <li
-                    className="text-[#8225ff] dark:text-white cursor-pointer hover:underline"
+                    className="text-black dark:text-white cursor-pointer hover:underline"
                     onClick={() => handleAuth(isUserType, "logout")}
                   >
                     <span className="px-4">Logout</span>

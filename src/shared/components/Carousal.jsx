@@ -42,11 +42,11 @@ export default function HeroCarousel({ carouselItems = [] }) {
                   </div>
 
                   {/* Image */}
-                  <div className="w-full md:w-1/2 max-h-[600px] rounded overflow-hidden flex flex-col md:flex-row items-center justify-center gap-4 mt-10 md:mt-0">
+                  <div className="relative w-full md:w-1/2 max-h-[600px] rounded overflow-hidden flex flex-col md:flex-row items-center justify-center gap-4 mt-10 md:mt-0 pt-[50%]">
                     <img
                       src={item.imageLeft}
                       alt="Left"
-                      className="rounded-xl shadow-md object-cover object-center w-full h-full"
+                      className="absolute top-[50%] left-[50%] translate-[-50%] rounded-xl shadow-md object-cover object-center w-full h-full"
                     />
                   </div>
                 </div>

@@ -6,7 +6,6 @@ import GridView from "./GridView";
 import Breadcrumb from "../../../shared/components/Breadcrumbs";
 import { BsList, BsGrid } from "react-icons/bs";
 
-
 const Collection = () => {
   const { handle } = useParams();
   const [products, setProducts] = useState([]);
@@ -86,7 +85,9 @@ const Collection = () => {
               {/* Grid View Button */}
               <button
                 className={`p-2  cursor-pointer border border-gray-700 rounded ${
-                  isGridView ? "bg-gray-100 dark:bg-gray-400 border-black" : "bg-gray-200 dark:bg-gray-600"
+                  isGridView
+                    ? "bg-gray-100 dark:bg-gray-400 border-black"
+                    : "bg-gray-200 dark:bg-gray-600"
                 }`}
                 onClick={() => setIsGridView(true)}
                 title="Grid View"
@@ -96,7 +97,9 @@ const Collection = () => {
               {/* List View Button */}
               <button
                 className={`p-2 cursor-pointer border border-gray-700 rounded ${
-                  !isGridView ? "bg-gray-100 dark:bg-gray-400 border-black" : "bg-gray-200 dark:bg-gray-600 "
+                  !isGridView
+                    ? "bg-gray-100 dark:bg-gray-400 border-black"
+                    : "bg-gray-200 dark:bg-gray-600 "
                 }`}
                 onClick={() => setIsGridView(false)}
                 title="List View"

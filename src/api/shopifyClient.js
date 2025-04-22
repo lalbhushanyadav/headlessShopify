@@ -194,7 +194,7 @@ const shopifyClient = {
 
 			return result.customerAccessToken;
 		} catch (error) {
-			console.error("Login error:", error);
+			// console.error("Login error:", error);
 			throw new Error(error.message || "An error occurred during login.");
 		}
 	},
@@ -570,7 +570,7 @@ const shopifyClient = {
 		};
 
 		try {
-			const response = await fetch('http://localhost:3001/draft-order', {
+			const response = await fetch(`${import.meta.env.VITE_SHOPIFY_STORE_URL}/draft-order`, {
 				method: 'POST',
 				headers: { 'Content-Type': 'application/json' },
 				body: JSON.stringify({ query, variables }),
@@ -587,13 +587,7 @@ const shopifyClient = {
 			console.error("Error creating draft order:", error);
 			throw new Error(error.message || "An error occurred while creating the draft order.");
 		}
-	}
-
-
-
-
-
-
+	},
 
 };
 

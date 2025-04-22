@@ -27,7 +27,7 @@ export default function CartPage() {
 
   const clearCart = () => {
     dispatch({ type: "CLEAR_CART" });
-    addToast(Messages.Cart.itemRemoved, "success");
+    // addToast(Messages.Cart.itemRemoved, "success");
   };
 
   const total = cart.reduce((acc, item) => acc + item.price * item.quantity, 0);

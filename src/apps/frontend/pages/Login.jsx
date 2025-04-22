@@ -89,9 +89,7 @@ const Login = () => {
       // Step 2: Validate if the token exists and is valid
       const accessToken = tokenData.accessToken;
       if (!accessToken || accessToken.trim() === "") {
-        throw new Error(
-          "Invalid token received. Please check your login credentials."
-        );
+        throw new Error(GlobalTexts.Auth.loginError);
       }
 
       // Save the valid token in localStorage
@@ -112,16 +110,13 @@ const Login = () => {
         },
       });
       // Log customer data
-      console.log("Customer Info:", customer);
+      //   console.log("Customer Info:", customer);
 
       // Step 4: Handle successful login and navigation
       addToast(GlobalTexts.Auth.loginSuccess, "success");
-      navigate("/myaccount/dashboard");
+      navigate("/myaccount");
     } catch (error) {
-      console.error("Login or Fetch error:", error);
       addToast(GlobalTexts.Auth.loginError || "Error during login", "error");
-
-      // Optional: Remove any invalid token if an error occurs
       localStorage.removeItem("accessToken");
     } finally {
       setIsSubmitting(false);
@@ -135,7 +130,9 @@ const Login = () => {
         <div className="container mx-auto">
           <div className="flex justify-center items-center">
             <div className="bg-white dark:bg-gray-700 p-8 rounded-lg shadow-lg w-1/3">
-              <h2 className="text-2xl font-semibold text-center text-black dark:text-white mb-6">User Login</h2>
+              <h2 className="text-2xl font-semibold text-center text-black dark:text-white mb-6">
+                User Login
+              </h2>
               <form onSubmit={handleSubmit}>
                 {fields.map((field) => (
                   <InputField

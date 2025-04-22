@@ -48,7 +48,7 @@ const AccountOrders = () => {
         <p>No draft orders found.</p>
       ) : (
         <ul className="space-y-4">
-          {draftOrders.map(({ node: order }) => (
+          {draftOrders.map((order) => (
             <li key={order.id} className="border p-4 rounded-md shadow-sm">
               <div className="font-semibold">Name: {order.name}</div>
               {/* Safely rendering Email */}

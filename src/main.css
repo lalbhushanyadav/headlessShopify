@@ -34,11 +34,7 @@ body{
  	justify-content: center;
  }
 
- .thumbnail-item {
- 	display: flex;
- 	flex-direction: column;
- 	justify-content: space-between;
- }
+
 
  .thumbnail-item img {
  	object-fit: contain;

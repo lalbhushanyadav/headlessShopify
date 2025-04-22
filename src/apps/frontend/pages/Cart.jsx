@@ -35,10 +35,10 @@ export default function CartPage() {
   return (
     <div>
       <Breadcrumb />
-      <div className="container mx-auto px-4 py-10">
-        <table className="w-full text-left border">
+      <div className="container mx-auto py-10">
+        <table className="w-full text-left border border-black dark:border-white text-black dark:text-white">
           <thead>
-            <tr className="bg-gray-100">
+            <tr className="bg-gray-100 dark:bg-gray-800">
               <th className="p-3">Image</th>
               <th className="p-3">Product Name</th>
               <th className="p-3">Unit Price</th>
@@ -122,30 +122,30 @@ export default function CartPage() {
         </div>
 
         {/* Cart Summary */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-10">
-          <div className="border p-4">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-10 text-black dark:text-white">
+          <div className="border border-black dark:border-white p-4">
             <h4 className="font-semibold mb-2">Estimate Shipping And Tax</h4>
-            <input className="border p-2 w-full mb-2" placeholder="Country" />
-            <input className="border p-2 w-full mb-2" placeholder="State" />
+            <input className="border border-black dark:border-white p-2 w-full mb-2" placeholder="Country" />
+            <input className="border border-black dark:border-white p-2 w-full mb-2" placeholder="State" />
             <input
-              className="border p-2 w-full mb-2"
+              className="border border-black dark:border-white p-2 w-full mb-2"
               placeholder="Postal Code"
             />
             <button className="bg-purple-500 text-white w-full py-2 rounded">
               Get a Quote
             </button>
           </div>
-          <div className="border p-4">
+          <div className="border border-black dark:border-white p-4">
             <h4 className="font-semibold mb-2">Use Coupon Code</h4>
             <input
-              className="border p-2 w-full mb-2"
+              className="border border-black dark:border-white p-2 w-full mb-2"
               placeholder="Coupon Code"
             />
             <button className="bg-purple-500 text-white w-full py-2 rounded">
               Apply Coupon
             </button>
           </div>
-          <div className="border p-4">
+          <div className="border border-black dark:border-white p-4">
             <h4 className="font-semibold mb-2">Cart Total</h4>
             <div className="flex justify-between">
               <span>Total Products</span>

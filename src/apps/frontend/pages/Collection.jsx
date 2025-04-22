@@ -54,11 +54,7 @@ const Collection = () => {
           flex-direction: column;
           justify-content: center;
         }
-        .thumbnail-item {
-          display: flex;
-          flex-direction: column;
-          justify-content: space-between;
-        }
+       
         .thumbnail-item img {
           object-fit: contain;
         }
@@ -88,10 +84,10 @@ const Collection = () => {
             <div className="flex space-x-2">
               {/* Grid View Button */}
               <button
-                className={`p-2  cursor-pointer ${
+                className={`p-2  cursor-pointer border border-gray-700 rounded ${
                   isGridView
-                    ? "bg-gray-200 dark:bg-gray-800 border rounded"
-                    : ""
+                    ? "bg-gray-100 dark:bg-gray-400 border-black"
+                    : "bg-gray-200 dark:bg-gray-600"
                 }`}
                 onClick={() => setIsGridView(true)}
                 title="Grid View"
@@ -100,10 +96,10 @@ const Collection = () => {
               </button>
               {/* List View Button */}
               <button
-                className={`p-2  cursor-pointer ${
+                className={`p-2 cursor-pointer border border-gray-700 rounded ${
                   !isGridView
-                    ? "bg-gray-200 dark:bg-gray-800 border rounded"
-                    : ""
+                    ? "bg-gray-100 dark:bg-gray-400 border-black"
+                    : "bg-gray-200 dark:bg-gray-600 "
                 }`}
                 onClick={() => setIsGridView(false)}
                 title="List View"

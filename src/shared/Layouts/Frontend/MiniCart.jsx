@@ -44,7 +44,7 @@ export default function MiniCart({ isOpen, toggleCart }) {
 
       {/* Sidebar Cart */}
       <div
-        className={`fixed top-0 right-0 h-full w-80 bg-white z-[9999] shadow-lg transform transition-transform duration-300 ${
+        className={`fixed top-0 right-0 h-full w-80 bg-white dark:bg-black z-[9999] shadow-lg transform transition-transform duration-300 ${
           isOpen ? "translate-x-0" : "translate-x-full"
         }`}
       >
@@ -132,7 +132,7 @@ export default function MiniCart({ isOpen, toggleCart }) {
             </div> */}
 
             <button
-              className="w-full bg-black text-white py-2 rounded hover:bg-gray-800"
+              className="w-full bg-black text-white dark:bg-white dark:text-black py-2 rounded hover:bg-gray-800"
               onClick={() => {
                 toggleCart();
                 navigate("/cart");

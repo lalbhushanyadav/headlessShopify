@@ -51,8 +51,8 @@ const Collections = () => {
             </p>
             <div className="flex space-x-2">
               <button
-                className={`p-2 cursor-pointer ${
-                  isGridView ? "bg-gray-200 dark:bg-gray-800 border rounded" : ""
+                className={`p-2 cursor-pointer border border-gray-700 ${
+                  isGridView ? "bg-gray-100 dark:bg-gray-400 border rounded" : "bg-gray-200 dark:bg-gray-600"
                 }`}
                 onClick={() => setIsGridView(true)}
                 title="Grid View"
@@ -60,8 +60,8 @@ const Collections = () => {
                  <BsGrid />
               </button>
               <button
-                className={`p-2 cursor-pointer ${
-                  !isGridView ? "bg-gray-200 dark:bg-gray-800 border rounded" : ""
+                className={`p-2 cursor-pointer border border-gray-700 ${
+                  !isGridView ? "bg-gray-100 dark:bg-gray-400 border rounded" : "bg-gray-200 dark:bg-gray-600"
                 }`}
                 onClick={() => setIsGridView(false)}
                 title="List View"

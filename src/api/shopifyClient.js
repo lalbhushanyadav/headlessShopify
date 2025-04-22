@@ -570,7 +570,7 @@ const shopifyClient = {
 		};
 
 		try {
-			const response = await fetch(`${import.meta.env.VITE_SHOPIFY_STORE_URL}/draft-order`, {
+			const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}draft-order`, {
 				method: 'POST',
 				headers: { 'Content-Type': 'application/json' },
 				body: JSON.stringify({ query, variables }),

@@ -11,7 +11,7 @@ const SectionDescription = ({ sections, isCarousel = false }) => {
   const navigate = useNavigate();
   return (
     <div className="bg-blue-100 dark:bg-gray-900 py-12">
-      <div className="container mx-auto">
+      <div className="container mx-auto px-4">
           {isCarousel ? (
             <Swiper
               spaceBetween={0}

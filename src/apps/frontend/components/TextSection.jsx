@@ -2,7 +2,7 @@ import React from "react";
 
 const TextSection = ({ subtitle, title, description }) => {
   return (
-    <div className="container mx-auto">
+    <div className="container mx-auto px-4">
       <div className="text-center py-12 max-w-3xl mx-auto px-4">
         {subtitle && (
           <p className="text-sm text-gray-600 dark:text-gray-400 uppercase">{subtitle}</p>

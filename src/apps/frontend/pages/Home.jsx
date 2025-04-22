@@ -61,7 +61,7 @@ export default function Home() {
   return (
     <div className="bg-blue-100 dark:bg-gray-900">
       {/* Carousal  */}
-      <div className="container mx-auto">
+      <div className="container mx-auto px-4">
       <div className="w-full mx-auto relative">
         {carousalLoading.isLoading ? (
           <SkeletonLoader

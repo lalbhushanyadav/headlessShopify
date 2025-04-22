@@ -31,7 +31,7 @@ export default function Header() {
 
   return (
     <div className="bg-white dark:bg-black text-gray-700 dark:text-white text-sm relative z-[10000]">
-      <div className="container mx-auto">
+      <div className="container mx-auto px-4">
         {/* Top bar */}
         <div className="flex items-center justify-between py-2 md:py-4 lg:py-6">
           <div className="text-2xl font-bold">
@@ -94,7 +94,7 @@ export default function Header() {
 
         {/* Search Dropdown */}
         {showSearch && (
-          <div className="absolute top-full right-24 mt-2 shadow-md bg-white p-3 z-50 w-[300px]">
+          <div className="absolute top-full right-24 rounded-b shadow-md bg-white p-3 z-50 w-[300px]">
             <div className="flex border border-gray-300">
               <input
                 type="text"

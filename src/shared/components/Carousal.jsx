@@ -28,7 +28,7 @@ export default function HeroCarousel({ carouselItems = [] }) {
                     <p className="text-sm text-gray-600 dark:text-gray-400 mb-2">
                       New Arrival
                     </p>
-                    <h1 className="text-4xl md:text-6xl font-bold text-gray-800 dark:text-gray-200 leading-tight">
+                    <h1 className="text-3xl md:text-4xl lg:text-6xl font-bold text-gray-800 dark:text-gray-200 leading-tight">
                       {item.title}
                       <br />
                       <span className="text-gray-700 dark:text-white">

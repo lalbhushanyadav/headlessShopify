@@ -4,6 +4,7 @@ import { useAuth } from "../../../features/auth/context/AuthContext";
 import { useToast } from "../../../core/providers/ToastProvider";
 import GlobalTexts from "../../../shared/Utils/Message";
 import Navbar from "../../../apps/frontend/components/navbar";
+import logo from "../../../assets/logo-new-light.png";
 import { useNavigate, Link } from "react-router-dom";
 import { useCart } from "../../../features/cart/context/CartContext";
 import MiniCart from "./MiniCart";
@@ -30,13 +31,15 @@ export default function Header() {
   };
 
   return (
-    <div className="bg-white dark:bg-black text-gray-700 dark:text-white text-sm relative z-[10000]">
+    <div className="bg-emerald-700 dark:bg-black text-white dark:text-white text-sm relative z-[10000]">
       <div className="container mx-auto px-4">
         {/* Top bar */}
         <div className="flex items-center justify-between py-2 md:py-4 lg:py-6">
           <div className="text-2xl font-bold">
-            <Link to="/" className="px-4 py-2">
-              Demo<span className="text-black">.</span>
+            <Link to="/" className="block">
+              <figure>
+                <img src={logo} alt="" width="120" />
+              </figure>
             </Link>
           </div>
 

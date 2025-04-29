@@ -9,7 +9,7 @@ const SkeletonLoader = ({ type = "carousel", count = 1 }) => {
       skeletons.push(
         <div
           key={i}
-          className="w-full rounded-lg overflow-hidden shadow bg-white flex flex-col md:flex-row items-center justify-between bg-blue-100 px-6 md:px-20 py-10 min-h-[400px]"
+          className="w-full rounded-lg overflow-hidden shadow flex flex-col md:flex-row items-center justify-between bg-emerald-100 px-6 md:px-20 py-10 min-h-[400px]"
         >
           {/* Text */}
           <div className="w-full md:w-1/2 text-center md:text-left max-w-xl">

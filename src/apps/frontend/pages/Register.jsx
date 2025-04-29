@@ -120,7 +120,7 @@ const Register = () => {
   return (
     <>
       <Breadcrumb />
-      <div className="py-25 bg-gray-100 dark:bg-gray-900">
+      <div className="py-25 bg-gray-100 dark:bg-emerald-950">
         <div className="container mx-auto">
           <div className="flex justify-center items-center">
             <div className="bg-white dark:bg-gray-700 p-8 rounded-lg shadow-lg w-1/3">

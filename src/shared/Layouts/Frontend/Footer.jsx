@@ -1,16 +1,17 @@
 import Button from "../../components/Button";
+import logo from "../../../assets/logo-new-light.png";
 import { Link } from "react-router-dom";
 export default function FrontendFooter() {
   return (
-    <footer className="bg-white dark:bg-black text-gray-700 dark:text-gray-200 text-sm py-12">
+    <footer className="bg-emerald-700 dark:bg-black text-white dark:text-gray-200 text-sm py-12">
       <div className="container mx-auto px-4">
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-5 gap-10">
           {/* Logo & Copyright */}
           <div>
             <Link to="/" className="px-4 py-2">
-              <h1 className="text-2xl font-bold text-black dark:text-white mb-3">
-                Demo<span className="text-black dark:text-white">.</span>
-              </h1>
+              <figure>
+                <img src={logo} alt="" width="120" />
+              </figure>
             </Link>
 
             <p className="text-sm">
@@ -27,7 +28,9 @@ export default function FrontendFooter() {
               <li className="cursor-pointer hover:underline">About us</li>
               <li className="cursor-pointer hover:underline">Store location</li>
               <li className="cursor-pointer hover:underline">Contact</li>
-              <li className="cursor-pointer hover:underline">Orders tracking</li>
+              <li className="cursor-pointer hover:underline">
+                Orders tracking
+              </li>
             </ul>
           </div>
 
@@ -64,7 +67,7 @@ export default function FrontendFooter() {
               placeholder="Enter your email address..."
               className="w-full px-3 py-2 text-sm border-b border-gray-300 bg-transparent focus:outline-none"
             />
-            <button className="mt-4 underline text-black dark:text-white font-medium hover:text-gray-800 dark:hover:text-gray-200 cursor-pointer transition duration-300 ease-in-out">
+            <button className="mt-4 underline text-white font-medium hover:text-gray-800 dark:hover:text-gray-200 cursor-pointer transition duration-300 ease-in-out">
               SUBSCRIBE
             </button>
           </div>

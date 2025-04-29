@@ -1,62 +1,71 @@
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom"; // assuming you're using React Router
+import { useParams, useNavigate } from "react-router-dom";
 import shopifyClient from "../../../api/shopifyClient";
 import { useCart } from "../../../features/cart/context/CartContext";
 import Messages from "../../../shared/Utils/Message";
 import { useToast } from "../../../core/providers/ToastProvider";
-import { useNavigate } from "react-router-dom";
 import Breadcrumb from "../../../shared/components/Breadcrumbs";
+import ProductSwatches from "./ProductSwatches.jsx";
 
 export default function ProductDetails() {
   const { handle } = useParams();
   const [product, setProduct] = useState(null);
   const [selectedQuantity, setSelectedQuantity] = useState(1);
   const [iscartAdding, setIsCartAdding] = useState(false);
+  const [selectedVariantIndex, setSelectedVariantIndex] = useState(0);
   const { addToast } = useToast();
   const navigate = useNavigate();
-
   const { dispatch } = useCart();
 
-  const handleAddToCart = (product) => {
-    setIsCartAdding(1);
+  const [selectedData, setSelectedData] = useState(null);
+
+  const handleSelectedData = (data) => {
+    setSelectedData(data);
+    console.log(data);
+  };
+
+  const handleAddToCart = () => {
+    const variant = product.variants[selectedVariantIndex];
+    setIsCartAdding(true);
+
     dispatch({
       type: "ADD_ITEM",
       payload: {
-        id: product.id,
-        title: product.title,
-        price: product.price,
-        image: product.images[0],
-        quantity: selectedQuantity,
+        id: `${product.id}_${variant.id}`,
+        productId: product.id,
         handle: product.handle,
-        variantId: product.variantId,
+        title: product.title,
+        variantId: variant.id,
+        quantity: selectedQuantity,
+        price: parseFloat(variant.price),
+        selectedOptions: variant.selectedOptions,
+        image: product.images[0],
       },
     });
-    // setIsCartAdding(0);
-    setSelectedQuantity(1); // Optional: reset to 1 after adding
+
+    setSelectedQuantity(1);
     addToast(Messages.Cart.itemAdded, "success");
-    setIsCartAdding(0);
+    setIsCartAdding(false);
     navigate("/cart");
   };
 
   useEffect(() => {
-    const loadProducts = async () => {
+    const loadProduct = async () => {
       const result = await shopifyClient.fetchProductByHandle(handle);
-      //   console.log(result);
       setProduct(result);
     };
-    loadProducts();
+    loadProduct();
   }, [handle]);
 
   if (!product) return <div className="text-center py-10">Loading...</div>;
 
-  const variant = product.variants?.edges[0]?.node;
-  const price = parseFloat(product.price || 0);
-  const comparePrice = parseFloat(product.compareAtPrice || 0);
+  const variant = product.variants[selectedVariantIndex];
+  const price = parseFloat(variant?.price || 0);
+  const comparePrice = parseFloat(variant?.compareAtPrice || 0);
   const discount =
     comparePrice > price
       ? Math.round(((comparePrice - price) / comparePrice) * 100)
       : 0;
-  const quantity = product.quantity || 0;
 
   return (
     <div>
@@ -70,7 +79,7 @@ export default function ProductDetails() {
               </span>
             )}
             <img
-              src={product.images[0] ? product.images[0] : ""}
+              src={product.images[0]}
               alt={product.title}
               className="w-full rounded absolute top-[50%] left-[50%] translate-[-50%]"
             />
@@ -87,9 +96,10 @@ export default function ProductDetails() {
           </div>
         </div>
 
-        {/* Right: Product Details */}
         <div>
-          <h1 className="text-2xl font-semibold mb-2 text-black dark:text-white">{product.title}</h1>
+          <h1 className="text-2xl font-semibold mb-2 text-black dark:text-white">
+            {product.title}
+          </h1>
 
           <div className="text-red-600 text-xl font-bold">
             ${price.toFixed(2)}
@@ -100,11 +110,24 @@ export default function ProductDetails() {
             )}
           </div>
 
-          <p className="text-gray-600 dark:text-white mt-4">{product.description}</p>
+          <p className="text-gray-600 dark:text-white mt-4">
+            {product.description}
+          </p>
+
+          {product.options.length >= 1 && (
+            <ProductSwatches
+              options={product.options}
+              combinations={product.variants}
+              onSelectionChange={handleSelectedData}
+            />
+          )}
 
           <div className="mt-6 flex items-center gap-4">
             <div className="flex items-center gap-2">
-              <label htmlFor="quantity" className="text-sm text-gray-700 dark:text-white">
+              <label
+                htmlFor="quantity"
+                className="text-sm text-gray-700 dark:text-white"
+              >
                 Quantity:
               </label>
               <input
@@ -113,35 +136,23 @@ export default function ProductDetails() {
                 min="1"
                 value={selectedQuantity}
                 onChange={(e) => {
-                  const value = parseInt(e.target.value);
-                  if (!isNaN(value) && value >= 1) {
-                    setSelectedQuantity(value);
-                  } else {
-                    setSelectedQuantity(1);
-                  }
-                }}
-                onKeyDown={(e) => {
-                  if (
-                    e.key === "ArrowDown" &&
-                    parseInt(e.currentTarget.value) <= 1
-                  ) {
-                    e.preventDefault();
-                  }
+                  const val = Math.max(1, parseInt(e.target.value));
+                  setSelectedQuantity(val);
                 }}
                 className="w-16 px-2 py-1 border rounded border-black dark:border-white text-black dark:text-white"
               />
             </div>
 
             <button
-              onClick={() => handleAddToCart(product)}
+              onClick={handleAddToCart}
               className={`px-6 py-2 rounded text-white ${
-                quantity > 0
+                selectedData?.stockQuantity > 0
                   ? "bg-black hover:bg-gray-800"
                   : "bg-gray-400 cursor-not-allowed"
               }`}
-              disabled={quantity === 0 && selectedQuantity == 0}
+              disabled={selectedData?.stockQuantity < 1}
             >
-              {quantity === 0
+              {selectedData?.stockQuantity < 1
                 ? "Out of Stock"
                 : iscartAdding
                 ? "Going to Cart"
@@ -149,16 +160,12 @@ export default function ProductDetails() {
             </button>
           </div>
 
-          {/* Categories & Tags */}
           {product.tags.length > 0 && (
             <div className="mt-6 text-sm text-gray-500">
-              <div>
-                <strong>Tags:</strong> {product.tags.join(", ")}
-              </div>
+              <strong>Tags:</strong> {product.tags.join(", ")}
             </div>
           )}
 
-          {/* Social Share Icons (Static for now) */}
           <div className="flex gap-4 mt-6 text-gray-500">
             <i className="fab fa-facebook"></i>
             <i className="fab fa-twitter"></i>

@@ -1,44 +1,56 @@
 // src/features/cart/context/CartContext.jsx
 import { createContext, useContext, useReducer, useEffect } from "react";
 
+// Create context
 const CartContext = createContext();
 
+// Cart reducer logic
 const cartReducer = (state, action) => {
+  console.log(action);
   switch (action.type) {
     case "ADD_ITEM": {
-      const existingItem = state.find((item) => item.id === action.payload.id);
-      if (existingItem) {
-        return state.map((item) =>
-          item.id === action.payload.id
-            ? {
-                ...item,
-                quantity: action.payload.quantity,
-                handle: action.payload.handle,
-                variantId: action.payload.variantId,
-              }
-            : item
-        );
+      const { id, variantId } = action.payload;
+
+      const existingIndex = state.findIndex(
+        (item) => item.id === id && item.variantId === variantId
+      );
+
+      if (existingIndex !== -1) {
+        // Increase quantity if same product + same variant
+        const updatedItem = {
+          ...state[existingIndex],
+          quantity: state[existingIndex].quantity + action.payload.quantity,
+        };
+        return [
+          ...state.slice(0, existingIndex),
+          updatedItem,
+          ...state.slice(existingIndex + 1),
+        ];
       }
+
+      // If variant is different, add as a new entry
       return [...state, { ...action.payload }];
     }
+
     case "REMOVE_ITEM":
-      return state.filter((item) => item.id !== action.payload);
+      return state.filter((_, index) => index !== action.payload);
+
     case "CLEAR_CART":
       return [];
+
     default:
       return state;
   }
 };
 
+// Provider setup
 export const CartProvider = ({ children }) => {
   const initialCart = JSON.parse(localStorage.getItem("session_cart")) || [];
   const [cart, dispatch] = useReducer(cartReducer, initialCart);
 
-  // Save cart to localStorage whenever it changes
   useEffect(() => {
     localStorage.setItem("session_cart", JSON.stringify(cart));
   }, [cart]);
-  console.log(cart);
 
   return (
     <CartContext.Provider value={{ cart, dispatch }}>
@@ -47,4 +59,5 @@ export const CartProvider = ({ children }) => {
   );
 };
 
+// Custom hook
 export const useCart = () => useContext(CartContext);

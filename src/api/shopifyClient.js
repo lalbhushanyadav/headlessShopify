@@ -288,20 +288,7 @@ const shopifyClient = {
 			products,
 		};
 
-		// return data.collectionByHandle.products.edges.map((edge) => {
-		// 	const node = edge.node;
-		// 	const variant = node.variants.edges[0]?.node;
 
-		// 	return {
-		// 		id: node.id,
-		// 		handle: node.handle,
-		// 		title: node.title,
-		// 		image: node.images.edges[0]?.node.url || "",
-		// 		price: variant?.price?.amount || "",
-		// 		compareAtPrice: variant?.compareAtPrice?.amount || "",
-		// 		quantity: variant?.quantityAvailable ?? "N/A",
-		// 	};
-		// });
 	},
 
 
@@ -320,10 +307,15 @@ const shopifyClient = {
             }
           }
         }
-        variants(first: 1) {
+        variants(first: 50) {
           edges {
             node {
               id
+              title
+              selectedOptions {
+                name
+                value
+              }
               price {
                 amount
               }
@@ -333,6 +325,10 @@ const shopifyClient = {
               quantityAvailable
             }
           }
+        }
+        options {
+          name
+          values
         }
         tags
       }
@@ -344,9 +340,20 @@ const shopifyClient = {
 
 		if (!product) return null;
 
-		const variant = product.variants.edges[0]?.node;
-		const variantId = variant?.id;
-		// console.log(variantId);
+		const variants = product.variants.edges.map(({ node }) => ({
+			id: node.id,
+			title: node.title,
+			selectedOptions: node.selectedOptions,
+			price: node.price?.amount || 0,
+			compareAtPrice: node.compareAtPrice?.amount || 0,
+			quantity: node.quantityAvailable ?? 0,
+		}));
+
+		// The options field already provides the variation types (e.g., "Color", "Size") and their possible values.
+		const options = product.options.map(option => ({
+			name: option.name,
+			values: option.values,
+		}));
 
 		return {
 			id: product.id,
@@ -354,13 +361,14 @@ const shopifyClient = {
 			title: product.title,
 			description: product.description,
 			images: product.images.edges.map((edge) => edge.node.url),
-			price: variant?.price?.amount || 0,
-			compareAtPrice: variant?.compareAtPrice?.amount || 0,
-			quantity: variant?.quantityAvailable ?? 0,
+			variants,
+			options,  // Use the 'options' directly from Shopify
 			tags: product.tags || [],
-			variantId: variantId || null,
 		};
 	},
+
+
+
 
 	updateCustomerDetails: async (accessToken, shippingAddress, billingAddress) => {
 		const query = `

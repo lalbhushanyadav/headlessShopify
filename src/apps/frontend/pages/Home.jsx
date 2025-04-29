@@ -101,8 +101,8 @@ export default function Home() {
       {blogs.length > 0 && (
         <div className="container mx-auto px-4 pb-28">
           <div className="flex -mx-4">
-            {blogs.map((blog) => (
-              <div className="w-1/3 px-4 relative">
+            {blogs.map((blog, index) => (
+              <div className="w-1/3 px-4 relative" key={index}>
                 <BlogContent
                   image={blog.img}
                   title={blog.title}

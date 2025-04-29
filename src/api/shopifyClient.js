@@ -48,6 +48,7 @@ const shopifyClient = {
             node {
               id
               title
+			  description
               handle
               image {
                 url
@@ -71,6 +72,7 @@ const shopifyClient = {
             id
             title
             handle
+			description
             images(first: 1) {
               edges {
                 node {
@@ -107,6 +109,7 @@ const shopifyClient = {
 			return {
 				id: product.id,
 				title: product.title,
+				description: product.description,
 				handle: product.handle,
 				image: product.images.edges[0]?.node.url || "",
 				price: variant?.price?.amount || "",
@@ -227,6 +230,7 @@ const shopifyClient = {
   {
     collectionByHandle(handle: "${handle}") {
       title
+	  description
       products(first: 20) {
         edges {
           node {
@@ -263,7 +267,7 @@ const shopifyClient = {
 
 		const data = await callShopify(query);
 
-		return data.collectionByHandle.products.edges.map((edge) => {
+		const products = data.collectionByHandle.products.edges.map((edge) => {
 			const node = edge.node;
 			const variant = node.variants.edges[0]?.node;
 
@@ -277,6 +281,27 @@ const shopifyClient = {
 				quantity: variant?.quantityAvailable ?? "N/A",
 			};
 		});
+
+		return {
+			title: data.collectionByHandle.title,
+			description: data.collectionByHandle.description,
+			products,
+		};
+
+		// return data.collectionByHandle.products.edges.map((edge) => {
+		// 	const node = edge.node;
+		// 	const variant = node.variants.edges[0]?.node;
+
+		// 	return {
+		// 		id: node.id,
+		// 		handle: node.handle,
+		// 		title: node.title,
+		// 		image: node.images.edges[0]?.node.url || "",
+		// 		price: variant?.price?.amount || "",
+		// 		compareAtPrice: variant?.compareAtPrice?.amount || "",
+		// 		quantity: variant?.quantityAvailable ?? "N/A",
+		// 	};
+		// });
 	},
 
 

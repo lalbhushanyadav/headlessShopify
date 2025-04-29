@@ -9,9 +9,11 @@ import { BsList, BsGrid } from "react-icons/bs";
 const Collection = () => {
   const { handle } = useParams();
   const [products, setProducts] = useState([]);
+  const [description, setDescription] = useState("");
   const [sortOption, setSortOption] = useState("titleAsc");
   const [isGridView, setIsGridView] = useState(true);
   const navigate = useNavigate();
+
   const onClickhandler = (handle) => {
     navigate(`/product/${handle}`);
   };
@@ -22,29 +24,25 @@ const Collection = () => {
       const result = await shopifyClient.fetchProductsByCollectionHandle(
         handle
       );
-      setProducts(result);
+      setProducts(result.products || []);
+      setDescription(result.description || "");
     };
     loadProducts();
   }, [handle]);
 
-  // Sort products based on selected option
-  useEffect(() => {
-    let sorted = [...products];
-
+  // Sort products
+  const sortedProducts = [...products].sort((a, b) => {
     if (sortOption === "priceAsc") {
-      sorted.sort((a, b) => a.price - b.price);
+      return a.price - b.price;
     } else if (sortOption === "priceDesc") {
-      sorted.sort((a, b) => b.price - a.price);
+      return b.price - a.price;
     } else if (sortOption === "titleAsc") {
-      sorted.sort((a, b) => a.title.localeCompare(b.title));
+      return a.title.localeCompare(b.title);
     } else if (sortOption === "titleDesc") {
-      sorted.sort((a, b) => b.title.localeCompare(a.title));
-    } else {
-      sorted.sort((a, b) => a.title.localeCompare(b.title));
+      return b.title.localeCompare(a.title);
     }
-
-    setProducts(sorted);
-  }, [sortOption]);
+    return 0;
+  });
 
   return (
     <div>
@@ -54,7 +52,6 @@ const Collection = () => {
           flex-direction: column;
           justify-content: center;
         }
-       
         .thumbnail-item img {
           object-fit: contain;
         }
@@ -62,10 +59,17 @@ const Collection = () => {
           object-fit: cover;
         }
       `}</style>
+
       <Breadcrumb />
+
       <div className="container mx-auto px-4">
+        <div className="mb-6 text-gray-700 dark:text-gray-300">
+          {description}
+        </div>
+
         <div className="py-10">
           <div className="flex items-center justify-between mb-6 flex-wrap gap-4">
+            {/* Sort Dropdown */}
             <div className="flex items-center space-x-2">
               <select
                 className="border border-gray-500 text-black dark:text-white rounded px-3 py-2 text-sm"
@@ -78,13 +82,16 @@ const Collection = () => {
                 <option value="priceDesc">Price: High to Low</option>
               </select>
             </div>
+
+            {/* Product Count */}
             <p className="text-gray-600 dark:text-gray-400 text-sm">
-              Showing {products.length} of {products.length} results
+              Showing {sortedProducts.length} of {sortedProducts.length} results
             </p>
+
+            {/* View Toggle Buttons */}
             <div className="flex space-x-2">
-              {/* Grid View Button */}
               <button
-                className={`p-2  cursor-pointer border border-gray-700 rounded ${
+                className={`p-2 cursor-pointer border border-gray-700 rounded ${
                   isGridView
                     ? "bg-gray-100 dark:bg-gray-400 border-black"
                     : "bg-gray-200 dark:bg-gray-600"
@@ -94,12 +101,11 @@ const Collection = () => {
               >
                 <BsGrid />
               </button>
-              {/* List View Button */}
               <button
                 className={`p-2 cursor-pointer border border-gray-700 rounded ${
                   !isGridView
                     ? "bg-gray-100 dark:bg-gray-400 border-black"
-                    : "bg-gray-200 dark:bg-gray-600 "
+                    : "bg-gray-200 dark:bg-gray-600"
                 }`}
                 onClick={() => setIsGridView(false)}
                 title="List View"
@@ -108,7 +114,8 @@ const Collection = () => {
               </button>
             </div>
           </div>
-          {/* Display products in grid or list */}
+
+          {/* Product List */}
           <div
             className={`grid ${
               isGridView
@@ -116,7 +123,7 @@ const Collection = () => {
                 : "grid-cols-1"
             } gap-6`}
           >
-            {products.map((product, index) =>
+            {sortedProducts.map((product, index) =>
               isGridView ? (
                 <GridView
                   key={index}

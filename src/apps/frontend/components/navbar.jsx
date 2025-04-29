@@ -7,51 +7,52 @@ const Navbar = () => {
   const [categories, setCategories] = useState([]);
   useEffect(() => {
     const loadCollections = async () => {
+      // Fetch collections from Shopify
       const collections = await shopifyClient.fetchCollections();
 
-      const transformed = collections.map((item) => ({
-        title: item.title,
-        image: item.image?.url || "",
-        handle: item.handle,
-        fullPath: item.title,
-        description: item.description,
-      }));
-      //   console.log(transformed);
-
-      const handleMap = Object.fromEntries(
-        transformed.map((col) => [col.title.trim(), col.handle])
+      // Transform collections into a structured format with slug and hierarchy
+      const transformed = collections.map(
+        ({ title, image, handle, description }) => {
+          const parts = title.split(">").map((p) => p.trim());
+          const slug = parts.join("-").toLowerCase().replace(/\s+/g, "-"); // "For me > Demo" => "for-me-demo"
+          return {
+            title: parts[parts.length - 1], // Current level name
+            fullPath: title.trim(), // Full path with ' > '
+            slug, // Unique slug identifier
+            handle, // Shopify handle (for fetching or routing)
+            image: image?.url || "",
+            description,
+            parts, // For building hierarchy
+          };
+        }
       );
 
-      const root = [];
-      const lookup = {};
+      // Step 1: Build parent-child relationship (only immediate children)
+      const lookup = {}; // Will store each collection by its slug
 
-      transformed.forEach((collection) => {
-        const parts = collection.title.split(">").map((part) => part.trim());
-        let currentLevel = root;
-
-        parts.forEach((part, index) => {
-          const path = parts.slice(0, index + 1).join(" > ");
-
-          if (!lookup[path]) {
-            const newNode = {
-              title: part,
-              fullPath: path,
-              children: [],
-              handle: handleMap[path] || null, // ✅ Lookup correct handle
-              image: collection.image,
-              description: collection.description,
-            };
-
-            lookup[path] = newNode;
-            currentLevel.push(newNode);
-          }
-
-          currentLevel = lookup[path].children;
-        });
+      // Initialize each collection in lookup with empty children
+      transformed.forEach((item) => {
+        lookup[item.slug] = { ...item, children: [] };
       });
 
-      setCategories(root);
-      localStorage.setItem("shop_collections", JSON.stringify(root));
+      // Step 2: Build the parent-child relationships
+      const rootItems = [];
+
+      transformed.forEach((item) => {
+        // If the item has parent, add it to parent's children array
+        const parentSlug = item.slug.split("-").slice(0, -1).join("-"); // Parent slug (e.g., "for-me" for "for-me-demo")
+
+        if (parentSlug && lookup[parentSlug]) {
+          lookup[parentSlug].children.push(lookup[item.slug]);
+        } else {
+          // Otherwise, this is a root item
+          rootItems.push(lookup[item.slug]);
+        }
+      });
+
+      // Step 3: Set the categories and store in localStorage
+      setCategories(rootItems);
+      localStorage.setItem("shop_collections", JSON.stringify(rootItems));
     };
 
     loadCollections();
@@ -65,13 +66,18 @@ const Navbar = () => {
             className="cursor-pointer relative group"
             key={category.fullPath}
           >
-            <span>
-              <img src={category.image} title={category.title} width="20px" />
-            </span>
-            <span className="flex gap-1 items-center capitalize-text">
-              {category.title}
-              {category.children.length > 0 && <FaAngleDown />}
-            </span>
+            <Link
+              to={`/collection/${category.handle}`}
+              className="cursor-pointer text-gray-700 dark:text-white px-4 py-1"
+            >
+              <span>
+                <img src={category.image} title={category.title} width="20px" />
+              </span>
+              <span className="flex gap-1 items-center capitalize-text">
+                {category.title}
+                {category.children.length > 0 && <FaAngleDown />}
+              </span>
+            </Link>
 
             {/* Dropdown for categories with children */}
             {category.children.length > 0 && (

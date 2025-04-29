@@ -43,7 +43,7 @@ const shopifyClient = {
 	fetchCollections: async () => {
 		const query = `
       {
-        collections(first: 50) {
+        collections(first: 50) { 
           edges {
             node {
               id

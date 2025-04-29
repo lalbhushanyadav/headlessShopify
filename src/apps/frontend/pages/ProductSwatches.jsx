@@ -1,0 +1,138 @@
+import React, { useEffect, useState } from "react";
+
+const ProductSwatches = React.memo(
+  ({ options, combinations, onSelectionChange }) => {
+    const [selected, setSelected] = useState({});
+    const [stockStatus, setStockStatus] = useState({});
+
+    // Pre-select the first option for each option set
+    useEffect(() => {
+      const initial = options.reduce((acc, opt) => {
+        acc[opt.name] = opt.values[0];
+        return acc;
+      }, {});
+      setSelected(initial);
+    }, [options]);
+
+    // Update the stock status whenever combinations change
+    useEffect(() => {
+      const status = combinations.reduce((acc, variant) => {
+        const selectedCombination = variant.selectedOptions.reduce(
+          (acc, option) => {
+            acc[option.name] = option.value;
+            return acc;
+          },
+          {}
+        );
+        const variantKey = Object.values(selectedCombination).join("-");
+        acc[variantKey] = variant.quantity > 0 ? "In stock" : "Out of stock";
+        return acc;
+      }, {});
+      setStockStatus(status);
+    }, [combinations]);
+
+    // Update the selected option when a user clicks on a value
+    const handleSelect = (optionName, value) => {
+      setSelected((prev) => {
+        const newSelected = { ...prev, [optionName]: value };
+        setTimeout(() => {
+          const variantKey = getVariantKey(newSelected);
+          const variantId = getVariantId(variantKey);
+          const productId = "your-product-id"; // This could be dynamic if needed
+
+          //   // Notify parent component about the selection change
+          // 	onSelectionChange({ selected: newSelected, variantId, productId });
+
+          const stockQuantity = getStockQuantity(variantKey);
+
+          // Notify parent component about the selection change
+          onSelectionChange({
+            selected: newSelected,
+            variantId,
+            productId,
+            stockQuantity,
+          });
+        }, 0); // This defers the callback to avoid calling setState during render
+
+        return newSelected;
+      });
+    };
+
+    const getStockQuantity = (variantKey) => {
+      const variant = combinations.find((comb) => {
+        const selectedCombination = comb.selectedOptions.reduce(
+          (acc, option) => {
+            acc[option.name] = option.value;
+            return acc;
+          },
+          {}
+        );
+        const key = Object.values(selectedCombination).join("-");
+        return key === variantKey;
+      });
+      return variant ? variant.quantity : 0; // Return the quantity of the selected variant
+    };
+
+    const getVariantKey = (selectedOptions) => {
+      return Object.values(selectedOptions).join("-");
+    };
+
+    const getVariantId = (variantKey) => {
+      const variant = combinations.find((comb) => {
+        const selectedCombination = comb.selectedOptions.reduce(
+          (acc, option) => {
+            acc[option.name] = option.value;
+            return acc;
+          },
+          {}
+        );
+        const key = Object.values(selectedCombination).join("-");
+        return key === variantKey;
+      });
+      return variant ? variant.id : null;
+    };
+
+    const variantKey = getVariantKey(selected);
+    const currentStockStatus = stockStatus[variantKey];
+
+    return (
+      <div className="mt-6">
+        {options.map((option) => (
+          <div key={option.name} className="mb-4">
+            <div className="text-sm font-medium text-gray-800 dark:text-white mb-2">
+              {option.name}:
+            </div>
+            <div className="flex gap-2">
+              {option.values.map((value) => {
+                const isSelected = selected[option.name] === value;
+                const isOutOfStock =
+                  stockStatus[variantKey] === "Out of stock" &&
+                  selected[option.name] === value;
+
+                return (
+                  <button
+                    key={value}
+                    onClick={() => handleSelect(option.name, value)}
+                    className={`px-4 py-1 border rounded text-sm font-medium ${
+                      isSelected
+                        ? "bg-black text-white border-black"
+                        : "bg-white text-black border-gray-300"
+                    } ${isOutOfStock ? "bg-gray-200 text-gray-500" : ""}`}
+                    disabled={isOutOfStock}
+                  >
+                    {value}
+                    {isOutOfStock && (
+                      <span className="ml-2 text-red-500">🛑</span>
+                    )}
+                  </button>
+                );
+              })}
+            </div>
+          </div>
+        ))}
+      </div>
+    );
+  }
+);
+
+export default ProductSwatches;

@@ -42,7 +42,7 @@ const AccountOrders = () => {
   if (loading) return <p>Loading your orders...</p>;
 
   return (
-    <div className="container mx-auto">
+    <div className="container mx-auto px-4">
       <h1 className="text-2xl font-bold mb-4">Your Draft Orders</h1>
       {draftOrders.length === 0 ? (
         <p>No draft orders found.</p>

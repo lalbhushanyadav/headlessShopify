@@ -1,9 +1,12 @@
 import React, { useEffect, useState } from "react";
 import HeroCarousel from "../../../shared/components/Carousal";
 import SkeletonLoader from "../../../shared/components/SkeletonLoader";
-
+import blogImg1 from "../../../assets/blog-img-1.jpg";
+import blogImg2 from "../../../assets/blog-img-2.jpg";
+import blogImg3 from "../../../assets/blog-img-3.jpg";
 import SectionDescription from "../components/SectionDescription";
 import TextSection from "../components/TextSection";
+import BlogContent from "../components/BlogContent";
 // import shopifyClient from "../../../api/shopifyClient";
 
 const dummyImages = (seed, count, size = 300) =>
@@ -31,7 +34,7 @@ export default function Home() {
       } catch (err) {
         console.error("Error loading carousel:", err);
       } finally {
-        setTimeout(() => setCarousalLoading(false), 1000);
+        setTimeout(() => setCarousalLoading(false), 2000);
       }
     };
     fetchCarousel();
@@ -57,26 +60,59 @@ export default function Home() {
     title: "OUR BLOG",
     description: `Lorem ipsum dolor sit amet...`,
   };
-
+  const blogs = [
+    {
+      title: "Blog 1",
+      updatedBy: "By Admin",
+      img: blogImg1,
+    },
+    {
+      title: "Blog 2",
+      updatedBy: "By Admin",
+      img: blogImg2,
+    },
+    {
+      title: "Blog 3",
+      updatedBy: "By Admin",
+      img: blogImg3,
+    },
+  ];
   return (
-    <div className="bg-blue-100 dark:bg-gray-900">
+    <div className="bg-emerald-100 dark:bg-emerald-950">
       {/* Carousal  */}
-      <div className="container mx-auto">
-      <div className="w-full mx-auto relative">
-        {carousalLoading.isLoading ? (
-          <SkeletonLoader
-            type="homepagecarousel"
-            count={1}
-            isLoading={carousalLoading}
-          />
-        ) : (
-          <HeroCarousel carouselItems={carouselItems} />
-        )}
+      <div className="container mx-auto px-4">
+        <div className="w-full mx-auto relative">
+          {carousalLoading ? (
+            <SkeletonLoader
+              type="homepagecarousel"
+              count={1}
+              isLoading={carousalLoading}
+            />
+          ) : (
+            <HeroCarousel carouselItems={carouselItems} />
+          )}
+        </div>
       </div>
-      </div>
-
+      <TextSection {...welcomeText} className="py-12 pt-20" />
       <SectionDescription sections={categories} isCarousel={true} />
-      <TextSection {...welcomeText} />
+      {/* <BlogContent title="Welcome To Blog" /> */}
+      <TextSection {...blogText} className="pb-6" />
+
+      {blogs.length > 0 && (
+        <div className="container mx-auto px-4 pb-28">
+          <div className="flex -mx-4">
+            {blogs.map((blog) => (
+              <div className="w-1/3 px-4 relative">
+                <BlogContent
+                  image={blog.img}
+                  title={blog.title}
+                  updatedBy={blog.updatedBy}
+                />
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
     </div>
   );
 }

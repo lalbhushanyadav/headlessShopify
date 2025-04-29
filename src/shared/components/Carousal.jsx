@@ -9,51 +9,50 @@ import "swiper/css/pagination";
 export default function HeroCarousel({ carouselItems = [] }) {
   return (
     <>
-        <Swiper
-          modules={[Navigation, Pagination, Autoplay]}
-          navigation
-          pagination={{ clickable: true }}
-          slidesPerView={1}
-          slidesPerGroup={1}
-          className="!relative z-0 w-full overflow-hidden"
-        >
-          {carouselItems.map((item) => (
-            <div>
-              onClick={() => navigate(`/collection/${item.handle}`)}
-              className="cursor-pointer"
-              <SwiperSlide key={item.id}>
-                <div className="flex flex-col md:flex-row items-center justify-between pt-8 md:pt-10 lg:pb-5 lg:pt-15 min-h-[400px]">
-                  {/* Text */}
-                  <div className="w-full md:w-1/2 text-center md:text-left max-w-xl">
-                    <p className="text-sm text-gray-600 dark:text-gray-400 mb-2">
-                      New Arrival
-                    </p>
-                    <h1 className="text-4xl md:text-6xl font-bold text-gray-800 dark:text-gray-200 leading-tight">
-                      {item.title}
-                      <br />
-                      <span className="text-gray-700 dark:text-white">
-                        {item.subtitle}
-                      </span>
-                    </h1>
-                    {/* <button className="mt-6 px-8 py-4 border text-lg border-gray-800 text-gray-800 hover:bg-gray-800 hover:text-white">
+      <Swiper
+        modules={[Pagination, Autoplay]}
+        pagination={{ clickable: true }}
+        slidesPerView={1}
+        slidesPerGroup={1}
+        className="!relative z-0 w-full overflow-hidden"
+      >
+        {carouselItems.map((item) => (
+          <div>
+            onClick={() => navigate(`/collection/${item.handle}`)}
+            className="cursor-pointer"
+            <SwiperSlide key={item.id}>
+              <div className="flex flex-col md:flex-row items-center justify-between pt-8 md:pt-10 lg:pb-5 lg:pt-15 min-h-[400px]">
+                {/* Text */}
+                <div className="w-full md:w-1/2 text-center md:text-left max-w-xl">
+                  <p className="text-sm text-gray-600 dark:text-gray-400 mb-2">
+                    New Arrival
+                  </p>
+                  <h1 className="text-3xl md:text-4xl lg:text-6xl font-bold text-gray-800 dark:text-gray-200 leading-tight">
+                    {item.title}
+                    <br />
+                    <span className="text-gray-700 dark:text-white">
+                      {item.subtitle}
+                    </span>
+                  </h1>
+                  {/* <button className="mt-6 px-8 py-4 border text-lg border-gray-800 text-gray-800 hover:bg-gray-800 hover:text-white">
                     SHOP NOW
                   </button> */}
-                    <Button className="mt-6">SHOP NOW</Button>
-                  </div>
-
-                  {/* Image */}
-                  <div className="w-full md:w-1/2 max-h-[600px] rounded overflow-hidden flex flex-col md:flex-row items-center justify-center gap-4 mt-10 md:mt-0">
-                    <img
-                      src={item.imageLeft}
-                      alt="Left"
-                      className="rounded-xl shadow-md object-cover object-center w-full h-full"
-                    />
-                  </div>
+                  <Button className="mt-6">SHOP NOW</Button>
                 </div>
-              </SwiperSlide>
-            </div>
-          ))}
-        </Swiper>
+
+                {/* Image */}
+                <div className="relative w-full md:w-1/2 max-h-[600px] rounded overflow-hidden flex flex-col md:flex-row items-center justify-center gap-4 mt-10 md:mt-0 pt-[50%]">
+                  <img
+                    src={item.imageLeft}
+                    alt="Left"
+                    className="absolute top-[50%] left-[50%] translate-[-50%] rounded-xl shadow-md object-cover object-center w-full h-full"
+                  />
+                </div>
+              </div>
+            </SwiperSlide>
+          </div>
+        ))}
+      </Swiper>
       <style>{`
         .swiper-button-next,
         .swiper-button-prev {

@@ -33,16 +33,20 @@ const MyAccount = () => {
   };
 
   return (
-    <div className="flex min-h-screen bg-gray-50">
+    <div className="flex min-h-screen bg-gray-50 dark:bg-emerald-950">
       {/* Sidebar */}
-      <aside className="w-64 bg-white shadow-md p-6">
-        <h2 className="text-xl font-bold mb-6">My Account</h2>
+      <aside className="w-64 bg-white dark:bg-black shadow-md p-6">
+        <h2 className="text-xl font-bold mb-6 text-black dark:text-white">
+          My Account
+        </h2>
         <ul className="space-y-4">
           <li>
             <button
               onClick={() => setActiveTab("dashboard")}
               className={`w-full text-left font-medium ${
-                activeTab === "dashboard" ? "text-blue-600" : ""
+                activeTab === "dashboard"
+                  ? "text-blue-600 dark:text-blue-300"
+                  : " text-black dark:text-white"
               }`}
             >
               Dashboard
@@ -52,7 +56,9 @@ const MyAccount = () => {
             <button
               onClick={() => setActiveTab("orders")}
               className={`w-full text-left font-medium ${
-                activeTab === "orders" ? "text-blue-600" : ""
+                activeTab === "orders"
+                  ? "text-blue-600 dark:text-blue-300"
+                  : "text-black dark:text-white"
               }`}
             >
               My Orders
@@ -80,7 +86,9 @@ const MyAccount = () => {
       </aside>
 
       {/* Main Content */}
-      <main className="flex-1 p-8">{renderTabContent()}</main>
+      <main className="flex-1 p-8 text-black dark:text-white">
+        {renderTabContent()}
+      </main>
     </div>
   );
 };

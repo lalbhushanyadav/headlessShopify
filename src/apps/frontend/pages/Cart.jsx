@@ -35,7 +35,7 @@ export default function CartPage() {
   return (
     <div>
       <Breadcrumb />
-      <div className="container mx-auto py-10">
+      <div className="container mx-auto py-10 px-4">
         <table className="w-full text-left border border-black dark:border-white text-black dark:text-white">
           <thead>
             <tr className="bg-gray-100 dark:bg-gray-800">

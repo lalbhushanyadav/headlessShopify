@@ -34,7 +34,7 @@ export default function MiniCart({ isOpen, toggleCart }) {
     <>
       {/* Overlay */}
       <div
-        className={`fixed inset-0 bg-black/30 z-[9998] transition-opacity duration-300 ${
+        className={`fixed inset-0 bg-black/30 z-30 transition-opacity duration-300 ${
           isOpen
             ? "opacity-100 pointer-events-auto"
             : "opacity-0 pointer-events-none"
@@ -44,7 +44,7 @@ export default function MiniCart({ isOpen, toggleCart }) {
 
       {/* Sidebar Cart */}
       <div
-        className={`fixed top-0 right-0 h-full w-80 bg-white dark:bg-black z-[9999] shadow-lg transform transition-transform duration-300 ${
+        className={`fixed top-0 right-0 h-full w-80 bg-white text-black dark:bg-black z-40 shadow-lg transform transition-transform duration-300 dark:text-white ${
           isOpen ? "translate-x-0" : "translate-x-full"
         }`}
       >

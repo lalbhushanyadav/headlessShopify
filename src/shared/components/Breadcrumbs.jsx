@@ -59,7 +59,7 @@ const Breadcrumb = () => {
 
   return (
     <div className="">
-      <div className="container mx-auto">
+      <div className="container mx-auto px-4">
         <div className="flex flex-wrap gap-1 text-sm py-3 text-gray-700 dark:text-gray-300">
           {generateBreadcrumbs()}
         </div>

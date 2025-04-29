@@ -32,7 +32,7 @@ const Collections = () => {
   return (
     <div>
       <Breadcrumb />
-      <div className="container mx-auto">
+      <div className="container mx-auto px-4">
         <div className="py-10">
           <div className="flex items-center justify-between mb-6 flex-wrap gap-4">
             <div className="flex items-center space-x-2">

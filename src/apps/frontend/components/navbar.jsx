@@ -22,10 +22,10 @@ const Navbar = () => {
     loadCollections();
   }, []);
   return (
-    <nav className="text-gray-700 dark:text-white flex justify-center gap-8 py-3 text-sm font-medium">
+    <nav className="text-white dark:text-white flex justify-center gap-8 py-3 text-sm font-medium">
       <div className="cursor-pointer relative group">
         <span className="flex gap-1 items-center">
-          <Link to="/" className="cursor-pointer text-gray-700 dark:text-white">
+          <Link to="/" className="cursor-pointer text-white dark:text-white">
             Home
           </Link>
         </span>

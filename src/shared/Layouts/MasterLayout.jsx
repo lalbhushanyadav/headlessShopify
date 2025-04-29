@@ -11,7 +11,7 @@ const MasterLayout = () => {
   const { state } = useAuth();
   const userType = state.isUserType; // Accessing the isUserType directly
   const { pathname } = useLocation();
-  console.log(pathname);
+  //   console.log(pathname);
 
   const isAdminRoute = pathname.startsWith("/admin");
   return (

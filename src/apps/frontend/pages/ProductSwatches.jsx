@@ -1,7 +1,14 @@
 import React, { useEffect, useState } from "react";
 
 const ProductSwatches = React.memo(
-  ({ options, combinations, onSelectionChange, productId, productSlug }) => {
+  ({
+    options,
+    combinations,
+    onSelectionChange,
+    productId,
+    productSlug,
+    productName,
+  }) => {
     const [selected, setSelected] = useState({});
     const [stockStatus, setStockStatus] = useState({});
 
@@ -31,35 +38,6 @@ const ProductSwatches = React.memo(
       setStockStatus(status);
     }, [combinations]);
 
-    // Update the selected option when a user clicks on a value
-    // const handleSelect = (optionName, value) => {
-    //   setSelected((prev) => {
-    //     const newSelected = { ...prev, [optionName]: value };
-    //     setTimeout(() => {
-    //       const variantKey = getVariantKey(newSelected);
-    //       const variantId = getVariantId(variantKey);
-    //       const productId = "your-product-id"; // This could be dynamic if needed
-
-    //       //   // Notify parent component about the selection change
-    //       // 	onSelectionChange({ selected: newSelected, variantId, productId });
-
-    //       const stockQuantity = getStockQuantity(variantKey);
-    //       const stockPrice = getProductPrice(variantKey);
-
-    //       // Notify parent component about the selection change
-    //       onSelectionChange({
-    //         selected: newSelected,
-    //         variantId,
-    //         productId,
-    //         stockQuantity,
-    //         stockPrice,
-    //       });
-    //     }, 0); // This defers the callback to avoid calling setState during render
-
-    //     return newSelected;
-    //   });
-    // };
-
     const handleSelect = (optionName, value) => {
       setSelected((prev) => {
         const newSelected = { ...prev, [optionName]: value };
@@ -83,6 +61,7 @@ const ProductSwatches = React.memo(
           });
 
           const productLink = productSlug;
+          const productTitle = `${productName} - ${variant?.title || ""}`;
 
           // Notify parent component with all required cart data
           onSelectionChange({
@@ -92,6 +71,7 @@ const ProductSwatches = React.memo(
             stockQuantity,
             stockPrice,
             productLink,
+            productTitle,
             variantDetails: variant || null, // full variant object if needed
           });
         }, 0);

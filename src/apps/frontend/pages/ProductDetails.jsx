@@ -23,7 +23,7 @@ export default function ProductDetails() {
 
   const handleSelectedData = (data) => {
     setSelectedData(data);
-    console.log(data);
+    // console.log(data);
   };
 
   const handleAddToCart = () => {
@@ -37,13 +37,14 @@ export default function ProductDetails() {
       stockPrice,
       stockQuantity,
       variantDetails,
+      productTitle,
     } = selectedData;
 
     const payload = {
       id: variantId,
       productId,
       handle: productLink,
-      title: variantDetails?.product?.title || "Product",
+      title: productTitle || "Product",
       variantId,
       quantity: selectedQuantity,
       price: parseFloat(stockPrice),
@@ -54,8 +55,7 @@ export default function ProductDetails() {
       stockQuantity: stockQuantity,
     };
 
-    console.log(payload); // Final payload for cart
-    // return false;
+    // console.log(payload); // Final payload for cart
     dispatch({
       type: "ADD_ITEM",
       payload,
@@ -71,6 +71,26 @@ export default function ProductDetails() {
     const loadProduct = async () => {
       const result = await shopifyClient.fetchProductByHandle(handle);
       setProduct(result);
+
+      // Set default variant (first variant) when product loads
+      if (result.variants && result.variants.length > 0) {
+        const defaultVariant = result.variants[0];
+        // console.log(defaultVariant);
+        const selectedOptionsObject = {};
+        defaultVariant.selectedOptions.forEach((opt) => {
+          selectedOptionsObject[opt.name] = opt.value;
+        });
+        handleSelectedData({
+          variantDetails: defaultVariant,
+          variantId: defaultVariant.id,
+          productId: result.id,
+          productLink: result.handle,
+          selected: selectedOptionsObject,
+          stockPrice: defaultVariant.price,
+          stockQuantity: defaultVariant.quantity,
+          productTitle: result?.title || "Product",
+        });
+      }
     };
     loadProduct();
   }, [handle]);
@@ -140,6 +160,7 @@ export default function ProductDetails() {
               onSelectionChange={handleSelectedData}
               productId={product.id}
               productSlug={product.handle}
+              productName={product.title}
             />
           )}
 

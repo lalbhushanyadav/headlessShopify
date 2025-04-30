@@ -10,7 +10,7 @@ import { useCart } from "../../../features/cart/context/CartContext";
 import MiniCart from "./MiniCart";
 
 export default function Header() {
-  const [showSearch, setShowSearch] = useState(false);
+  // const [showSearch, setShowSearch] = useState(false);
   const [showProfile, setShowProfile] = useState(false);
   const [isCartOpen, setCartOpen] = useState(false);
   const { cart } = useCart();
@@ -32,10 +32,10 @@ export default function Header() {
 
   return (
     <>
-      <div className="bg-emerald-700 dark:bg-black text-white dark:text-white text-sm relative z-[10000]">
+      <div className="bg-blue-900 dark:bg-black text-white dark:text-white text-sm relative z-[10000]">
         <div className="container mx-auto px-4">
           {/* Top bar */}
-          <div className="flex items-center justify-between py-2 md:py-4 lg:py-6">
+          <div className="flex items-center justify-between py-2 md:py-4">
             <div className="text-2xl font-bold">
               <Link to="/" className="block">
                 <figure>
@@ -44,15 +44,24 @@ export default function Header() {
               </Link>
             </div>
 
+            <div className="relative w-2/3 lg:w-1/2">
+              <input
+                type="text"
+                placeholder="Search"
+                className="flex-grow px-4 py-2 w-full focus:outline-none border border-gray-200 text-gray-700 bg-gray-100 rounded dark:text-white"
+              />
+              <Search className="text-blue-900 w-4 h-4 absolute top-1/2 right-4 translate-y-[-50%] cursor-pointer" />
+            </div>
+
             <div className="flex items-center gap-5 relative">
               {/* Search Icon */}
-              <Search
+              {/* <Search
                 className="w-5 h-5 cursor-pointer"
                 onClick={() => {
                   setShowSearch(!showSearch);
                   setShowProfile(false);
                 }}
-              />
+              /> */}
 
               {/* Profile/User Icon */}
               <div
@@ -95,7 +104,7 @@ export default function Header() {
           </div>
 
           {/* Search Dropdown */}
-          {showSearch && (
+          {/* {showSearch && (
             <div className="absolute top-full right-24 rounded-b shadow-md bg-white dark:bg-black p-3 z-50 w-[300px]">
               <div className="flex border border-gray-300">
                 <input
@@ -108,7 +117,7 @@ export default function Header() {
                 </button>
               </div>
             </div>
-          )}
+          )} */}
 
           {/* Profile Dropdown */}
           {showProfile && (

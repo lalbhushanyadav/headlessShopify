@@ -33,7 +33,7 @@ const MyAccount = () => {
   };
 
   return (
-    <div className="flex min-h-screen bg-gray-50 dark:bg-emerald-950">
+    <div className="flex min-h-screen bg-gray-50 dark:bg-gray-900">
       {/* Sidebar */}
       <aside className="w-64 bg-white dark:bg-black shadow-md p-6">
         <h2 className="text-xl font-bold mb-6 text-black dark:text-white">

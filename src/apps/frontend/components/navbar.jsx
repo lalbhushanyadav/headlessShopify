@@ -59,49 +59,56 @@ const Navbar = () => {
   }, []);
 
   return (
-    <nav className="text-white dark:text-white flex justify-center gap-8 py-3 text-sm font-medium">
-      {categories.length > 0 &&
-        categories.map((category) => (
-          <div
-            className="cursor-pointer relative group"
-            key={category.fullPath}
-          >
-            <Link
-              to={`/collection/${category.handle}`}
-              className="cursor-pointer text-gray-700 dark:text-white px-4 py-1"
+    <div className="container mx-auto px-4 my-4">
+      <nav className="text-white dark:text-white flex justify-center items-center md:gap-3 lg:gap-8 py-5 text-sm font-medium bg-white">
+        {categories.length > 0 &&
+          categories.map((category) => (
+            <div
+              className="cursor-pointer relative group"
+              key={category.fullPath}
             >
-              <span>
-                <img src={category.image} title={category.title} width="20px" />
-              </span>
-              <span className="flex gap-1 items-center capitalize-text">
-                {category.title}
-                {category.children.length > 0 && <FaAngleDown />}
-              </span>
-            </Link>
+              <Link
+                to={`/collection/${category.handle}`}
+                className="cursor-pointer text-gray-700 dark:text-white md:px-3 lg:px-5 block"
+              >
+                <figure className="menu-img relative overflow-hidden pt-[40%] block min-h-[40px] mb-3">
+                  <img
+                    src={category.image}
+                    title={category.title}
+                    width="70px"
+                    className="absolute top-1/2 left-1/2 translate-[-50%] block"
+                  />
+                </figure>
+                <span className="flex gap-1 items-center capitalize-text font-bold">
+                  {category.title}
+                  {category.children.length > 0 && <FaAngleDown />}
+                </span>
+              </Link>
 
-            {/* Dropdown for categories with children */}
-            {category.children.length > 0 && (
-              <div className="absolute z-5 left-0 hidden bg-white dark:bg-black group-hover:flex flex-col shadow-lg py-2 w-50">
-                <ul className="space-y-2">
-                  {category.children.map((child) => (
-                    <li key={child.fullPath}>
-                      <Link
-                        to={`/collection/${child.handle}`}
-                        className="cursor-pointer text-gray-700 dark:text-white px-4 py-1"
-                      >
-                        {/* Running letters effect */}
-                        <span className="inline-block whitespace-nowrap capitalize-text">
-                          {child.title}
-                        </span>
-                      </Link>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            )}
-          </div>
-        ))}
-    </nav>
+              {/* Dropdown for categories with children */}
+              {category.children.length > 0 && (
+                <div className="absolute z-5 left-0 hidden bg-white dark:bg-black group-hover:flex flex-col shadow-lg py-2 w-50">
+                  <ul className="space-y-2">
+                    {category.children.map((child) => (
+                      <li key={child.fullPath}>
+                        <Link
+                          to={`/collection/${child.handle}`}
+                          className="cursor-pointer text-gray-700 dark:text-white px-4 py-1"
+                        >
+                          {/* Running letters effect */}
+                          <span className="inline-block whitespace-nowrap capitalize-text">
+                            {child.title}
+                          </span>
+                        </Link>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              )}
+            </div>
+          ))}
+      </nav>
+    </div>
   );
 };
 {

@@ -3,7 +3,7 @@ import logo from "../../../assets/logo-new-light.png";
 import { Link } from "react-router-dom";
 export default function FrontendFooter() {
   return (
-    <footer className="bg-emerald-700 dark:bg-black text-white dark:text-gray-200 text-sm py-12">
+    <footer className="bg-blue-900 dark:bg-black text-white dark:text-gray-200 text-sm py-12">
       <div className="container mx-auto px-4">
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-5 gap-10">
           {/* Logo & Copyright */}

@@ -13,6 +13,10 @@ export default function HeroCarousel({ carouselItems = [] }) {
         modules={[Pagination, Autoplay]}
         pagination={{ clickable: true }}
         slidesPerView={1}
+        autoplay={{
+          delay: 2000, // 3 seconds between slides
+          disableOnInteraction: true, // keeps autoplay running after user interacts
+        }}
         slidesPerGroup={1}
         className="!relative z-0 w-full overflow-hidden"
       >
@@ -21,13 +25,21 @@ export default function HeroCarousel({ carouselItems = [] }) {
             onClick={() => navigate(`/collection/${item.handle}`)}
             className="cursor-pointer"
             <SwiperSlide key={item.id}>
-              <div className="flex flex-col md:flex-row items-center justify-between pt-8 md:pt-10 lg:pb-5 lg:pt-15 min-h-[400px]">
+              <div className="flex flex-col md:flex-row items-center justify-center min-h-[250px]">
+                {/* Image */}
+                <div className="relative max-h-[600px] rounded-sm overflow-hidden flex flex-col md:flex-row items-center justify-center gap-4 mt-10 md:mt-0">
+                  <img
+                    src={item.imageLeft}
+                    alt="Left"
+                    className="rounded-xl shadow-md object-cover object-center w-full h-full"
+                  />
+                </div>
                 {/* Text */}
-                <div className="w-full md:w-1/2 text-center md:text-left max-w-xl">
+                <div className="text-center md:text-left md:ml-14 lg:ml-20">
                   <p className="text-sm text-gray-600 dark:text-gray-400 mb-2">
                     New Arrival
                   </p>
-                  <h1 className="text-3xl md:text-4xl lg:text-6xl font-bold text-gray-800 dark:text-gray-200 leading-tight">
+                  <h1 className="text-xl md:text-2xl lg:text-3xl font-bold text-gray-800 dark:text-gray-200 leading-tight">
                     {item.title}
                     <br />
                     <span className="text-gray-700 dark:text-white">
@@ -38,15 +50,6 @@ export default function HeroCarousel({ carouselItems = [] }) {
                     SHOP NOW
                   </button> */}
                   <Button className="mt-6">SHOP NOW</Button>
-                </div>
-
-                {/* Image */}
-                <div className="relative w-full md:w-1/2 max-h-[600px] rounded overflow-hidden flex flex-col md:flex-row items-center justify-center gap-4 mt-10 md:mt-0 pt-[50%]">
-                  <img
-                    src={item.imageLeft}
-                    alt="Left"
-                    className="absolute top-[50%] left-[50%] translate-[-50%] rounded-xl shadow-md object-cover object-center w-full h-full"
-                  />
                 </div>
               </div>
             </SwiperSlide>

@@ -10,7 +10,7 @@ import { useNavigate } from "react-router-dom";
 const SectionDescription = ({ sections, isCarousel = false }) => {
   const navigate = useNavigate();
   return (
-    <div className="bg-emerald-100  dark:bg-emerald-950 py-12">
+    <div className="bg-blue-100  dark:bg-gray-900 py-12">
       <div className="container mx-auto px-4">
         {isCarousel ? (
           <Swiper

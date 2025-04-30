@@ -109,9 +109,9 @@ export default function ProductDetails() {
   return (
     <div>
       <Breadcrumb />
-      <div className="container mx-auto py-10 px-4 grid grid-cols-1 md:grid-cols-2 gap-10">
+      <div className="container mx-auto pt-4 pb-10 px-4 grid grid-cols-1 md:grid-cols-2 gap-10">
         <div>
-          <div className="relative pt-[100%] overflow-hidden rounded">
+          <div className="relative pt-[80%] overflow-hidden rounded">
             {discount > 0 && (
               <span className="absolute top-2 left-2 bg-pink-500 text-white text-xs px-2 py-1 rounded z-5">
                 -{discount}%
@@ -120,7 +120,7 @@ export default function ProductDetails() {
             <img
               src={product.images[0]}
               alt={product.title}
-              className="w-full rounded absolute top-[50%] left-[50%] translate-[-50%]"
+              className="w-full rounded absolute top-[50%] left-[50%] translate-[-50%] object-cover object-center h-full"
             />
           </div>
           <div className="flex gap-3 mt-4">
@@ -164,11 +164,11 @@ export default function ProductDetails() {
             />
           )}
 
-          <div className="mt-6 flex items-center gap-4">
-            <div className="flex items-center gap-2">
+          <div className="mt-6 flex gap-4">
+            <div className="flex gap-2">
               <label
                 htmlFor="quantity"
-                className="text-sm text-gray-700 dark:text-white"
+                className="text-sm text-gray-700 dark:text-white flex items-center"
               >
                 Quantity:
               </label>

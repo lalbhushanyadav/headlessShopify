@@ -13,6 +13,8 @@ export default function ProductDetails() {
   const [selectedQuantity, setSelectedQuantity] = useState(1);
   const [iscartAdding, setIsCartAdding] = useState(false);
   const [selectedVariantIndex, setSelectedVariantIndex] = useState(0);
+  const [variantPrice, setVariantPrice] = useState(0);
+  const [normalPrice, SetNormalPrice] = useState(0);
   const { addToast } = useToast();
   const navigate = useNavigate();
   const { dispatch } = useCart();
@@ -21,26 +23,42 @@ export default function ProductDetails() {
 
   const handleSelectedData = (data) => {
     setSelectedData(data);
-    console.log(data);
+    // console.log(data);
   };
 
   const handleAddToCart = () => {
-    const variant = product.variants[selectedVariantIndex];
     setIsCartAdding(true);
 
+    const {
+      variantId,
+      productId,
+      productLink,
+      selected,
+      stockPrice,
+      stockQuantity,
+      variantDetails,
+      productTitle,
+    } = selectedData;
+
+    const payload = {
+      id: variantId,
+      productId,
+      handle: productLink,
+      title: productTitle || "Product",
+      variantId,
+      quantity: selectedQuantity,
+      price: parseFloat(stockPrice),
+      selectedOptions: selected,
+      image: product?.images?.[0] || null,
+      variantTitle: variantDetails?.title || "",
+      compareAtPrice: parseFloat(variantDetails?.compareAtPrice || 0),
+      stockQuantity: stockQuantity,
+    };
+
+    // console.log(payload); // Final payload for cart
     dispatch({
       type: "ADD_ITEM",
-      payload: {
-        id: `${product.id}_${variant.id}`,
-        productId: product.id,
-        handle: product.handle,
-        title: product.title,
-        variantId: variant.id,
-        quantity: selectedQuantity,
-        price: parseFloat(variant.price),
-        selectedOptions: variant.selectedOptions,
-        image: product.images[0],
-      },
+      payload,
     });
 
     setSelectedQuantity(1);
@@ -53,15 +71,36 @@ export default function ProductDetails() {
     const loadProduct = async () => {
       const result = await shopifyClient.fetchProductByHandle(handle);
       setProduct(result);
+
+      // Set default variant (first variant) when product loads
+      if (result.variants && result.variants.length > 0) {
+        const defaultVariant = result.variants[0];
+        // console.log(defaultVariant);
+        const selectedOptionsObject = {};
+        defaultVariant.selectedOptions.forEach((opt) => {
+          selectedOptionsObject[opt.name] = opt.value;
+        });
+        handleSelectedData({
+          variantDetails: defaultVariant,
+          variantId: defaultVariant.id,
+          productId: result.id,
+          productLink: result.handle,
+          selected: selectedOptionsObject,
+          stockPrice: defaultVariant.price,
+          stockQuantity: defaultVariant.quantity,
+          productTitle: result?.title || "Product",
+        });
+      }
     };
     loadProduct();
   }, [handle]);
 
   if (!product) return <div className="text-center py-10">Loading...</div>;
 
-  const variant = product.variants[selectedVariantIndex];
-  const price = parseFloat(variant?.price || 0);
-  const comparePrice = parseFloat(variant?.compareAtPrice || 0);
+  const activeVariant = selectedData?.variantDetails || product.variants[0];
+  const price = parseFloat(activeVariant?.price || 0);
+  const comparePrice = parseFloat(activeVariant?.compareAtPrice || 0);
+
   const discount =
     comparePrice > price
       ? Math.round(((comparePrice - price) / comparePrice) * 100)
@@ -119,6 +158,9 @@ export default function ProductDetails() {
               options={product.options}
               combinations={product.variants}
               onSelectionChange={handleSelectedData}
+              productId={product.id}
+              productSlug={product.handle}
+              productName={product.title}
             />
           )}
 

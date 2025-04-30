@@ -5,19 +5,22 @@ import Messages from "../../../shared/Utils/Message";
 const OrderSummary = ({ cart, dispatch, addToast }) => {
   const total = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
 
-  const handleQuantityChange = (id, delta) => {
-    const item = cart.find((i) => i.id === id);
-    const newQty = item.quantity + delta;
-    if (newQty < 1) return;
-    dispatch({
-      type: "ADD_ITEM",
-      payload: { ...item, quantity: newQty },
-    });
-    addToast(Messages.Cart.itemAdded, "success");
+  const handleQuantityChange = (variantId, amount) => {
+    const item = cart.find((item) => item.variantId === variantId);
+    if (!item) return;
+
+    const newQuantity = item.quantity + amount;
+    if (newQuantity >= 1) {
+      dispatch({
+        type: "UPDATE_QUANTITY",
+        payload: { variantId, quantity: newQuantity },
+      });
+      addToast(Messages.Cart.itemUpdated, "success");
+    }
   };
 
-  const removeItem = (id) => {
-    dispatch({ type: "REMOVE_ITEM", payload: id });
+  const removeItem = (variantId) => {
+    dispatch({ type: "REMOVE_ITEM", payload: variantId });
     addToast(Messages.Cart.itemRemoved, "success");
   };
 
@@ -42,6 +45,18 @@ const OrderSummary = ({ cart, dispatch, addToast }) => {
                 <div>
                   <h4 className="text-lg font-medium">{item.title}</h4>
                   <span className="text-gray-500 text-sm">${item.price}</span>
+                  {item.selectedOptions && (
+                    <div className="text-xs text-gray-500 mt-2">
+                      {Object.entries(item.selectedOptions).map(
+                        ([key, value]) => (
+                          <div key={key}>
+                            {key}:{" "}
+                            <span className="text-gray-700">{value}</span>
+                          </div>
+                        )
+                      )}
+                    </div>
+                  )}
                 </div>
               </div>
               <div className="flex items-center gap-4">

@@ -14,10 +14,10 @@ export default function MiniCart({ isOpen, toggleCart }) {
     const newQty = item.quantity + delta;
     if (newQty < 1) return;
     dispatch({
-      type: "ADD_ITEM",
-      payload: { ...item, quantity: newQty },
+      type: "UPDATE_QUANTITY",
+      payload: { variantId: item.variantId, quantity: newQty },
     });
-    addToast(Messages.Cart.itemAdded, "success");
+    addToast(Messages.Cart.itemUpdated, "success");
   };
 
   const removeItem = (id) => {
@@ -32,7 +32,6 @@ export default function MiniCart({ isOpen, toggleCart }) {
 
   return (
     <>
-      {/* Overlay */}
       <div
         className={`fixed inset-0 bg-black/30 z-30 transition-opacity duration-300 ${
           isOpen
@@ -41,8 +40,6 @@ export default function MiniCart({ isOpen, toggleCart }) {
         }`}
         onClick={toggleCart}
       />
-
-      {/* Sidebar Cart */}
       <div
         className={`fixed top-0 right-0 h-full w-80 bg-white text-black dark:bg-black z-40 shadow-lg transform transition-transform duration-300 dark:text-white ${
           isOpen ? "translate-x-0" : "translate-x-full"
@@ -54,7 +51,6 @@ export default function MiniCart({ isOpen, toggleCart }) {
             <X className="w-5 h-5" />
           </button>
         </div>
-
         <div className="p-4 space-y-4 overflow-y-auto max-h-[calc(100vh-220px)]">
           {cart.length === 0 ? (
             <p className="text-gray-500">Your cart is empty.</p>
@@ -70,7 +66,6 @@ export default function MiniCart({ isOpen, toggleCart }) {
                   alt={item.title}
                   className="w-16 h-16 object-cover rounded"
                 />
-
                 <div className="flex-1">
                   <h4
                     className="text-sm font-medium cursor-pointer"
@@ -81,76 +76,45 @@ export default function MiniCart({ isOpen, toggleCart }) {
                   >
                     {item.title}
                   </h4>
-
-                  <p className="text-xs text-gray-500">
-                    ${Number(item.price).toFixed(2)} each
-                  </p>
-                  <div className="flex items-center justify-between mt-2">
-                    <span className="text-sm font-medium cursor-pointer">
-                      ${(Number(item.price) * item.quantity).toFixed(2)}
-                    </span>
-                    <div className="flex items-center gap-2">
-                      <button
-                        className="px-2 border rounded"
-                        onClick={() => handleQuantityChange(item.id, -1)}
-                      >
-                        -
-                      </button>
-                      <span>{item.quantity}</span>
-                      <button
-                        className="px-2 border rounded"
-                        onClick={() => handleQuantityChange(item.id, 1)}
-                      >
-                        +
-                      </button>
+                  {item.selectedOptions && (
+                    <div className="text-xs text-gray-500 mt-2">
+                      {Object.entries(item.selectedOptions).map(
+                        ([key, value]) => (
+                          <div key={key}>
+                            {key}:{" "}
+                            <span className="text-gray-700">{value}</span>
+                          </div>
+                        )
+                      )}
                     </div>
-                  </div>
+                  )}
+                </div>
+                <div className="text-right text-sm font-medium">
+                  ${Number(item.price * item.quantity).toFixed(2)}
                 </div>
                 <button
+                  className="text-red-600 text-xs"
                   onClick={() => removeItem(item.id)}
-                  className="text-red-500"
                 >
-                  &times;
+                  Remove
                 </button>
               </div>
             ))
           )}
         </div>
-
-        {/* Subtotal + Checkout */}
-        {cart.length > 0 && (
-          <div className="p-4 border-t space-y-2">
-            <div className="flex justify-between text-sm font-medium">
-              <span>Subtotal:</span>
-              <span>${Number(subtotal).toFixed(2)}</span>
-            </div>
-
-            {/* Placeholder for tax/shipping logic if needed */}
-            {/* <div className="flex justify-between text-sm text-gray-500">
-              <span>Tax & shipping:</span>
-              <span>Calculated at checkout</span>
-            </div> */}
-
-            <button
-              className="w-full bg-black text-white dark:bg-white dark:text-black py-2 rounded hover:bg-gray-800"
-              onClick={() => {
-                toggleCart();
-                navigate("/cart");
-              }}
-            >
-              Go to Cart
-            </button>
-            <button
-              className="w-full bg-[#8225ff] text-white py-2 rounded hover:bg-purple-700"
-              onClick={() => {
-                toggleCart();
-                navigate("/checkout");
-              }}
-            >
-              Proceed to Checkout
-            </button>
+        <div className="p-4 border-t">
+          <div className="flex justify-between text-sm">
+            <span>Subtotal</span>
+            <span>${subtotal.toFixed(2)}</span>
           </div>
-        )}
+          <Link
+            to="/checkout"
+            className="block bg-black text-white text-center py-2 mt-4 rounded-full"
+            onClick={toggleCart}
+          >
+            Checkout
+          </Link>
+        </div>
       </div>
     </>
   );

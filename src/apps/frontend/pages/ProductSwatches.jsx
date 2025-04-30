@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 
 const ProductSwatches = React.memo(
-  ({ options, combinations, onSelectionChange }) => {
+  ({ options, combinations, onSelectionChange, productId, productSlug }) => {
     const [selected, setSelected] = useState({});
     const [stockStatus, setStockStatus] = useState({});
 
@@ -32,30 +32,87 @@ const ProductSwatches = React.memo(
     }, [combinations]);
 
     // Update the selected option when a user clicks on a value
+    // const handleSelect = (optionName, value) => {
+    //   setSelected((prev) => {
+    //     const newSelected = { ...prev, [optionName]: value };
+    //     setTimeout(() => {
+    //       const variantKey = getVariantKey(newSelected);
+    //       const variantId = getVariantId(variantKey);
+    //       const productId = "your-product-id"; // This could be dynamic if needed
+
+    //       //   // Notify parent component about the selection change
+    //       // 	onSelectionChange({ selected: newSelected, variantId, productId });
+
+    //       const stockQuantity = getStockQuantity(variantKey);
+    //       const stockPrice = getProductPrice(variantKey);
+
+    //       // Notify parent component about the selection change
+    //       onSelectionChange({
+    //         selected: newSelected,
+    //         variantId,
+    //         productId,
+    //         stockQuantity,
+    //         stockPrice,
+    //       });
+    //     }, 0); // This defers the callback to avoid calling setState during render
+
+    //     return newSelected;
+    //   });
+    // };
+
     const handleSelect = (optionName, value) => {
       setSelected((prev) => {
         const newSelected = { ...prev, [optionName]: value };
         setTimeout(() => {
           const variantKey = getVariantKey(newSelected);
           const variantId = getVariantId(variantKey);
-          const productId = "your-product-id"; // This could be dynamic if needed
-
-          //   // Notify parent component about the selection change
-          // 	onSelectionChange({ selected: newSelected, variantId, productId });
-
+          const id = productId; // Make dynamic if needed
           const stockQuantity = getStockQuantity(variantKey);
+          const stockPrice = getProductPrice(variantKey);
 
-          // Notify parent component about the selection change
+          const variant = combinations.find((comb) => {
+            const selectedCombination = comb.selectedOptions.reduce(
+              (acc, option) => {
+                acc[option.name] = option.value;
+                return acc;
+              },
+              {}
+            );
+            const key = Object.values(selectedCombination).join("-");
+            return key === variantKey;
+          });
+
+          const productLink = productSlug;
+
+          // Notify parent component with all required cart data
           onSelectionChange({
             selected: newSelected,
             variantId,
             productId,
             stockQuantity,
+            stockPrice,
+            productLink,
+            variantDetails: variant || null, // full variant object if needed
           });
-        }, 0); // This defers the callback to avoid calling setState during render
+        }, 0);
 
         return newSelected;
       });
+    };
+
+    const getProductPrice = (variantKey) => {
+      const variant = combinations.find((comb) => {
+        const selectedCombination = comb.selectedOptions.reduce(
+          (acc, option) => {
+            acc[option.name] = option.value;
+            return acc;
+          },
+          {}
+        );
+        const key = Object.values(selectedCombination).join("-");
+        return key === variantKey;
+      });
+      return variant ? variant.price : 0; // Return the price of the selected variant
     };
 
     const getStockQuantity = (variantKey) => {

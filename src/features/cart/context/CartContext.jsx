@@ -1,26 +1,30 @@
 // src/features/cart/context/CartContext.jsx
+
 import { createContext, useContext, useReducer, useEffect } from "react";
 
 // Create context
 const CartContext = createContext();
 
-// Cart reducer logic
+// Cart reducer
 const cartReducer = (state, action) => {
-  console.log(action);
   switch (action.type) {
     case "ADD_ITEM": {
-      const { id, variantId } = action.payload;
+      const { variantId, quantity, stockQuantity } = action.payload;
 
       const existingIndex = state.findIndex(
-        (item) => item.id === id && item.variantId === variantId
+        (item) => item.variantId === variantId
       );
 
       if (existingIndex !== -1) {
-        // Increase quantity if same product + same variant
+        const existingItem = state[existingIndex];
+        const newQuantity = existingItem.quantity + quantity;
+        const cappedQuantity = Math.min(newQuantity, stockQuantity);
+
         const updatedItem = {
-          ...state[existingIndex],
-          quantity: state[existingIndex].quantity + action.payload.quantity,
+          ...existingItem,
+          quantity: cappedQuantity,
         };
+
         return [
           ...state.slice(0, existingIndex),
           updatedItem,
@@ -28,12 +32,19 @@ const cartReducer = (state, action) => {
         ];
       }
 
-      // If variant is different, add as a new entry
+      // New item
       return [...state, { ...action.payload }];
     }
 
     case "REMOVE_ITEM":
-      return state.filter((_, index) => index !== action.payload);
+      return state.filter((item) => item.variantId !== action.payload);
+
+    case "UPDATE_QUANTITY": {
+      const { variantId, quantity } = action.payload;
+      return state.map((item) =>
+        item.variantId === variantId ? { ...item, quantity } : item
+      );
+    }
 
     case "CLEAR_CART":
       return [];
@@ -43,7 +54,7 @@ const cartReducer = (state, action) => {
   }
 };
 
-// Provider setup
+// Provider
 export const CartProvider = ({ children }) => {
   const initialCart = JSON.parse(localStorage.getItem("session_cart")) || [];
   const [cart, dispatch] = useReducer(cartReducer, initialCart);

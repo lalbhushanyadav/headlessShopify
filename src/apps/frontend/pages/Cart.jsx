@@ -8,20 +8,22 @@ export default function CartPage() {
   const { cart, dispatch } = useCart();
   const { addToast } = useToast();
 
-  const handleQuantityChange = (id, amount) => {
-    const item = cart.find((item) => item.id === id);
+  const handleQuantityChange = (variantId, amount) => {
+    const item = cart.find((item) => item.variantId === variantId);
+    if (!item) return;
+
     const newQuantity = item.quantity + amount;
     if (newQuantity >= 1) {
       dispatch({
-        type: "ADD_ITEM",
-        payload: { ...item, quantity: newQuantity },
+        type: "UPDATE_QUANTITY",
+        payload: { variantId, quantity: newQuantity },
       });
-      addToast(Messages.Cart.itemAdded, "success");
+      addToast(Messages.Cart.itemUpdated, "success");
     }
   };
 
-  const removeItem = (id) => {
-    dispatch({ type: "REMOVE_ITEM", payload: id });
+  const removeItem = (variantId) => {
+    dispatch({ type: "REMOVE_ITEM", payload: variantId });
     addToast(Messages.Cart.itemRemoved, "success");
   };
 
@@ -64,28 +66,40 @@ export default function CartPage() {
               </tr>
             ) : (
               cart.map((item) => (
-                <tr key={item.id} className="border-t">
+                <tr key={item.variantId} className="border-t">
                   <td className="p-3">
-                    <Link to={"/product/" + item.handle}>
+                    <Link to={`/product/${item.handle}`}>
                       <img src={item.image} alt={item.title} className="w-16" />
                     </Link>
                   </td>
                   <td className="p-3">
-                    <Link to={"/product/" + item.handle}>{item.title} </Link>
+                    <Link to={`/product/${item.handle}`}>{item.title}</Link>
+                    {item.selectedOptions && (
+                      <div className="text-sm text-gray-500 mt-1">
+                        {Object.entries(item.selectedOptions).map(
+                          ([key, value]) => (
+                            <div key={key}>
+                              {key}:{" "}
+                              <span className="text-gray-700">{value}</span>
+                            </div>
+                          )
+                        )}
+                      </div>
+                    )}
                   </td>
                   <td className="p-3">${Number(item.price).toFixed(2)}</td>
                   <td className="p-3">
                     <div className="flex items-center gap-2">
                       <button
                         className="px-2 border"
-                        onClick={() => handleQuantityChange(item.id, -1)}
+                        onClick={() => handleQuantityChange(item.variantId, -1)}
                       >
                         -
                       </button>
                       <span>{item.quantity}</span>
                       <button
                         className="px-2 border"
-                        onClick={() => handleQuantityChange(item.id, 1)}
+                        onClick={() => handleQuantityChange(item.variantId, 1)}
                       >
                         +
                       </button>
@@ -97,7 +111,7 @@ export default function CartPage() {
                   <td className="p-3">
                     <button
                       className="text-red-600"
-                      onClick={() => removeItem(item.id)}
+                      onClick={() => removeItem(item.variantId)}
                     >
                       &times;
                     </button>
@@ -125,8 +139,14 @@ export default function CartPage() {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-10 text-black dark:text-white">
           <div className="border border-black dark:border-white p-4">
             <h4 className="font-semibold mb-2">Estimate Shipping And Tax</h4>
-            <input className="border border-black dark:border-white p-2 w-full mb-2" placeholder="Country" />
-            <input className="border border-black dark:border-white p-2 w-full mb-2" placeholder="State" />
+            <input
+              className="border border-black dark:border-white p-2 w-full mb-2"
+              placeholder="Country"
+            />
+            <input
+              className="border border-black dark:border-white p-2 w-full mb-2"
+              placeholder="State"
+            />
             <input
               className="border border-black dark:border-white p-2 w-full mb-2"
               placeholder="Postal Code"

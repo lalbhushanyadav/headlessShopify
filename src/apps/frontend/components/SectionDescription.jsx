@@ -7,10 +7,10 @@ import "swiper/css/navigation";
 import "swiper/css/pagination";
 import { useNavigate } from "react-router-dom";
 
-const SectionDescription = ({ sections, isCarousel = false }) => {
+const SectionDescription = ({ sections, isCarousel = false, className }) => {
   const navigate = useNavigate();
   return (
-    <div className="bg-blue-100  dark:bg-gray-900 py-12">
+    <div className={`bg-blue-100  dark:bg-gray-900 py-12 ${className}`}>
       <div className="container mx-auto px-4">
         {isCarousel ? (
           <Swiper

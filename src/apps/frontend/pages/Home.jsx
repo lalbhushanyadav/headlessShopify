@@ -61,6 +61,11 @@ export default function Home() {
     title: "OUR BLOG",
     description: `Lorem ipsum dolor sit amet...`,
   };
+  const collectionText = {
+    subtitle: "",
+    title: "OUR Collections",
+    description: ``,
+  };
   const blogs = [
     {
       title: "Blog 1",
@@ -83,7 +88,10 @@ export default function Home() {
       {/* Carousal  */}
 
       <div className="container mx-auto px-4 mt-8">
-        <div className="pt-8 bg-blue-300 rounded">
+        <div
+          className="pt-8 bg-blue-300 rounded"
+          style={{ background: `url(${bannerBg}) no-repeat center` }}
+        >
           <div className="w-full mx-auto relative">
             {carousalLoading ? (
               <SkeletonLoader
@@ -97,8 +105,13 @@ export default function Home() {
           </div>
         </div>
       </div>
-      <TextSection {...welcomeText} className="py-12 pt-20" />
-      <SectionDescription sections={categories} isCarousel={true} />
+      <TextSection {...welcomeText} className="pb-12 pt-20" />
+      <TextSection {...collectionText} className="pb-0 pt-15" />
+      <SectionDescription
+        sections={categories}
+        isCarousel={true}
+        className="pt-3"
+      />
       {/* <BlogContent title="Welcome To Blog" /> */}
       <TextSection {...blogText} className="pb-6" />
 

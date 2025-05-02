@@ -6,6 +6,7 @@ import GlobalTexts from "../../../shared/Utils/Message";
 import Navbar from "../../../apps/frontend/components/navbar";
 import logo from "../../../assets/logo-new-light.png";
 import { useNavigate, Link } from "react-router-dom";
+import { FaAngleDown } from "react-icons/fa6";
 import { useCart } from "../../../features/cart/context/CartContext";
 import MiniCart from "./MiniCart";
 
@@ -13,6 +14,7 @@ export default function Header() {
   // const [showSearch, setShowSearch] = useState(false);
   const [showProfile, setShowProfile] = useState(false);
   const [isCartOpen, setCartOpen] = useState(false);
+
   const { cart } = useCart();
   const { addToast } = useToast();
 
@@ -29,7 +31,9 @@ export default function Header() {
     addToast(GlobalTexts.Auth.logoutSuccess, "success");
     navigate(type === "admin" ? "/admin/login" : "/");
   };
+  // const userDropdown = function{
 
+  // }
   return (
     <>
       <div className="bg-blue-900 dark:bg-black text-white dark:text-white text-sm relative z-[10000]">
@@ -68,13 +72,18 @@ export default function Header() {
                 className="flex items-center cursor-pointer"
                 onClick={() => {
                   setShowProfile(!showProfile);
-                  setShowSearch(false);
+                  // setShowSearch(false);
                 }}
               >
                 {isAuthenticated && (
                   <div className="mr-2">Welcome {user.firstName}</div>
                 )}
                 <User className="w-5 h-5" />
+                <FaAngleDown
+                  className={`ms-1 transition-all duration-300 ease-in-out${
+                    showProfile ? " rotate-[180deg]" : ""
+                  }`}
+                />
               </div>
 
               {/* Shuffle */}

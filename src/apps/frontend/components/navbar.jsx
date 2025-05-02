@@ -87,7 +87,7 @@ const Navbar = () => {
 
               {/* Dropdown for categories with children */}
               {category.children.length > 0 && (
-                <div className="absolute z-5 left-0 hidden bg-white dark:bg-black group-hover:flex flex-col shadow-lg py-2 w-50">
+                <div className="absolute z-5 left-0 invisible bg-white dark:bg-black opacity-0 group-hover:visible group-hover:opacity-100 :flex flex-col shadow-lg py-2 w-50 transition-all duration-300 ease-in-out">
                   <ul className="space-y-2">
                     {category.children.map((child) => (
                       <li key={child.fullPath}>

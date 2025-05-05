@@ -103,7 +103,13 @@ export default function Header() {
             </div> */}
 
               {/* Cart */}
-              <div className="relative" onClick={() => setCartOpen(true)}>
+              <div
+                className="relative"
+                onClick={() => {
+                  setCartOpen(true);
+                  setShowProfile(!showProfile);
+                }}
+              >
                 <ShoppingBag className="w-5 h-5 cursor-pointer" />
                 <span className="absolute -top-2 -right-2 bg-black text-white dark:bg-white dark:text-black text-xs w-5 h-5 flex items-center justify-center rounded-full">
                   {cart.length > 0 ? cart.length : 0}

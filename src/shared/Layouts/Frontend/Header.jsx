@@ -105,7 +105,7 @@ export default function Header() {
               {/* Cart */}
               <div className="relative" onClick={() => setCartOpen(true)}>
                 <ShoppingBag className="w-5 h-5 cursor-pointer" />
-                <span className="absolute -top-2 -right-2 bg-black text-white text-xs w-5 h-5 flex items-center justify-center rounded-full">
+                <span className="absolute -top-2 -right-2 bg-black text-white dark:bg-white dark:text-black text-xs w-5 h-5 flex items-center justify-center rounded-full">
                   {cart.length > 0 ? cart.length : 0}
                 </span>
               </div>
@@ -130,7 +130,7 @@ export default function Header() {
 
           {/* Profile Dropdown */}
           {showProfile && (
-            <div className="absolute top-full right-[130px] shadow-md bg-white dark:bg-black p-4 z-50 w-[200px] text-sm rounded-b-sm">
+            <div className="absolute top-full right-[130px] shadow-md bg-white shadow-gray-300 dark:shadow-gray-700 dark:bg-black p-4 z-50 w-[200px] text-sm rounded-b-sm">
               <ul className="space-y-2">
                 {!isAuthenticated ? (
                   <>

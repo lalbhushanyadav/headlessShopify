@@ -47,7 +47,7 @@ export default function MiniCart({ isOpen, toggleCart }) {
       >
         <div className="p-4 border-b flex justify-between items-center">
           <h2 className="text-lg font-semibold">Your Cart</h2>
-          <button onClick={toggleCart}>
+          <button onClick={toggleCart} className="cursor-pointer">
             <X className="w-5 h-5" />
           </button>
         </div>
@@ -55,8 +55,13 @@ export default function MiniCart({ isOpen, toggleCart }) {
           {cart.length === 0 ? (
             <p className="text-gray-500">Your cart is empty.</p>
           ) : (
-            cart.map((item) => (
-              <div key={item.id} className="flex gap-4 border-b pb-4">
+            cart.map((item, i) => (
+              <div
+                key={item.id}
+                className={`flex gap-4 ${
+                  i < item.length - 1 ? "border-b pb-4" : ""
+                }`}
+              >
                 <img
                   onClick={() => {
                     toggleCart();
@@ -82,7 +87,9 @@ export default function MiniCart({ isOpen, toggleCart }) {
                         ([key, value]) => (
                           <div key={key}>
                             {key}:{" "}
-                            <span className="text-gray-700">{value}</span>
+                            <span className="text-gray-700 dark:text-gray-300">
+                              {value}
+                            </span>
                           </div>
                         )
                       )}
@@ -109,7 +116,7 @@ export default function MiniCart({ isOpen, toggleCart }) {
           </div>
           <Link
             to="/checkout"
-            className="block bg-black text-white text-center py-2 mt-4 rounded-full"
+            className="block bg-black dark:bg-white text-white dark:text-black text-center py-2 mt-4 rounded-full"
             onClick={toggleCart}
           >
             Checkout

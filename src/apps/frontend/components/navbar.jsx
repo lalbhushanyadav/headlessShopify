@@ -60,7 +60,7 @@ const Navbar = () => {
 
   return (
     <div className="container mx-auto px-4 my-4">
-      <nav className="text-white dark:text-white flex justify-center items-center md:gap-3 lg:gap-8 py-5 text-sm font-medium bg-white">
+      <nav className="text-white dark:text-white flex justify-center items-center md:gap-3 lg:gap-8 py-5 text-sm font-medium bg-white dark:bg-black">
         {categories.length > 0 &&
           categories.map((category) => (
             <div
@@ -69,7 +69,7 @@ const Navbar = () => {
             >
               <Link
                 to={`/collection/${category.handle}`}
-                className="cursor-pointer text-gray-700 dark:text-white md:px-3 lg:px-5 block"
+                className="cursor-pointer text-gray-700 dark:text-gray-300 md:px-3 lg:px-5 block"
               >
                 <figure className="menu-img relative overflow-hidden pt-[40%] block min-h-[40px] mb-3">
                   <img
@@ -93,7 +93,7 @@ const Navbar = () => {
                       <li key={child.fullPath}>
                         <Link
                           to={`/collection/${child.handle}`}
-                          className="cursor-pointer text-gray-700 dark:text-white px-4 py-1"
+                          className="cursor-pointer text-gray-700 dark:text-gray-300 px-4 py-1"
                         >
                           {/* Running letters effect */}
                           <span className="inline-block whitespace-nowrap capitalize-text">

@@ -14,7 +14,10 @@ const InputField = ({
   options,
 }) => (
   <div className="mb-5">
-    <label htmlFor={id} className="block text-gray-700 font-medium mb-1">
+    <label
+      htmlFor={id}
+      className="block text-gray-700 dark:text-gray-300 font-medium mb-1"
+    >
       {label}
     </label>
     {options ? (
@@ -166,7 +169,7 @@ const CustomerForm = ({ cart, dispatch, authState, addToast, navigate }) => {
   };
 
   return (
-    <div className="w-full lg:w-2/3 bg-white p-8 rounded-lg shadow-lg">
+    <div className="w-full lg:w-2/3 bg-white dark:bg-black text-black dark:text-white p-8 rounded-lg shadow-lg">
       <h2 className="text-3xl font-semibold text-center mb-6">Checkout</h2>
       <form onSubmit={handlePlaceOrder}>
         <h3 className="text-2xl font-semibold mb-5">Billing Details</h3>
@@ -272,7 +275,7 @@ const CustomerForm = ({ cart, dispatch, authState, addToast, navigate }) => {
           <button
             type="submit"
             disabled={isSubmitting}
-            className={`w-full px-4 py-2 text-white bg-blue-500 rounded-md hover:bg-blue-600 focus:outline-none ${
+            className={`w-full px-4 py-2 bg-blue-900 hover:bg-blue-200 hover:text-blue-900 text-white transition-all duration-300 ease-in-out rounded-md focus:outline-none ${
               isSubmitting ? "opacity-50 cursor-not-allowed" : ""
             }`}
           >

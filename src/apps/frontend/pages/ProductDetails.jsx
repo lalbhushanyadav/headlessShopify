@@ -168,7 +168,7 @@ export default function ProductDetails() {
             <div className="flex gap-2">
               <label
                 htmlFor="quantity"
-                className="text-sm text-gray-700 dark:text-white flex items-center"
+                className="text-sm text-gray-700 dark:text-gray-300 flex items-center"
               >
                 Quantity:
               </label>
@@ -187,9 +187,9 @@ export default function ProductDetails() {
 
             <button
               onClick={handleAddToCart}
-              className={`px-6 py-2 rounded text-white ${
+              className={`px-6 py-2 rounded text-white dark:text-black transition-all duration-300 ease-in-out ${
                 selectedData?.stockQuantity > 0
-                  ? "bg-black hover:bg-gray-800"
+                  ? "bg-black hover:bg-gray-800 dark:bg-white dark:hover:bg-gray-200"
                   : "bg-gray-400 cursor-not-allowed"
               }`}
               disabled={selectedData?.stockQuantity < 1}

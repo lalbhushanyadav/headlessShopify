@@ -42,7 +42,7 @@ export default function HeroCarousel({ carouselItems = [] }) {
                   <h1 className="text-xl md:text-2xl lg:text-3xl font-bold text-gray-800 dark:text-gray-200 leading-tight">
                     {item.title}
                     <br />
-                    <span className="text-gray-700 dark:text-white">
+                    <span className="text-gray-700 dark:text-gray-300">
                       {item.subtitle}
                     </span>
                   </h1>

@@ -82,7 +82,9 @@ export default function CartPage() {
                           ([key, value]) => (
                             <div key={key}>
                               {key}:{" "}
-                              <span className="text-gray-700">{value}</span>
+                              <span className="text-gray-700 dark:text-gray-300">
+                                {value}
+                              </span>
                             </div>
                           )
                         )}

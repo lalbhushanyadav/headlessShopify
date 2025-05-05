@@ -68,9 +68,7 @@ const Collection = () => {
           flex-direction: column;
           justify-content: center;
         }
-        .thumbnail-item img {
-          object-fit: contain;
-        }
+        
         .grid-item img {
           object-fit: cover;
         }

@@ -40,7 +40,9 @@ const Breadcrumb = () => {
               <span className="text-gray-500">{"/"}</span>
             </>
           ) : (
-            <span className="text-gray-400 dark:text-gray-400">{displayName}</span>
+            <span className="text-gray-400 dark:text-gray-400">
+              {displayName}
+            </span>
           )}
         </span>
       );
@@ -48,7 +50,10 @@ const Breadcrumb = () => {
 
     return [
       <span key="home" className="flex items-center space-x-1">
-        <Link to="/" className="text-gray-700 hover:text-gray-900 dark:text-gray-100 dark:hover:text-gray-300 font-medium">
+        <Link
+          to="/"
+          className="text-gray-700 hover:text-gray-900 dark:text-gray-100 dark:hover:text-gray-300 font-medium"
+        >
           Home
         </Link>
         {pathnames.length > 0 && <span className="text-gray-500">{"/"}</span>}

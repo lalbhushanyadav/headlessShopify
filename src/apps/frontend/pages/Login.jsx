@@ -149,7 +149,7 @@ const Login = () => {
                 <button
                   type="submit"
                   disabled={isSubmitting}
-                  className={`w-full px-4 py-2 text-white bg-blue-500 rounded-md hover:bg-blue-600 focus:outline-none ${
+                  className={`w-full px-4 py-2 bg-blue-900 hover:bg-blue-200 hover:text-blue-900 text-white transition-all duration-300 ease-in-out rounded-md focus:outline-none ${
                     isSubmitting ? "opacity-50 cursor-not-allowed" : ""
                   }`}
                 >

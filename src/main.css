@@ -34,9 +34,9 @@ body {
   justify-content: center;
 }
 
-.thumbnail-item img {
+/* .thumbnail-item img {
   object-fit: contain;
-}
+} */
 
 .grid-item img {
   object-fit: cover;

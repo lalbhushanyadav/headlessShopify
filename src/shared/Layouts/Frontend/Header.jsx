@@ -57,7 +57,7 @@ export default function Header() {
               <Search className="text-blue-900 w-4 h-4 absolute top-1/2 right-4 translate-y-[-50%] cursor-pointer" />
             </div>
 
-            <div className="flex items-center gap-5 relative">
+            <div className="flex items-center gap-2 md:gap-3 lg:gap-5 relative">
               {/* Search Icon */}
               {/* <Search
                 className="w-5 h-5 cursor-pointer"
@@ -76,7 +76,7 @@ export default function Header() {
                 }}
               >
                 {isAuthenticated && (
-                  <div className="mr-2">Welcome {user.firstName}</div>
+                  <div className="mr-1 md:mr-2">Welcome {user.firstName}</div>
                 )}
                 <User className="w-5 h-5" />
                 <FaAngleDown

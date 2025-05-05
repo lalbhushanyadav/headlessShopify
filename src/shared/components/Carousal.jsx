@@ -25,9 +25,9 @@ export default function HeroCarousel({ carouselItems = [] }) {
             onClick={() => navigate(`/collection/${item.handle}`)}
             className="cursor-pointer"
             <SwiperSlide key={item.id}>
-              <div className="flex flex-col md:flex-row items-center justify-center min-h-[250px]">
+              <div className="flex flex-col md:flex-row items-center justify-center min-h-[250px] mb-4 md:mb-0">
                 {/* Image */}
-                <div className="relative max-h-[600px] rounded-sm overflow-hidden flex flex-col md:flex-row items-center justify-center gap-4 mt-10 md:mt-0">
+                <div className="relative max-h-[600px] rounded-sm overflow-hidden flex flex-col md:flex-row items-center justify-center gap-4 mb-3 md:mb-0 mt-10 md:mt-0">
                   <img
                     src={item.imageLeft}
                     alt="Left"
@@ -49,7 +49,7 @@ export default function HeroCarousel({ carouselItems = [] }) {
                   {/* <button className="mt-6 px-8 py-4 border text-lg border-gray-800 text-gray-800 hover:bg-gray-800 hover:text-white">
                     SHOP NOW
                   </button> */}
-                  <Button className="mt-6">SHOP NOW</Button>
+                  <Button className="mt-2 md:mt-4 lg:mt-6">SHOP NOW</Button>
                 </div>
               </div>
             </SwiperSlide>
@@ -86,8 +86,22 @@ export default function HeroCarousel({ carouselItems = [] }) {
         .dark .swiper-button-next, .dark .swiper-button-prev{
           color: #fff;
         }
+         @media only screen and (max-width: 1399px) {
+            .swiper-slide {
+              padding: 0 20px;
+            }
+          }
+          @media only screen and (max-width: 1169px) {
+            .swiper-slide {
+              padding: 0 15px;
+            }
+          }
+          @media only screen and (max-width: 767px) {
+            .swiper-slide {
+              padding: 0 10px;
+            }
+          }
           @media only screen and (max-width: 575px){
-            .swiper-slide{padding: 0 20px;}
             .swiper-button-next {
               right: 5px;
             }

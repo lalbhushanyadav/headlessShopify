@@ -7,7 +7,7 @@ const ThumbnailView = ({ data, customHandleEvent, showPrice }) => {
         <img
           src={data.image}
           alt={data.title}
-          className="cursor-pointer absolute top-1/2 left-1/2 translate-[-50%] w-full h-full object-cover" // Smaller height for thumbnail
+          className="cursor-pointer absolute top-1/2 left-1/2 translate-[-50%] w-full h-full object-cover object-top" // Smaller height for thumbnail
           onClick={customHandleEvent}
         />
       </figure>

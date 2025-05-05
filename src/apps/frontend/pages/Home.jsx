@@ -105,7 +105,10 @@ export default function Home() {
           </div>
         </div>
       </div>
-      <TextSection {...welcomeText} className="pb-12 pt-20" />
+      <TextSection
+        {...welcomeText}
+        className="pb-4 pt-12 md:pb-8 md:pt-16 lg:pb-12 lg:pt-20"
+      />
       <TextSection {...collectionText} className="pb-0 pt-15" />
       <SectionDescription
         sections={categories}
@@ -116,10 +119,13 @@ export default function Home() {
       <TextSection {...blogText} className="pb-6" />
 
       {blogs.length > 0 && (
-        <div className="container mx-auto px-4 pb-28">
-          <div className="flex -mx-4">
+        <div className="container mx-auto px-4 pb-10 lg:pb-16 xl:pb-28">
+          <div className="flex flex-wrap justify-center -mx-4">
             {blogs.map((blog, index) => (
-              <div className="w-1/3 px-4 relative" key={index}>
+              <div
+                className="w-full md:w-1/2 lg:w-1/3 px-4 relative mb-15 lg:mb-0"
+                key={index}
+              >
                 <BlogContent
                   image={blog.img}
                   title={blog.title}

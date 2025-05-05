@@ -32,12 +32,12 @@ const SectionDescription = ({ sections, isCarousel = false, className }) => {
                   className="cursor-pointer rounded-lg overflow-hidden"
                 >
                   <div className="text-center bg-white shadow-sm h-full">
-                    <div className="flex items-center justify-center h-70">
+                    <div className="flex items-center justify-center relative overflow-hidden pt-[60%]">
                       {data.image && data.title && (
                         <img
                           src={data.image}
                           alt={data.title}
-                          className="max-h-full object-contain"
+                          className="absolute top-1/2 left-1/2 translate-[-50%] object-cover object-center"
                         />
                       )}
                     </div>

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-
+import noImage from "../../../assets/no-image.jpg";
 const AccountOrders = () => {
   const [draftOrders, setDraftOrders] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -49,23 +49,36 @@ const AccountOrders = () => {
       ) : (
         <ul className="space-y-4">
           {draftOrders.map((order) => (
-            <li key={order.id} className="border p-4 rounded-md shadow-sm">
-              <div className="font-semibold">Name: {order.name}</div>
-              {/* Safely rendering Email */}
-              <div className="text-sm text-gray-500">
-                Email: {order.email || "Not available"}
+            <li key={order.id} className="p-4 rounded-md shadow-lg bg-gray-100">
+              <div className="flex items-center gap-2 mb-4">
+                <div>
+                  <span className="font-semibold">Name:</span> {order.name}
+                </div>{" "}
+                |{/* Safely rendering Email */}
+                <div>
+                  <span className="font-semibold">Email:</span>{" "}
+                  {order.email || "Not available"}
+                </div>
               </div>
 
-              <div className="mt-2 space-y-2">
+              <div className="mt-4 pb-4 border-b space-y-2">
                 {order.lineItems.edges.map(({ node }, idx) => (
-                  <div key={idx} className="flex items-center gap-3">
-                    {node.variant?.image?.url && (
-                      <img
-                        src={node.variant.image.url}
-                        alt={node.title}
-                        className="w-12 h-12 object-cover rounded"
-                      />
-                    )}
+                  <div key={idx} className={`flex items-center gap-3`}>
+                    <figure className="w-30 h-30 rounded overflow-hidden">
+                      {node.variant?.image?.url ? (
+                        <img
+                          src={node.variant.image.url}
+                          alt={node.title}
+                          className="object-cover w-full h-full"
+                        />
+                      ) : (
+                        <img
+                          src={noImage}
+                          alt="No Image"
+                          className="object-cover w-full h-full"
+                        />
+                      )}
+                    </figure>
                     <div>
                       <p>{node.title}</p>
                       <p className="text-sm text-gray-500">

@@ -16,7 +16,7 @@ const Checkout = () => {
   return (
     <div>
       <Breadcrumb />
-      <div className="flex justify-center items-start min-h-screen bg-gray-100 p-6">
+      <div className="flex justify-center items-start min-h-screen p-6">
         <div className="flex w-full max-w-6xl gap-6">
           <CustomerForm
             cart={cart}

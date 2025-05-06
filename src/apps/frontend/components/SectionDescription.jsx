@@ -7,10 +7,10 @@ import "swiper/css/navigation";
 import "swiper/css/pagination";
 import { useNavigate } from "react-router-dom";
 
-const SectionDescription = ({ sections, isCarousel = false }) => {
+const SectionDescription = ({ sections, isCarousel = false, className }) => {
   const navigate = useNavigate();
   return (
-    <div className="bg-emerald-100  dark:bg-emerald-950 py-12">
+    <div className={`bg-blue-100  dark:bg-gray-900 py-12 ${className}`}>
       <div className="container mx-auto px-4">
         {isCarousel ? (
           <Swiper
@@ -32,12 +32,12 @@ const SectionDescription = ({ sections, isCarousel = false }) => {
                   className="cursor-pointer rounded-lg overflow-hidden"
                 >
                   <div className="text-center bg-white shadow-sm h-full">
-                    <div className="flex items-center justify-center h-70">
+                    <div className="flex items-center justify-center relative overflow-hidden pt-[60%]">
                       {data.image && data.title && (
                         <img
                           src={data.image}
                           alt={data.title}
-                          className="max-h-full object-contain"
+                          className="absolute top-1/2 left-1/2 translate-[-50%] object-cover object-center"
                         />
                       )}
                     </div>

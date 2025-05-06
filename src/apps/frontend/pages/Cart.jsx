@@ -38,15 +38,17 @@ export default function CartPage() {
     <div>
       <Breadcrumb />
       <div className="container mx-auto py-10 px-4">
-        <table className="w-full text-left border border-black dark:border-white text-black dark:text-white">
+        <table className="w-full text-left border border-black dark:border-white text-black dark:text-white rounded">
           <thead>
-            <tr className="bg-gray-100 dark:bg-gray-800">
+            <tr className="bg-blue-900 text-white dark:bg-gray-950">
               <th className="p-3">Image</th>
               <th className="p-3">Product Name</th>
               <th className="p-3">Unit Price</th>
               <th className="p-3">Qty</th>
               <th className="p-3">Subtotal</th>
-              <th className="p-3">Action</th>
+              <th className="p-3" valign="middle" align="center">
+                Action
+              </th>
             </tr>
           </thead>
           <tbody>
@@ -80,7 +82,9 @@ export default function CartPage() {
                           ([key, value]) => (
                             <div key={key}>
                               {key}:{" "}
-                              <span className="text-gray-700">{value}</span>
+                              <span className="text-gray-700 dark:text-gray-300">
+                                {value}
+                              </span>
                             </div>
                           )
                         )}
@@ -108,7 +112,7 @@ export default function CartPage() {
                   <td className="p-3">
                     ${(Number(item.price) * item.quantity).toFixed(2)}
                   </td>
-                  <td className="p-3">
+                  <td className="p-3" align="center" valign="middle">
                     <button
                       className="text-red-600"
                       onClick={() => removeItem(item.variantId)}
@@ -125,12 +129,15 @@ export default function CartPage() {
         <div className="flex justify-between mt-6">
           <button
             onClick={clearCart}
-            className="bg-gray-200 px-4 py-2 rounded shadow"
+            className="bg-blue-900 hover:bg-blue-200 hover:text-blue-900 text-white transition-all duration-300 ease-in-out px-4 py-2 rounded shadow cursor-pointer"
             disabled={cart.length == 0}
           >
             Clear Shopping Cart
           </button>
-          <Link to="/" className="bg-gray-200 px-4 py-2 rounded shadow">
+          <Link
+            to="/"
+            className="bg-blue-900 hover:bg-blue-200 hover:text-blue-900 text-white transition-all duration-300 ease-in-out px-4 py-2 rounded shadow"
+          >
             Continue Shopping
           </Link>
         </div>
@@ -151,7 +158,7 @@ export default function CartPage() {
               className="border border-black dark:border-white p-2 w-full mb-2"
               placeholder="Postal Code"
             />
-            <button className="bg-purple-500 text-white w-full py-2 rounded">
+            <button className="bg-blue-900 hover:bg-blue-200 hover:text-blue-900 transition-all duration-300 ease-in-out text-white w-full py-2 rounded">
               Get a Quote
             </button>
           </div>
@@ -161,7 +168,7 @@ export default function CartPage() {
               className="border border-black dark:border-white p-2 w-full mb-2"
               placeholder="Coupon Code"
             />
-            <button className="bg-purple-500 text-white w-full py-2 rounded">
+            <button className="bg-blue-900 hover:bg-blue-200 hover:text-blue-900 text-white transition-all duration-300 ease-in-out w-full py-2 rounded">
               Apply Coupon
             </button>
           </div>
@@ -171,12 +178,12 @@ export default function CartPage() {
               <span>Total Products</span>
               <span>${total.toFixed(2)}</span>
             </div>
-            <div className="flex justify-between font-bold text-purple-600 mt-2">
+            <div className="flex justify-between font-bold text-black dark:text-white pt-3 border-t border-gray-600 dark:border-gray-300 mt-2">
               <span>Grand Total</span>
               <span>${total.toFixed(2)}</span>
             </div>{" "}
             <Link to={"/checkout/"}>
-              <button className="bg-purple-500 text-white w-full py-2 rounded mt-4 cursor-pointer">
+              <button className="bg-blue-900 hover:bg-blue-200 hover:text-blue-900 text-white transition-all duration-300 ease-in-out w-full py-2 rounded mt-4 cursor-pointer">
                 Proceed to Checkout
               </button>
             </Link>

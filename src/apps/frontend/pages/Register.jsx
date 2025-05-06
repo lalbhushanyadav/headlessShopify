@@ -120,7 +120,7 @@ const Register = () => {
   return (
     <>
       <Breadcrumb />
-      <div className="py-25 bg-gray-100 dark:bg-emerald-950">
+      <div className="py-25 bg-gray-100 dark:bg-gray-900">
         <div className="container mx-auto">
           <div className="flex justify-center items-center">
             <div className="bg-white dark:bg-gray-700 p-8 rounded-lg shadow-lg w-1/3">
@@ -143,7 +143,7 @@ const Register = () => {
                 <button
                   type="submit"
                   disabled={isSubmitting}
-                  className={`w-full px-4 py-2 text-white bg-blue-500 rounded-md hover:bg-blue-600 focus:outline-none ${
+                  className={`w-full px-4 py-2 bg-blue-900 hover:bg-blue-200 hover:text-blue-900 text-white transition-all duration-300 ease-in-out rounded-md focus:outline-none ${
                     isSubmitting ? "opacity-50 cursor-not-allowed" : ""
                   }`}
                 >

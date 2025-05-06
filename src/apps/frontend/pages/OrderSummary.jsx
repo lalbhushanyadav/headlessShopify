@@ -25,7 +25,7 @@ const OrderSummary = ({ cart, dispatch, addToast }) => {
   };
 
   return (
-    <div className="w-full lg:w-1/3 bg-white p-8 rounded-lg shadow-lg sticky top-6">
+    <div className="w-full lg:w-1/3 bg-white dark:bg-black text-black dark:text-white p-8 rounded-lg shadow-lg sticky top-6">
       <h3 className="text-2xl font-semibold mb-5">Order Summary</h3>
       <div className="space-y-5">
         {cart.length === 0 ? (
@@ -51,7 +51,9 @@ const OrderSummary = ({ cart, dispatch, addToast }) => {
                         ([key, value]) => (
                           <div key={key}>
                             {key}:{" "}
-                            <span className="text-gray-700">{value}</span>
+                            <span className="text-gray-700 dark:text-gray-300">
+                              {value}
+                            </span>
                           </div>
                         )
                       )}
@@ -60,7 +62,7 @@ const OrderSummary = ({ cart, dispatch, addToast }) => {
                 </div>
               </div>
               <div className="flex items-center gap-4">
-                <span className="font-medium text-gray-800">
+                <span className="font-medium text-gray-800 dark:text-gray-200">
                   ${(item.price * item.quantity).toFixed(2)}
                 </span>
                 <button

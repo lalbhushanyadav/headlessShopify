@@ -9,8 +9,12 @@ const SkeletonLoader = ({ type = "carousel", count = 1 }) => {
       skeletons.push(
         <div
           key={i}
-          className="w-full rounded-lg overflow-hidden shadow flex flex-col md:flex-row items-center justify-between bg-emerald-100 px-6 md:px-20 py-10 min-h-[400px]"
+          className="w-full rounded-lg overflow-hidden shadow flex flex-col md:flex-row items-center justify-center bg-blue-100 px-6 md:px-20 py-10 min-h-[250px]"
         >
+          {/* Image */}
+          <div className="w-full md:w-1/2 min-h-[200px] flex flex-col md:flex-row items-center justify-center gap-4 mt-10 md:mt-0">
+            <Skeleton height={208} width={208} className="rounded-xl" />
+          </div>
           {/* Text */}
           <div className="w-full md:w-1/2 text-center md:text-left max-w-xl">
             <p className="text-sm text-gray-600 mb-2">
@@ -23,11 +27,6 @@ const SkeletonLoader = ({ type = "carousel", count = 1 }) => {
             <button className="mt-6 px-8 py-4 border text-lg border-gray-300 text-gray-300 cursor-not-allowed">
               <Skeleton width={100} height={30} />
             </button>
-          </div>
-
-          {/* Image */}
-          <div className="w-full md:w-1/2 min-h-[600px] flex flex-col md:flex-row items-center justify-center gap-4 mt-10 md:mt-0">
-            <Skeleton height={208} width={208} className="rounded-xl" />
           </div>
         </div>
       );

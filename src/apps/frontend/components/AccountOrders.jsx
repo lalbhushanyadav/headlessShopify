@@ -49,7 +49,10 @@ const AccountOrders = () => {
       ) : (
         <ul className="space-y-4">
           {draftOrders.map((order) => (
-            <li key={order.id} className="p-4 rounded-md shadow-lg bg-gray-100">
+            <li
+              key={order.id}
+              className="p-4 rounded-md shadow-lg bg-gray-100 dark:bg-gray-800"
+            >
               <div className="flex items-center gap-2 mb-4">
                 <div>
                   <span className="font-semibold">Name:</span> {order.name}
@@ -61,39 +64,113 @@ const AccountOrders = () => {
                 </div>
               </div>
 
-              <div className="mt-4 pb-4 border-b space-y-2">
-                {order.lineItems.edges.map(({ node }, idx) => (
-                  <div key={idx} className={`flex items-center gap-3`}>
-                    <figure className="w-30 h-30 rounded overflow-hidden">
-                      {node.variant?.image?.url ? (
-                        <img
-                          src={node.variant.image.url}
-                          alt={node.title}
-                          className="object-cover w-full h-full"
-                        />
-                      ) : (
-                        <img
-                          src={noImage}
-                          alt="No Image"
-                          className="object-cover w-full h-full"
-                        />
-                      )}
-                    </figure>
-                    <div>
-                      <p>{node.title}</p>
-                      <p className="text-sm text-gray-500">
-                        Qty: {node.quantity}
-                      </p>
-                      <p className="text-sm text-gray-600">
-                        Price: ₹{node.variant.price}{" "}
-                        {order.totalPriceSet?.shopMoney?.currencyCode}
-                      </p>
-                    </div>
-                  </div>
-                ))}
+              <div className="mt-4 space-y-2">
+                <table className="w-full border-collapse table-auto border border-gray-400">
+                  <tr>
+                    <th
+                      width="15%"
+                      valign="middle"
+                      className="p-3 border-b border-gray-500 dark:border-gray-300"
+                    >
+                      Product Image
+                    </th>
+                    <th
+                      width="40%"
+                      align="center"
+                      valign="middle"
+                      className="p-3 border-b border-gray-500 dark:border-gray-300"
+                    >
+                      Product Name
+                    </th>
+                    <th
+                      width="20%"
+                      align="center"
+                      valign="middle"
+                      className="p-3 border-b border-gray-500 dark:border-gray-300"
+                    >
+                      Ordered Quntity
+                    </th>
+                    <th
+                      width="25%"
+                      align="center"
+                      valign="middle"
+                      className="p-3 border-b border-gray-500 dark:border-gray-300"
+                    >
+                      Product Price
+                    </th>
+                  </tr>
+                  {order.lineItems.edges.map(({ node }, idx) => (
+                    <tr key={idx}>
+                      <td
+                        valign="middle"
+                        className={`p-3 ${
+                          idx < order.lineItems.edges.length - 1
+                            ? "border-b border-gray-300 dark:border-gray-600"
+                            : ""
+                        }`}
+                      >
+                        <figure className="w-25 h-25 rounded overflow-hidden">
+                          {node.variant?.image?.url ? (
+                            <img
+                              src={node.variant.image.url}
+                              alt={node.title}
+                              className="object-cover w-full h-full"
+                            />
+                          ) : (
+                            <img
+                              src={noImage}
+                              alt="No Image"
+                              className="object-cover w-full h-full"
+                            />
+                          )}
+                        </figure>
+                      </td>
+                      <td
+                        align="center"
+                        valign="middle"
+                        className={`p-3 ${
+                          idx < order.lineItems.edges.length - 1
+                            ? "border-b border-gray-300 dark:border-gray-600"
+                            : ""
+                        }`}
+                      >
+                        <p className="capitalize text-black dark:text-white">
+                          {node.title}
+                        </p>
+                      </td>
+                      <td
+                        align="center"
+                        valign="middle"
+                        className={`p-3 ${
+                          idx < order.lineItems.edges.length - 1
+                            ? "border-b border-gray-300 dark:border-gray-600"
+                            : ""
+                        }`}
+                      >
+                        <p className="text-sm text-gray-600 dark:text-white">
+                          {node.quantity}
+                        </p>
+                      </td>
+                      <td
+                        align="center"
+                        valign="middle"
+                        className={`p-3 ${
+                          idx < order.lineItems.edges.length - 1
+                            ? "border-b border-gray-300 dark:border-gray-600"
+                            : ""
+                        }`}
+                      >
+                        <p className="text-sm text-gray-600 dark:text-white">
+                          ₹{node.variant.price}{" "}
+                          {order.totalPriceSet?.shopMoney?.currencyCode}
+                        </p>
+                      </td>
+                    </tr>
+                  ))}
+                </table>
               </div>
 
-              <div className="mt-2 font-semibold">
+              <div className="mt-5 font-semibold">
                 Total: ₹{order.totalPriceSet?.shopMoney?.amount}{" "}
                 {order.totalPriceSet?.shopMoney?.currencyCode}
               </div>

@@ -47,57 +47,82 @@ const AccountOrders = () => {
       {draftOrders.length === 0 ? (
         <p>No draft orders found.</p>
       ) : (
-        <ul className="space-y-4">
-          {draftOrders.map((order) => (
-            <li key={order.id} className="border p-4 rounded-md shadow-sm">
-              <div className="font-semibold">Name: {order.name}</div>
-              {/* Safely rendering Email */}
-              <div className="text-sm text-gray-500">
-                Email: {order.email || "Not available"}
-              </div>
-
-              <div className="mt-2 space-y-2">
-                {order.lineItems.edges.map(({ node }, idx) => (
-                  <div key={idx} className="flex items-center gap-3">
-                    {node.variant?.image?.url && (
-                      <img
-                        src={node.variant.image.url}
-                        alt={node.title}
-                        className="w-12 h-12 object-cover rounded"
-                      />
-                    )}
-                    <div>
-                      <p>{node.title}</p>
-                      <p className="text-sm text-gray-500">
-                        Qty: {node.quantity}
-                      </p>
-                      <p className="text-sm text-gray-600">
-                        Price: ₹{node.variant.price}{" "}
-                        {order.totalPriceSet?.shopMoney?.currencyCode}
-                      </p>
-                    </div>
-                  </div>
-                ))}
-              </div>
-
-              <div className="mt-2 font-semibold">
-                Total: ₹{order.totalPriceSet?.shopMoney?.amount}{" "}
-                {order.totalPriceSet?.shopMoney?.currencyCode}
-              </div>
-
-              {order.invoiceUrl && (
+        <table className="w-full">
+          <tr>
+            <th
+              width="15%"
+              valign="middle"
+              className="p-3 border-b border-gray-500 dark:border-gray-300"
+            >
+              Name
+            </th>
+            <th
+              width="15%"
+              valign="middle"
+              className="p-3 border-b border-gray-500 dark:border-gray-300"
+            >
+              Email
+            </th>
+            <th
+              width="15%"
+              valign="middle"
+              className="p-3 border-b border-gray-500 dark:border-gray-300"
+            >
+              Total Order Quantity
+            </th>
+            <th
+              width="15%"
+              valign="middle"
+              className="p-3 border-b border-gray-500 dark:border-gray-300"
+            >
+              Action
+            </th>
+          </tr>
+          {draftOrders.map((order, i) => (
+            <tr>
+              <td
+                key={i}
+                valign="middle"
+                align="center"
+                className="p-3 border-b border-gray-300 dark:border-gray-600"
+              >
+                {order.name}
+              </td>
+              <td
+                key={i}
+                valign="middle"
+                align="center"
+                className="p-3 border-b border-gray-300 dark:border-gray-600"
+              >
+                {order.email || "Not available"}
+              </td>
+              <td
+                key={i}
+                valign="middle"
+                align="center"
+                className="p-3 border-b border-gray-300 dark:border-gray-600"
+              >
+                {order.lineItems.edges.reduce(
+                  (sum, edge) => sum + edge.node.quantity,
+                  0
+                )}
+              </td>
+              <td
+                key={i}
+                valign="middle"
+                align="center"
+                className="p-3 border-b border-gray-300 dark:border-gray-600"
+              >
                 <a
-                  href={order.invoiceUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-blue-600 hover:underline text-sm mt-1 block"
+                  href="#"
+                  className="bg-blue-900 hover:bg-blue-200 hover:text-blue-900 text-white transition-all duration-300 ease-in-out px-3 py-2 rounded shadow cursor-pointer text-xs"
                 >
-                  View Invoice
+                  Order Details
                 </a>
-              )}
-            </li>
+              </td>
+            </tr>
           ))}
-        </ul>
+        </table>
       )}
     </div>
   );

@@ -1,6 +1,7 @@
 import { useCart } from "../../../features/cart/context/CartContext";
 import { Link } from "react-router-dom";
 import Messages from "../../../shared/Utils/Message";
+import { FaRegTrashCan } from "react-icons/fa6";
 import { useToast } from "../../../core/providers/ToastProvider";
 import Breadcrumb from "../../../shared/components/Breadcrumbs";
 
@@ -95,14 +96,14 @@ export default function CartPage() {
                   <td className="p-3">
                     <div className="flex items-center gap-2">
                       <button
-                        className="px-2 border"
+                        className="px-2 border cursor-pointer"
                         onClick={() => handleQuantityChange(item.variantId, -1)}
                       >
                         -
                       </button>
                       <span>{item.quantity}</span>
                       <button
-                        className="px-2 border"
+                        className="px-2 border cursor-pointer"
                         onClick={() => handleQuantityChange(item.variantId, 1)}
                       >
                         +
@@ -114,10 +115,10 @@ export default function CartPage() {
                   </td>
                   <td className="p-3" align="center" valign="middle">
                     <button
-                      className="text-red-600"
+                      className="text-red-600 cursor-pointer"
                       onClick={() => removeItem(item.variantId)}
                     >
-                      &times;
+                      <FaRegTrashCan />
                     </button>
                   </td>
                 </tr>

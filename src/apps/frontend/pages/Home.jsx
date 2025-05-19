@@ -93,7 +93,7 @@ export default function Home() {
           style={{ background: `url(${bannerBg}) no-repeat center` }}
         >
           <div className="w-full mx-auto relative">
-            {carousalLoading ? (
+            {/* {carousalLoading ? (
               <SkeletonLoader
                 type="homepagecarousel"
                 count={1}
@@ -101,7 +101,8 @@ export default function Home() {
               />
             ) : (
               <HeroCarousel carouselItems={carouselItems} />
-            )}
+            )} */}
+            <HeroCarousel carouselItems={carouselItems} />
           </div>
         </div>
       </div>

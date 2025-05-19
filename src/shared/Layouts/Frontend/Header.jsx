@@ -107,6 +107,7 @@ export default function Header() {
                 className="relative"
                 onClick={() => {
                   setCartOpen(true);
+                  setShowProfile(false);
                 }}
               >
                 <ShoppingBag className="w-5 h-5 cursor-pointer" />

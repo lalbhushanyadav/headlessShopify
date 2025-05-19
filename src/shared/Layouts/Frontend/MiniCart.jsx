@@ -2,6 +2,7 @@ import { useCart } from "../../../features/cart/context/CartContext";
 import { X } from "lucide-react";
 import { useNavigate, Link } from "react-router-dom";
 import Messages from "../../../shared/Utils/Message";
+import { FaRegTrashCan } from "react-icons/fa6";
 import { useToast } from "../../../core/providers/ToastProvider";
 
 export default function MiniCart({ isOpen, toggleCart }) {
@@ -51,15 +52,17 @@ export default function MiniCart({ isOpen, toggleCart }) {
             <X className="w-5 h-5" />
           </button>
         </div>
-        <div className="p-4 space-y-4 overflow-y-auto max-h-[calc(100vh-220px)]">
+        <div className="py-4 space-y-4 overflow-y-auto max-h-[calc(100vh-220px)]">
           {cart.length === 0 ? (
             <p className="text-gray-500">Your cart is empty.</p>
           ) : (
             cart.map((item, i) => (
               <div
                 key={item.id}
-                className={`flex gap-4 ${
-                  i < item.length - 1 ? "border-b pb-4" : ""
+                className={`flex gap-4 px-4 ${
+                  i < cart.length - 1
+                    ? "border-b border-gray-300 mb-3 pb-3"
+                    : ""
                 }`}
               >
                 <img
@@ -100,10 +103,10 @@ export default function MiniCart({ isOpen, toggleCart }) {
                   ${Number(item.price * item.quantity).toFixed(2)}
                 </div>
                 <button
-                  className="text-red-600 text-xs"
+                  className="text-red-600 text-xs cursor-pointer"
                   onClick={() => removeItem(item.id)}
                 >
-                  Remove
+                  <FaRegTrashCan />
                 </button>
               </div>
             ))

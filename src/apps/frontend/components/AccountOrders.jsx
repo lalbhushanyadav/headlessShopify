@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import noImage from "../../../assets/no-image.jpg";
+
 const AccountOrders = () => {
   const [draftOrders, setDraftOrders] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -47,147 +47,82 @@ const AccountOrders = () => {
       {draftOrders.length === 0 ? (
         <p>No draft orders found.</p>
       ) : (
-        <ul className="space-y-4">
-          {draftOrders.map((order) => (
-            <li
-              key={order.id}
-              className="p-4 rounded-md shadow-lg bg-gray-100 dark:bg-gray-800"
+        <table className="w-full">
+          <tr>
+            <th
+              width="15%"
+              valign="middle"
+              className="p-3 border-b border-gray-500 dark:border-gray-300"
             >
-              <div className="flex items-center gap-2 mb-4">
-                <div>
-                  <span className="font-semibold">Name:</span> {order.name}
-                </div>{" "}
-                |{/* Safely rendering Email */}
-                <div>
-                  <span className="font-semibold">Email:</span>{" "}
-                  {order.email || "Not available"}
-                </div>
-              </div>
-
-              <div className="mt-4 space-y-2">
-                <table className="w-full border-collapse table-auto border border-gray-400">
-                  <tr>
-                    <th
-                      width="15%"
-                      valign="middle"
-                      className="p-3 border-b border-gray-500 dark:border-gray-300"
-                    >
-                      Product Image
-                    </th>
-                    <th
-                      width="40%"
-                      align="center"
-                      valign="middle"
-                      className="p-3 border-b border-gray-500 dark:border-gray-300"
-                    >
-                      Product Name
-                    </th>
-                    <th
-                      width="20%"
-                      align="center"
-                      valign="middle"
-                      className="p-3 border-b border-gray-500 dark:border-gray-300"
-                    >
-                      Ordered Quntity
-                    </th>
-                    <th
-                      width="25%"
-                      align="center"
-                      valign="middle"
-                      className="p-3 border-b border-gray-500 dark:border-gray-300"
-                    >
-                      Product Price
-                    </th>
-                  </tr>
-                  {order.lineItems.edges.map(({ node }, idx) => (
-                    <tr key={idx}>
-                      <td
-                        valign="middle"
-                        className={`p-3 ${
-                          idx < order.lineItems.edges.length - 1
-                            ? "border-b border-gray-300 dark:border-gray-600"
-                            : ""
-                        }`}
-                      >
-                        <figure className="w-25 h-25 rounded overflow-hidden">
-                          {node.variant?.image?.url ? (
-                            <img
-                              src={node.variant.image.url}
-                              alt={node.title}
-                              className="object-cover w-full h-full"
-                            />
-                          ) : (
-                            <img
-                              src={noImage}
-                              alt="No Image"
-                              className="object-cover w-full h-full"
-                            />
-                          )}
-                        </figure>
-                      </td>
-                      <td
-                        align="center"
-                        valign="middle"
-                        className={`p-3 ${
-                          idx < order.lineItems.edges.length - 1
-                            ? "border-b border-gray-300 dark:border-gray-600"
-                            : ""
-                        }`}
-                      >
-                        <p className="capitalize text-black dark:text-white">
-                          {node.title}
-                        </p>
-                      </td>
-                      <td
-                        align="center"
-                        valign="middle"
-                        className={`p-3 ${
-                          idx < order.lineItems.edges.length - 1
-                            ? "border-b border-gray-300 dark:border-gray-600"
-                            : ""
-                        }`}
-                      >
-                        <p className="text-sm text-gray-600 dark:text-white">
-                          {node.quantity}
-                        </p>
-                      </td>
-                      <td
-                        align="center"
-                        valign="middle"
-                        className={`p-3 ${
-                          idx < order.lineItems.edges.length - 1
-                            ? "border-b border-gray-300 dark:border-gray-600"
-                            : ""
-                        }`}
-                      >
-                        <p className="text-sm text-gray-600 dark:text-white">
-                          ₹{node.variant.price}{" "}
-                          {order.totalPriceSet?.shopMoney?.currencyCode}
-                        </p>
-                      </td>
-                    </tr>
-                  ))}
-                </table>
-              </div>
-
-              <div className="mt-5 font-semibold">
-                Total: ₹{order.totalPriceSet?.shopMoney?.amount}{" "}
-                {order.totalPriceSet?.shopMoney?.currencyCode}
-              </div>
-
-              {order.invoiceUrl && (
+              Name
+            </th>
+            <th
+              width="15%"
+              valign="middle"
+              className="p-3 border-b border-gray-500 dark:border-gray-300"
+            >
+              Email
+            </th>
+            <th
+              width="15%"
+              valign="middle"
+              className="p-3 border-b border-gray-500 dark:border-gray-300"
+            >
+              Total Order Quantity
+            </th>
+            <th
+              width="15%"
+              valign="middle"
+              className="p-3 border-b border-gray-500 dark:border-gray-300"
+            >
+              Action
+            </th>
+          </tr>
+          {draftOrders.map((order, i) => (
+            <tr>
+              <td
+                key={i}
+                valign="middle"
+                align="center"
+                className="p-3 border-b border-gray-300 dark:border-gray-600"
+              >
+                {order.name}
+              </td>
+              <td
+                key={i}
+                valign="middle"
+                align="center"
+                className="p-3 border-b border-gray-300 dark:border-gray-600"
+              >
+                {order.email || "Not available"}
+              </td>
+              <td
+                key={i}
+                valign="middle"
+                align="center"
+                className="p-3 border-b border-gray-300 dark:border-gray-600"
+              >
+                {order.lineItems.edges.reduce(
+                  (sum, edge) => sum + edge.node.quantity,
+                  0
+                )}
+              </td>
+              <td
+                key={i}
+                valign="middle"
+                align="center"
+                className="p-3 border-b border-gray-300 dark:border-gray-600"
+              >
                 <a
-                  href={order.invoiceUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-blue-600 hover:underline text-sm mt-1 block"
+                  href="#"
+                  className="bg-blue-900 hover:bg-blue-200 hover:text-blue-900 text-white transition-all duration-300 ease-in-out px-3 py-2 rounded shadow cursor-pointer text-xs"
                 >
-                  View Invoice
+                  Order Details
                 </a>
-              )}
-            </li>
+              </td>
+            </tr>
           ))}
-        </ul>
+        </table>
       )}
     </div>
   );
